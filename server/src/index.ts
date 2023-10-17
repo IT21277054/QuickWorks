@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import logger from '../log/logger';
-
+import jobrouter from '../src/routes/JobRoutes'
 require('dotenv').config();
 
 const app: Express = express();
@@ -16,6 +16,7 @@ app.use(
     extended: true,
   }),
 );
+app.use('/api/jobrouter', jobrouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, TypeScript Express!');
