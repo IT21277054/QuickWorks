@@ -23,4 +23,34 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(400).json({ err: err });
     }
 });
-exports.default = { createReview };
+const getReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { user_id } = req.params;
+        const reviews = yield user_service_1.default.getReview(user_id);
+        res.status(200).json(reviews);
+    }
+    catch (err) {
+        res.status(400).json({ err: err });
+    }
+});
+const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { review_id, comment, star_review } = req.body;
+        const reviews = yield user_service_1.default.updateReview(review_id, comment, star_review);
+        res.status(200).json({ msg: 'Updated', reviews });
+    }
+    catch (err) {
+        res.status(400).json({ err: err });
+    }
+});
+const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { review_id } = req.params;
+        const reviews = yield user_service_1.default.deleteReview(review_id);
+        res.status(200).json({ msg: 'deleted', reviews });
+    }
+    catch (err) {
+        res.status(400).json({ err: err });
+    }
+});
+exports.default = { createReview, getReview, updateReview, deleteReview };

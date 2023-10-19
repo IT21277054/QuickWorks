@@ -8,4 +8,4 @@ const express_1 = require("express");
 const payment_controller_1 = __importDefault(require("../controllers/payment.controller"));
 exports.paymentRoute = (0, express_1.Router)();
 // Route needed
-exports.paymentRoute.post('/createPaymentItem', payment_controller_1.default.createPayment);
+exports.paymentRoute.post('/createPayment', payment_controller_1.default.createPayment);
