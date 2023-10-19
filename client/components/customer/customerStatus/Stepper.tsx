@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   stepIndicator: {
-    marginVertical: 90,
+    marginVertical: 45,
   },
   page: {
     flex: 1,
