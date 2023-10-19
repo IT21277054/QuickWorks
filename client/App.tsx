@@ -10,6 +10,7 @@ import Navigator from './routes/scanner.route'
 import CardPayment from "./components/customer/pages/CardPayment";
 import CashPayment from "./components/customer/pages/CashPayment";
 import PaymentStatus from "./components/customer/pages/PaymentStatus";
+import DeleteWorker from "./components/admin/deleteWorker";
 import FeedbackScreen from "./components/customer/pages/FeedbackScreen";
 
 
@@ -19,7 +20,10 @@ export default function App() {
     <View style={styles.status}>
        <StatusBar />
      </View>
-     <FeedbackScreen/>
+     <DeleteWorker/>
+
+
+     {/* <FeedbackScreen/> */}
      
      
     {/* <Navigator/> */}
