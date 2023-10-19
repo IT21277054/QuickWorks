@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import logger from '../log/logger';
+import { accountRoute } from './routes/account.route'
+
 
 require('dotenv').config();
 
@@ -17,9 +19,7 @@ app.use(
   }),
 );
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript Express!');
-});
+app.use('/api/account', accountRoute);
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   logger.info('MongoDB connected');

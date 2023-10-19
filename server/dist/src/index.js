@@ -8,6 +8,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const logger_1 = __importDefault(require("../log/logger"));
+const account_route_1 = require("./routes/account.route");
 require('dotenv').config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -16,9 +17,7 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({
     extended: true,
 }));
-app.get('/', (req, res) => {
-    res.send('Hello, TypeScript Express!');
-});
+app.use('/api/account', account_route_1.accountRoute);
 mongoose_1.default.connect(process.env.MONGODB_URI).then(() => {
     logger_1.default.info('MongoDB connected');
     app.on('error', (err) => {

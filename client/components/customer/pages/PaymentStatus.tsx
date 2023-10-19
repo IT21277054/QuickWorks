@@ -1,8 +1,10 @@
 import { StyleSheet, View, Text, Image, Dimensions, Button } from "react-native";
 import paymentImage from "../../../assets/paymentReady.png";
 import ButtonWithBackground from "../customerStatus/ButtonWithBackground";
+import { useNavigation } from '@react-navigation/native';
 
 export default function PaymentStatus() {
+  const navigation = useNavigation();
   return (
     <View>
       <Image source={paymentImage} />
@@ -10,6 +12,7 @@ export default function PaymentStatus() {
       <ButtonWithBackground
           title="Pay"
           color="#FFC436"
+          onPress={() => navigation.navigate("qrHome")}
         />
         </View>
     </View>
