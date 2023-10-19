@@ -1,31 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Stepper from './components/customer/customerStatus/Stepper';
-import AddDetailsPage from './components/admin/addDetails'
-import WorkerProfile from './components/admin/deleteWorker'
-import RequestWorkers from './components/admin/requestWorker';
-import ViewWorker from './components/admin/viewWorker';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import Stepper from "./components/customer/customerStatus/Stepper";
+import UserPayment from "./components/customer/pages/UserPayment";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import QrScanner from "./components/customer/pages/QrScanner";
+import { createStackNavigator } from "@react-navigation/stack";
+import Scanner from "./components/customer/pages/scanner";
+import Navigator from './routes/scanner.route'
+import CardPayment from "./components/customer/pages/CardPayment";
+import CashPayment from "./components/customer/pages/CashPayment";
+import PaymentStatus from "./components/customer/pages/PaymentStatus";
+import FeedbackScreen from "./components/customer/pages/FeedbackScreen";
+
+
 export default function App() {
   return (
+    <>
+    <View style={styles.status}>
+       <StatusBar />
+     </View>
+     <FeedbackScreen/>
+     
+     
+    {/* <Navigator/> */}
+    {/* <CardPayment/> */}
+    {/* <CashPayment/> */}
+    {/* <UserPayment/> */}
+    </>
     
-    <View >
-      {/* <ViewWorker /> */}
-{/* <RequestWorkers/> */}
-      {/* <WorkerProfile/> */}
-
-     <AddDetailsPage/>
-      
-      {/* <Stepper/> */}
-      <StatusBar style="auto" />
-    </View>
+   
+    // <View >
+    //   <StatusBar style="auto" />
+    //   <Stepper/>
+    // </View>
+    // <SafeAreaProvider>
+    //   
+    // <UserPayment/>
+    // </SafeAreaProvider>
+    // <View>
+    // <View style={styles.status}>
+    //   <StatusBar />
+    //    </View>
+    // <QrScanner/>
+    // </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  status: {
+    paddingBottom: 50,
   },
 });

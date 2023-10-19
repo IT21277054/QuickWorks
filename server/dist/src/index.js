@@ -27,19 +27,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const admin = __importStar(require("firebase-admin"));
-const quickworkers_7a5c1_firebase_adminsdk_xnr7n_b7ad93801e_json_1 = __importDefault(require("../quickworkers-7a5c1-firebase-adminsdk-xnr7n-b7ad93801e.json")); // Replace with your service account key
-admin.initializeApp({
-    credential: admin.credential.cert(quickworkers_7a5c1_firebase_adminsdk_xnr7n_b7ad93801e_json_1.default),
-    databaseURL: 'https://quickworkers-7a5c1-default-rtdb.firebaseio.com/', // Replace with your Firebase database URL
-});
+const body_parser_1 = __importDefault(require("body-parser"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const cors_1 = __importDefault(require("cors"));
+const logger_1 = __importDefault(require("../log/logger"));
+const account_route_1 = require("./routes/account.route");
+require('dotenv').config();
 const app = (0, express_1.default)();
-app.use(express_1.default.json());
-// Import your worker routes
-const admin_route_1 = __importDefault(require("./routes/admin.route"));
-// Use your worker routes
-app.use('/workers', admin_route_1.default);
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+const port = process.env.PORT;
+app.use((0, cors_1.default)());
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({
+    extended: true,
+}));
+app.use('/api/account', account_route_1.accountRoute);
+mongoose_1.default.connect(process.env.MONGODB_URI).then(() => {
+    logger_1.default.info('MongoDB connected');
+    app.on('error', (err) => {
+        logger_1.default.error(err);
+    });
+    app.listen(port, () => {
+        logger_1.default.info(`TypeScript with Express
+         http://localhost:${port}/`);
+    });
 });
