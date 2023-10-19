@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
+import { WorkerStatus } from './IWorker';
 
 const Schema = mongoose.Schema;
 
 const WorkerSchema = new Schema(
   {
-    id: {
-      type: String,
-      required: true,
+    worker_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      require: true,
     },
     name: {
       type: String,
@@ -17,7 +18,7 @@ const WorkerSchema = new Schema(
       required: true,
     },
     contactNumber: {
-      type: String,
+      type: Number,
       required: true,
     },
     location: {
@@ -43,12 +44,13 @@ const WorkerSchema = new Schema(
         type: String,
       },
     },
-    status:{
+    status: {
       type: String,
+      default: WorkerStatus.PENDING,
     },
 
   },
-  { timestamps: true },
+  { timestamps: false },
 );
 
 const Worker = mongoose.model('Worker', WorkerSchema);

@@ -1,14 +1,21 @@
 export interface IWorker {
-    id: string;
+  status: string;
+    // worker_id:string;
     name: string;
     jobTitle: string;
-    contactNumber: string;
+    contactNumber: number;
     location: string;
     email: string;
-    status: string;
     qualifications: {
         education: string;
         experience: string;
         recommendation: string;
-    }
+    }; 
+
 }
+export enum WorkerStatus {
+    PENDING = 'pending',
+    ACTIVE = 'active',
+    DECTIVE = 'deactive',
+  }
+  

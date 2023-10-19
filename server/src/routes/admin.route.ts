@@ -1,14 +1,12 @@
 // routes/workerRoutes.ts
 import { Router } from 'express';
-import { WorkerController } from '../controllers/admin.controller';
+import  workerController  from '../controllers/admin.controller';
 
-const router = Router();
-const workerController = new WorkerController();
+export const adminRoute = Router();
 
-router.get('/all', workerController.getAllWorkers);
-router.get('/worker:id', workerController.getWorkerById);
-router.post('/add', workerController.addWorker);
-router.put('/update:id', workerController.updateWorker);
-router.delete('/delete:id', workerController.deleteWorker);
+adminRoute.get('/all', workerController.getAllWorkers);
+adminRoute.get('/worker/:id', workerController.getWorkerById);
+adminRoute.post('/add', workerController.addWorker);
+adminRoute.put('/update/:id', workerController.updateWorker);
+adminRoute.delete('/delete/:id', workerController.deleteWorker);
 
-export default router;

@@ -1,71 +1,85 @@
 // services/adminServices.ts
 import { IWorker } from '../models/worker/IWorker';
-import WorkerModel, { Worker } from '../models/worker/worker.model';
+import WorkerModel from '../models/worker/worker.model';
 
-class WorkerService {
 
-  async getAllWorkers(): Promise<Worker[]> {
+  async function getPendingWorkers(): Promise<any> {
     try {
-      const workers = await WorkerModel.find().exec();
-      return workers;
+      // Use the find method with a filter condition to get workers with status 'pending'
+      const pendingWorkers = await WorkerModel.find({ status: 'pending' }).select('-password');
+      return pendingWorkers;
     } catch (error) {
       // Handle errors here, e.g., log the error and return a custom error message.
-      console.error('Error in getAllWorkers:', error);
-      throw new Error('Failed to fetch workers');
+      throw error;
     }
   }
-
-  async getWorkerById(id: string): Promise<Worker | null> {
+  
+  
+    const getWorkerById = async (id:string) =>{
     try {
-      const worker = await WorkerModel.findById(id).exec();
+      const worker = await WorkerModel.findById(id);
+  
       return worker;
-    } catch (error) {
-      console.error('Error in getWorkerById:', error);
-      throw new Error('Failed to fetch worker by ID');
+    } catch (err) {
+      throw err;
     }
   }
 
-  async addWorker(worker: IWorker): Promise<Worker> {
+  // async function addWorker(worker: IWorker): Promise<any> {
+  //   try {
+  //     const newWorker = await WorkerModel.create(worker);
+  //     return newWorker;
+  //   } catch (error) {
+  //     console.error('Error in addWorker:', error);
+  //     throw new Error('Failed to add worker');
+  //   }
+  // }
+
+  async function addWorker(worker: IWorker): Promise<any> {
     try {
-      const newWorker = await WorkerModel.create(worker);
+      // Create a new worker document with qualifications subdocument
+      const newWorker = await WorkerModel.create({
+        ...worker,
+        qualifications: {
+          education: worker.qualifications.education,
+          experience: worker.qualifications.experience,
+          recommendation: worker.qualifications.recommendation,
+        },
+      });
       return newWorker;
     } catch (error) {
       console.error('Error in addWorker:', error);
       throw new Error('Failed to add worker');
     }
   }
+  
 
-  async updateWorker(id: string, updatedWorker: IWorker): Promise<Worker | null> {
+   const updateWorker=async(id: string, status: IWorker)=>{
     try {
-      const worker = await WorkerModel.findById(id).exec();
-      if (!worker) {
+      const worker = await WorkerModel.updateOne(
+        { _id: id },
+        { status: status }
+        );
+            
+      return { res: 'Updated' };
+    } catch (err: any) {
+      throw err;
+    }
+  };
+
+  async function deleteWorker(id: string): Promise<boolean> {
+    try {
+      const result = await WorkerModel.findByIdAndDelete(id);
+      
+      if (!result) {
         throw new Error('Worker not found');
       }
-
-      // Update the fields you want to update
-      if (updatedWorker.status) {
-        worker.status = updatedWorker.status;
-      }
-
-      await worker.save();
-      return worker;
-    } catch (error) {
-      console.error('Error in updateWorker:', error);
-      throw new Error('Failed to update worker');
+      
+      return true;
+    } catch (err) {
+      throw err; // You can rethrow the error if you want to handle it elsewhere in your code
     }
   }
+  
 
-  async deleteWorker(id: string): Promise<void> {
-    try {
-      const result = await WorkerModel.deleteOne({ _id: id }).exec();
-      if (result.deletedCount === 0) {
-        throw new Error('Worker not found');
-      }
-    } catch (error) {
-      console.error('Error in deleteWorker:', error);
-      throw new Error('Failed to delete worker');
-    }
-  }
-}
-
-export default new WorkerService();
+export default {getPendingWorkers,getWorkerById,addWorker,deleteWorker,updateWorker};
