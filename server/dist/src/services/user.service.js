@@ -25,4 +25,31 @@ const createReview = (dto) => __awaiter(void 0, void 0, void 0, function* () {
         throw err;
     }
 });
-exports.default = { createReview };
+const getReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const review = yield reviews_model_1.default.find({ user_id: id });
+        return review;
+    }
+    catch (err) {
+        throw err;
+    }
+});
+const updateReview = (review_id, comment, star_review) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const review = yield reviews_model_1.default.updateOne({ _id: review_id }, { comment: comment, star_review: star_review });
+        return review;
+    }
+    catch (err) {
+        throw err;
+    }
+});
+const deleteReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const review = yield reviews_model_1.default.findByIdAndDelete(id);
+        return review;
+    }
+    catch (err) {
+        throw err;
+    }
+});
+exports.default = { createReview, getReview, updateReview, deleteReview };
