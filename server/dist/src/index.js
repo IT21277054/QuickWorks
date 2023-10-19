@@ -32,6 +32,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const logger_1 = __importDefault(require("../log/logger"));
 const account_route_1 = require("./routes/account.route");
+const payment_route_1 = require("./routes/payment.route");
+const user_route_1 = require("./routes/user.route");
 require('dotenv').config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -41,6 +43,8 @@ app.use(body_parser_1.default.urlencoded({
     extended: true,
 }));
 app.use('/api/account', account_route_1.accountRoute);
+app.use('/api/payment', payment_route_1.paymentRoute);
+app.use('/api/user', user_route_1.userRoute);
 mongoose_1.default.connect(process.env.MONGODB_URI).then(() => {
     logger_1.default.info('MongoDB connected');
     app.on('error', (err) => {

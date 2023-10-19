@@ -1,20 +1,11 @@
 import express, { Express, Request, Response } from 'express';
-
 import bodyParser from 'body-parser';
-
 import mongoose from 'mongoose';
-
 import cors from 'cors';
-
 import logger from '../log/logger';
-
 import { accountRoute } from './routes/account.route';
-
 import { paymentRoute } from './routes/payment.route';
-
 import { userRoute } from './routes/user.route';
-
- 
 
 require('dotenv').config();
 
@@ -43,6 +34,8 @@ app.use(
  
 
 app.use('/api/account', accountRoute);
+app.use('/api/payment', paymentRoute);
+app.use('/api/user', userRoute);
 
 app.use('/api/payment', paymentRoute);
 

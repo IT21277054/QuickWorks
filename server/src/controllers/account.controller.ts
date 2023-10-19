@@ -3,7 +3,6 @@ import { IAccount } from '../models/account/IAccount';
 import accountmodel from '../models/account/account.model';
 import authService from '../utils/auth.service';
 
-
 const signUp = async (req: Request, res: Response) => {
   try {
     const dto = req.body;
