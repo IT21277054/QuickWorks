@@ -38,4 +38,17 @@ jobrouter.get('/jobs', async (req, res) => {
   res.json(result);
 });
 
+jobrouter.get('/jobs', async (req, res) => {
+  try {
+    const { jobId, jobStatus, workerId } = req.query;
+
+    const jobs = await jobController.getJobsByCriteria(jobId, jobStatus, workerId);
+
+    res.json(jobs);
+  } catch (error) {
+    console.error('Error retrieving jobs by criteria:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 export default jobrouter;

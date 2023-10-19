@@ -9,13 +9,13 @@ const firebaseConfig = {
 admin.initializeApp(firebaseConfig);
 
 class FirebaseServiceError extends Error {
-    details: any;
-  
-    constructor(message: string, details?: any) {
-      super(message);
-      this.details = details;
-    }
+  details: any;
+
+  constructor(message: string, details?: any) {
+    super(message);
+    this.details = details;
   }
+}
 
 class JobService {
   private db: admin.firestore.Firestore;
@@ -34,13 +34,13 @@ class JobService {
     }
   }
 
-  async getJob(jobId: string): Promise<Job> {
+  async getJob(jobId: string): Promise<Job | null> {
     try {
       const jobSnapshot = await this.db.collection('jobs').doc(jobId).get();
       if (jobSnapshot.exists) {
         return jobSnapshot.data() as Job;
       } else {
-        throw new FirebaseServiceError('Job not found');
+        return null; // Return null when the job is not found
       }
     } catch (error) {
       throw new FirebaseServiceError('Failed to get job', error);
@@ -73,6 +73,36 @@ class JobService {
       return jobs;
     } catch (error) {
       throw new FirebaseServiceError('Failed to get jobs', error);
+    }
+  }
+
+  async getJobsByCriteria(jobId: number | null, jobStatus: string | null, workerId: number | null): Promise<Job[]> {
+    try {
+      let query = this.db.collection('jobs') as admin.firestore.CollectionReference;
+
+      if (jobId) {
+        query = query.where('jobId', '==', jobId);
+      }
+      
+      if (jobStatus) {
+        query = query.where('jobStatus', '==', jobStatus);
+      }
+
+      if (workerId) {
+        query = query.where('workerId', '==', workerId);
+      }
+
+      const querySnapshot = await query.get();
+
+      const jobs: Job[] = [];
+
+      querySnapshot.forEach((doc) => {
+        jobs.push(doc.data() as Job);
+      });
+
+      return jobs;
+    } catch (error) {
+      throw new FirebaseServiceError('Failed to get jobs by criteria', error);
     }
   }
 }
