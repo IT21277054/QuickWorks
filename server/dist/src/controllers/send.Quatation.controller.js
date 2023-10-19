@@ -9,15 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_validator_1 = require("express-validator");
-const validate = (validations) => {
-    return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        yield Promise.all(validations.map((validation) => validation.run(req)));
-        const errors = (0, express_validator_1.validationResult)(req);
-        if (errors.isEmpty()) {
-            return next();
-        }
-        res.status(400).json({ err: errors });
-    });
-};
-exports.default = validate;
+exports.sendQuotationController = void 0;
+const quotationGenerator_1 = require("../services/quotationGenerator"); // Import the quotationGenerator and QuotationData
+const sendQuotationController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const quotationData = req.body;
+        const recipientEmail = req.body.recipientEmail;
+        yield quotationGenerator_1.quotationGenerator.generateAndSendQuotationEmail(quotationData, recipientEmail);
+        res.status(200).send('Quotation sent successfully');
+    }
+    catch (error) {
+        res.status(500).send('Error sending quotation');
+    }
+});
+exports.sendQuotationController = sendQuotationController;

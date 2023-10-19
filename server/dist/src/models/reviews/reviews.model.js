@@ -10,6 +10,10 @@ const ReviewSchema = new Schema({
         type: String,
         require: true,
     },
+    user_id: {
+        type: String,
+        require: true,
+    },
     star_review: {
         type: Number,
         require: true,

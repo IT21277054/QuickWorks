@@ -12,6 +12,8 @@ const account_route_1 = require("./routes/account.route");
 const payment_route_1 = require("./routes/payment.route");
 const user_route_1 = require("./routes/user.route");
 const admin_route_1 = require("./routes/admin.route");
+const job_routes_1 = require("./routes/job.routes");
+const send_Quatation_controller_1 = require("./controllers/send.Quatation.controller");
 require('dotenv').config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -24,6 +26,8 @@ app.use('/api/account', account_route_1.accountRoute);
 app.use('/api/payment', payment_route_1.paymentRoute);
 app.use('/api/user', user_route_1.userRoute);
 app.use('/api/admin', admin_route_1.adminRoute);
+app.use('/api/job', job_routes_1.jobRouter);
+app.post('/send-quotation', send_Quatation_controller_1.sendQuotationController);
 mongoose_1.default.connect(process.env.MONGODB_URI).then(() => {
     logger_1.default.info('MongoDB connected');
     app.on('error', (err) => {
