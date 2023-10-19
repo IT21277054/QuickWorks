@@ -3,8 +3,9 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import logger from '../log/logger';
-import { accountRoute } from './routes/account.route'
-
+import { accountRoute } from './routes/account.route';
+import { paymentRoute } from './routes/payment.route';
+import { userRoute } from './routes/user.route';
 
 require('dotenv').config();
 
@@ -20,6 +21,8 @@ app.use(
 );
 
 app.use('/api/account', accountRoute);
+app.use('/api/payment', paymentRoute);
+app.use('/api/user', userRoute);
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   logger.info('MongoDB connected');

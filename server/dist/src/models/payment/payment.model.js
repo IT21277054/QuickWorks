@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const Schema = mongoose_1.default.Schema;
 const PaymentSchema = new Schema({
+    holder_id: {
+        type: String,
+        require: true,
+    },
     account_name: {
         type: String,
         require: true,
@@ -14,7 +18,7 @@ const PaymentSchema = new Schema({
         type: Number,
         require: true,
     },
-    bank: {
+    bankName: {
         type: String,
         require: true,
     },
