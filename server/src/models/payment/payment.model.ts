@@ -6,23 +6,23 @@ const PaymentSchema = new Schema(
   {
     holder_id: {
       type: String,
-      require: true,
+    //   require: true,
     },
     account_name: {
       type: String,
-      require: true,
+    //   require: true,
     },
     account_number: {
       type: Number,
-      require: true,
+    //   require: true,
     },
     bankName: {
       type: String,
-      require: true,
+    //   require: true,
     },
     amount: {
       type: Number,
-      require: true,
+    //   require: true,
     },
   },
   { timestamps: true },

@@ -3,6 +3,7 @@ import paymentService from '../services/payment.service';
 
 const createPayment = async (req: Request, res: Response) => {
   try {
+    console.log('here payment')
     const dto = req.body;
     const payItem = await paymentService.createPayment(dto);
     res.status(200).json(payItem);

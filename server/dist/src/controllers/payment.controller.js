@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const payment_service_1 = __importDefault(require("../services/payment.service"));
 const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log('here payment');
         const dto = req.body;
         const payItem = yield payment_service_1.default.createPayment(dto);
         res.status(200).json(payItem);

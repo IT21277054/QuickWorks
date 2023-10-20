@@ -6,6 +6,7 @@ import authService from '../utils/auth.service';
 const signUp = async (req: Request, res: Response) => {
   try {
     const dto = req.body;
+    console.log(dto)
     const newAcc = await authService.register(dto);
     res.status(200).json(newAcc);
   } catch (err: any) {
@@ -16,6 +17,7 @@ const signUp = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+    console.log("login ")
     const response = await authService.login(email, password);
     res.status(200).json(response);
   } catch (err: any) {

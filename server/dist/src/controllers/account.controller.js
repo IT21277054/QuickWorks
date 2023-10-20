@@ -16,6 +16,7 @@ const auth_service_1 = __importDefault(require("../utils/auth.service"));
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const dto = req.body;
+        console.log(dto);
         const newAcc = yield auth_service_1.default.register(dto);
         res.status(200).json(newAcc);
     }
@@ -26,6 +27,7 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
+        console.log("login ");
         const response = yield auth_service_1.default.login(email, password);
         res.status(200).json(response);
     }
