@@ -79,6 +79,17 @@ async function getJobsByStatusAndIdAndWorkerid(workerId: number, status: string)
       throw err;
     }
   }
+
+  const updateStatus = async (status:string, jobId:string) =>{
+try{
+  const res = await JobModel.findByIdAndUpdate(jobId,{jobStatus:status})
+  return res
+
+}catch(err:any){
+throw err
+}
+  }
+
 export default {
   createJob,
   getJobById,
@@ -87,5 +98,6 @@ export default {
   updateJob,
   deleteJob,
   countJobsByStatus,
-  getJobsByStatusAndIdAndWorkerid
+  getJobsByStatusAndIdAndWorkerid,
+  updateStatus
 };

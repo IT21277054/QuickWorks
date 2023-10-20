@@ -16,6 +16,7 @@ const user_service_1 = __importDefault(require("../services/user.service"));
 const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const dto = req.body;
+        console.log(dto);
         const reviewItem = yield user_service_1.default.createReview(dto);
         res.status(200).json(reviewItem);
     }

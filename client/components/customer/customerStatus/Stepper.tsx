@@ -11,6 +11,7 @@ import PaymentStatus from "../pages/PaymentStatus";
 import CompletedStatus from "../pages/CompletedStatus";
 
 
+
 const PAGES = [<AcceptedStatus/>, <OnGoingStatus/>, <JobDoneStatus/>, <PaymentStatus/>, <CompletedStatus/>];
 const secondIndicatorStyles = {
   stepIndicatorSize: 43,
@@ -82,15 +83,15 @@ const screenWidth = Dimensions.get('window').width;
 
 export default function Stepper() {
   const [currentPage, setCurrentPage] = React.useState(0);
-
   const onStepPress = (position: any) => {
+    console.log(position)
     setCurrentPage(position);
   };
 
   const renderViewPagerPage = (data: any) => {
     return (
       <View key={data} style={styles.page}>
-        <Text>{data}</Text>
+        <View>{data}</View>
       </View>
     );
   };
@@ -110,20 +111,15 @@ export default function Stepper() {
           renderStepIndicator={renderStepIndicator}
           labels={["Accepted", "OnGoing", "Done", "Payment", "Completed"]}
         />
+        <View  style={styles.page}>
+        <View>{PAGES[currentPage]}</View>
+      </View>
          
       </View>
-      <Swiper
-        style={{ flexGrow: 1 }}
-        loop={false}
-        index={currentPage}
-        autoplay={false}
-        showsButtons
-        onIndexChanged={(page) => {
-          setCurrentPage(page);
-        }}
+      {/* <Swiper
       >
         {PAGES.map((page) => renderViewPagerPage(page))}
-      </Swiper>
+      </Swiper> */}
       </ImageBackground>
     </View>
   );
@@ -136,7 +132,7 @@ const styles = StyleSheet.create({
     marginVertical: 45,
   },
   page: {
-    flex: 1,
+    paddingTop:60,
     justifyContent: "center",
     alignItems: "center",
   },

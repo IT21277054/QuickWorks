@@ -102,6 +102,15 @@ function countJobsByStatus(status) {
         }
     });
 }
+const updateStatus = (status, jobId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const res = yield job_1.JobModel.findByIdAndUpdate(jobId, { jobStatus: status });
+        return res;
+    }
+    catch (err) {
+        throw err;
+    }
+});
 exports.default = {
     createJob,
     getJobById,
@@ -110,5 +119,6 @@ exports.default = {
     updateJob,
     deleteJob,
     countJobsByStatus,
-    getJobsByStatusAndIdAndWorkerid
+    getJobsByStatusAndIdAndWorkerid,
+    updateStatus
 };

@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
+exports.changeJobStatus = exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
 const job_service_1 = __importDefault(require("../services/job.service"));
+const job_service_2 = __importDefault(require("../services/job.service"));
 function createJobController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -50,7 +51,9 @@ function getJobsByStatusAndIdController(req, res) {
             res.json(jobs);
         }
         catch (error) {
-            res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+            res
+                .status(500)
+                .json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
         }
     });
 }
@@ -70,7 +73,9 @@ function getJobsByWorkerIdController(req, res) {
         }
         catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Job retrieval failed req.params.workerId ' + +'' });
+            res
+                .status(500)
+                .json({ error: 'Job retrieval failed req.params.workerId ' + +'' });
         }
     });
 }
@@ -116,3 +121,18 @@ function countJobsByStatusController(req, res) {
     });
 }
 exports.countJobsByStatusController = countJobsByStatusController;
+function changeJobStatus(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { status, jobId } = req.body;
+            const jobStatus = yield job_service_2.default.updateStatus(status, jobId);
+            if (jobStatus != null) {
+                res.status(200).json({ res: 'Updated' });
+            }
+        }
+        catch (err) {
+            res.status(400).json({ error: err });
+        }
+    });
+}
+exports.changeJobStatus = changeJobStatus;

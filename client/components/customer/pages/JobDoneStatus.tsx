@@ -11,6 +11,6 @@ export default function JobDoneStatus() {
 
 const styles = StyleSheet.create({
   img: {
-    paddingBottom:115,
+    paddingTop:45,
   },
 });

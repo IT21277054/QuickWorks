@@ -10,6 +10,14 @@ const PaymentSchema = new Schema({
         type: String,
         //   require: true,
     },
+    user_id: {
+        type: String,
+        //   require: true,
+    },
+    job_id: {
+        type: String,
+        //   require: true,
+    },
     account_name: {
         type: String,
         //   require: true,

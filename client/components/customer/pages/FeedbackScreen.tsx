@@ -8,6 +8,8 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import TextInput from "../customerItems/TextInput";
+import { useNavigation } from "@react-navigation/native";
+
 
 const FeedbackSchema = Yup.object().shape({
   comment: Yup.string().min(4).required("Required"),
@@ -17,7 +19,8 @@ const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width; 
 
 export default function FeedbackScreen() {
-
+  const navigation = useNavigation();
+  const headers = { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzEwZGU3NTRlYWQyNTJiY2E1Y2UzNyIsImVtYWlsIjoia2F2ZWU1QGdtYWlsLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjk3Nzg1MjYxLCJleHAiOjE2OTc3ODU4NjV9.LM4Cj_X_gUnDnylhKuJwUM-TjrgFj7cwLP-aJzg0QKo' };
   const [star,setStar] = React.useState(0)
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
@@ -30,10 +33,15 @@ export default function FeedbackScreen() {
       },
       onSubmit: async (values) => {
         try {
-          console.log("here")
+          const user = await fetch(
+            "https://bw10fhxj-8000.asse.devtunnels.ms/api/account/currentUser",{headers}
+          )
+          
+         const res = await user.json()
+         console.log(res)
           const dto = {
             worker_id: '5657585759789',
-            user_id: '5465477547474',
+            user_id: res.user._id,
             star_review: star,
             comment: values.comment,
               
@@ -43,16 +51,16 @@ export default function FeedbackScreen() {
             "https://bw10fhxj-8000.asse.devtunnels.ms/api/user/createReview",
             dto
           ).then(
-            // navigation.navigate('stepper' )
-            console.log('ok')
+            navigation.navigate('stepper')
+            
+
           )
 
         } catch (err: any) {
-          const error = err.response.data.err;
-          console.log(error);
+          console.log("ERROR",err);
           Alert.alert(
             "error",
-            error,
+            err,
             [
               {
                 text: "Cancel",
@@ -68,8 +76,8 @@ export default function FeedbackScreen() {
                 ),
             }
           );
-        }
-      },
+         }
+       }
     });
   return (
     <View>

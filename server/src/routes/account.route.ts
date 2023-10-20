@@ -6,3 +6,4 @@ export const accountRoute = Router();
 
 accountRoute.post('/createAccount', accountController.signUp);
 accountRoute.post('/login', accountController.login);
+accountRoute.get('/currentUser',AuthGuard, accountController.getCurrentUser);

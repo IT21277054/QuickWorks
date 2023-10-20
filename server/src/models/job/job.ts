@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-
 interface JobDocument extends Document {
   customerId: number;
   location: string;
@@ -12,7 +11,7 @@ interface JobDocument extends Document {
   workerId: number | null;
   bringGood: boolean | null;
   paymentAmount: number;
-  items:[] | null;
+  items: [] | null;
 }
 
 const JobSchema = new Schema<JobDocument>(
@@ -26,9 +25,9 @@ const JobSchema = new Schema<JobDocument>(
     timeOfArrival: { type: String, default: null },
     workerId: { type: Number, default: null },
     bringGood: { type: Boolean, default: null },
-     // Use ItemModel.schema to reference the Item schema
+    // Use ItemModel.schema to reference the Item schema
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const JobModel = mongoose.model<JobDocument>('Job', JobSchema);

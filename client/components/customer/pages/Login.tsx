@@ -28,35 +28,43 @@ export default function Login() {
       initialValues: { email: "", password: "" },
       onSubmit: async(values) =>{
       try {
-        console.log(values)
-        const response = await axios.post(
+        
+        try{const response = await axios.post(
           "https://bw10fhxj-8000.asse.devtunnels.ms/api/account/login",
-          {email:values.email, password:values.password }
-        ).then(
-          navigation.navigate('stepper')
-        )
+          {email:values.email, password:values.password })
+
+          if(response.status == 200){
+            navigation.navigate('stepper')
+          }
+        }catch(err:any){
+          console.log(err)
+          const error = err.response.data.err;
+          Alert.alert(
+            "error",
+            'User Credentials are Invalid',
+            [
+              {
+                text: "Cancel",
+                onPress: () => Alert.alert("Cancel Pressed"),
+                style: "cancel",
+              },
+            ],
+            {
+              cancelable: true,
+              onDismiss: () =>
+                Alert.alert(
+                  "This alert was dismissed by tapping outside of the alert dialog."
+                ),
+            }
+          );
+        }
+        
+        
 
       } catch (err: any) {
-        const error = err.response.data.err;
-        console.log(error);
-        Alert.alert(
-          "error",
-          error,
-          [
-            {
-              text: "Cancel",
-              onPress: () => Alert.alert("Cancel Pressed"),
-              style: "cancel",
-            },
-          ],
-          {
-            cancelable: true,
-            onDismiss: () =>
-              Alert.alert(
-                "This alert was dismissed by tapping outside of the alert dialog."
-              ),
-          }
-        );
+        
+        console.log(err);
+        
       }
     }
     });

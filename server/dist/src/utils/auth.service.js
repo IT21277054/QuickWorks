@@ -25,10 +25,9 @@ function validatePassword(password, hash) {
 }
 function getToken(password, hash, payload) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(payload);
         const isValidPassword = yield validatePassword(password, hash);
         if (!isValidPassword) {
-            throw new Error('Invalid Password');
+            throw 'Invalid Password';
         }
         try {
             console.log('kkkk');

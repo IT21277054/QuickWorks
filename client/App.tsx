@@ -23,10 +23,10 @@ export default function App() {
      </View>
      {/* <SignUp/> */}
      {/* <Login/> */}
-     <FeedbackScreen/>
+     {/* <FeedbackScreen/> */}
      
      
-    {/* <Navigator/> */}
+    <Navigator/>
     {/* <CardPayment/> */}
     {/* <CashPayment/> */}
     {/* <UserPayment/> */}

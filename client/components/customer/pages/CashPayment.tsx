@@ -35,18 +35,29 @@ export default function CashPayment() {
         try {
           const dto = {
             holder_id: '',
+            user_id:'',
+            job_id:'',
               account_name: '',
               account_number: '',
               bankName: '',
               amount: values.amount,
           };
-            console.log("here")
-          const response = await axios.post(
+          const response = await axios
+          .post(
             "https://bw10fhxj-8000.asse.devtunnels.ms/api/payment/createPayment",
             dto
-          ).then(
-            navigation.navigate('stepper' )
           )
+          .then(async (response) => {
+
+            if(response.status == 200){
+              await axios
+              .post(
+                "https://bw10fhxj-8000.asse.devtunnels.ms/api/job/updateJobStatus",
+                {statsu:'paid',jobId:''}
+              )
+              .then(navigation.navigate("stepper"));
+            }
+        })
 
         } catch (err: any) {
           const error = err.response.data.err;

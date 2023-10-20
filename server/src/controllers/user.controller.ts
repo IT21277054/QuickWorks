@@ -4,6 +4,7 @@ import userService from '../services/user.service';
 const createReview = async (req: Request, res: Response) => {
   try {
     const dto = req.body;
+    console.log(dto)
     const reviewItem = await userService.createReview(dto);
     res.status(200).json(reviewItem);
   } catch (err: any) {
