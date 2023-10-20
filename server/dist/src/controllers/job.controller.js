@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
+exports.updateJobByStatusandJobId = exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
 const job_service_1 = __importDefault(require("../services/job.service"));
 function createJobController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -116,3 +116,15 @@ function countJobsByStatusController(req, res) {
     });
 }
 exports.countJobsByStatusController = countJobsByStatusController;
+function updateJobByStatusandJobId(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const updatedJob = yield job_service_1.default.updateJobByStatusandJobId(req.params.jobId, req.params.jobStatus);
+            res.json(updatedJob);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Count failed' });
+        }
+    });
+}
+exports.updateJobByStatusandJobId = updateJobByStatusandJobId;

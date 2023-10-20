@@ -74,6 +74,7 @@ export async function getJobsByStatusAndWorkerIdController(req: Request, res: Re
   }
 }
 
+
 export async function countJobsByStatusController(req: Request, res: Response): Promise<void> {
   try {
     const count = await jobservice.countJobsByStatus(req.params.status);
@@ -83,4 +84,13 @@ export async function countJobsByStatusController(req: Request, res: Response): 
   }
 
 
+}
+export async function updateJobByStatusandJobId(req: Request, res: Response): Promise<void> {
+  try {
+    const updatedJob = await jobservice.updateJobByStatusandJobId(req.params.jobId,req.params.jobStatus);
+    
+    res.json(updatedJob );
+  } catch (error) {
+    res.status(500).json({ error: 'Count failed' });
+  }
 }

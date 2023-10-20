@@ -17,6 +17,7 @@ exports.jobRouter.get('/:workerId/:status', job_controller_1.getJobsByStatusAndI
 exports.jobRouter.put('/:jobId', job_controller_1.updateJobController);
 // Get jobs by status and worker ID
 exports.jobRouter.get('/workers/:workerId/:status', job_controller_1.getJobsByStatusAndWorkerIdController);
+exports.jobRouter.put('/jobUpdate/:jobId/:jobStatus', job_controller_1.updateJobByStatusandJobId);
 // Count jobs by status
 // jobRouter.get('/count/:status', countJobsByStatusController);
 exports.default = exports.jobRouter;

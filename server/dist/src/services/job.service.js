@@ -13,8 +13,7 @@ const job_1 = require("../models/job/job");
 function createJob(jobData) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const job = new job_1.JobModel(jobData);
-            return yield job.save();
+            return yield job_1.JobModel.create(jobData);
         }
         catch (err) {
             throw err;
@@ -102,6 +101,27 @@ function countJobsByStatus(status) {
         }
     });
 }
+function updateJobByStatusandJobId(jobId, jobStatus) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // Get the jobModel by id
+            const jobModel = yield getJobById(jobId);
+            if (!jobModel) {
+                throw new Error('Job not found');
+            }
+            // Update the jobStatus field
+            jobModel.jobStatus = jobStatus;
+            // Use the 'await' keyword to ensure the update is complete
+            const updatedJob = yield job_1.JobModel.findByIdAndUpdate(jobId, jobModel, {
+                new: true,
+            });
+            return updatedJob;
+        }
+        catch (err) {
+            throw err;
+        }
+    });
+}
 exports.default = {
     createJob,
     getJobById,
@@ -110,5 +130,6 @@ exports.default = {
     updateJob,
     deleteJob,
     countJobsByStatus,
-    getJobsByStatusAndIdAndWorkerid
+    getJobsByStatusAndIdAndWorkerid,
+    updateJobByStatusandJobId
 };

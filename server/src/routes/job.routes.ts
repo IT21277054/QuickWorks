@@ -6,7 +6,8 @@ import {
    getJobsByWorkerIdController,
    updateJobController,
    getJobsByStatusAndWorkerIdController,
-   countJobsByStatusController
+   countJobsByStatusController,
+   updateJobByStatusandJobId
 } from '../controllers/job.controller'
 
 export const jobRouter = express.Router();
@@ -26,6 +27,8 @@ jobRouter.put('/:jobId', updateJobController);
 
 // Get jobs by status and worker ID
 jobRouter.get('/workers/:workerId/:status', getJobsByStatusAndWorkerIdController);
+
+jobRouter.put('/jobUpdate/:jobId/:jobStatus',updateJobByStatusandJobId);
 
 // Count jobs by status
 // jobRouter.get('/count/:status', countJobsByStatusController);

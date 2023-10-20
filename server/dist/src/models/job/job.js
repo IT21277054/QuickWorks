@@ -26,14 +26,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const JobSchema = new mongoose_1.Schema({
-    customerId: { type: Number, required: true },
+    customerId: { type: mongoose_1.default.Schema.Types.ObjectId, required: true },
     location: { type: String, required: true },
     jobType: { type: String, required: true },
     jobDescription: { type: String, required: true },
     jobStatus: { type: String, required: true },
     dateOfCompletion: { type: Date, default: null },
     timeOfArrival: { type: String, default: null },
-    workerId: { type: Number, default: null },
+    workerId: { type: mongoose_1.default.Schema.Types.ObjectId, default: null },
     bringGood: { type: Boolean, default: null },
     // Use ItemModel.schema to reference the Item schema
 }, { timestamps: true });

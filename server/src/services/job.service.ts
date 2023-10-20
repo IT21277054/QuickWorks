@@ -2,8 +2,7 @@ import { JobModel } from '../models/job/job';
 
 async function createJob(jobData: any): Promise<any> {
   try {
-    const job = new JobModel(jobData);
-    return await job.save();
+    return await JobModel.create(jobData);
   } catch (err) {
     throw err;
   }
@@ -79,6 +78,29 @@ async function getJobsByStatusAndIdAndWorkerid(workerId: number, status: string)
       throw err;
     }
   }
+
+  async function updateJobByStatusandJobId(jobId: string, jobStatus: string): Promise<any> {
+    try {
+      // Get the jobModel by id
+      const jobModel = await getJobById(jobId);
+    
+      if (!jobModel) {
+        throw new Error('Job not found');
+      }
+    
+      // Update the jobStatus field
+      jobModel.jobStatus = jobStatus;
+      
+      // Use the 'await' keyword to ensure the update is complete
+      const updatedJob = await JobModel.findByIdAndUpdate(jobId, jobModel, {
+        new: true,
+      });
+      return updatedJob;
+    } catch (err) {
+      throw err;
+    }
+  }
+  
 export default {
   createJob,
   getJobById,
@@ -87,5 +109,6 @@ export default {
   updateJob,
   deleteJob,
   countJobsByStatus,
-  getJobsByStatusAndIdAndWorkerid
+  getJobsByStatusAndIdAndWorkerid,
+  updateJobByStatusandJobId
 };
