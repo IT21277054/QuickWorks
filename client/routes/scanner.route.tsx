@@ -6,6 +6,8 @@ import UserPayment from '../components/customer/pages/UserPayment';
 import PaymentStatus from '../components/customer/pages/PaymentStatus';
 import Stepper from '../components/customer/customerStatus/Stepper';
 import CompletedStatus from '../components/customer/pages/CompletedStatus';
+import SignUp from '../components/customer/pages/SignUp';
+import Login from '../components/customer/pages/Login';
 
 
 const Stack = createStackNavigator();
@@ -14,6 +16,8 @@ export default function CustomerStack() {
   return (
     <NavigationContainer>
     <Stack.Navigator>
+    <Stack.Screen name="signup" component={SignUp}  options={{headerShown:false}}/>
+    <Stack.Screen name="signin" component={Login}  options={{headerShown:false}}/>
         <Stack.Screen name="stepper" component={Stepper}  options={{headerShown:false}}/>
         <Stack.Screen name="paymentStatus" component={PaymentStatus} />
       <Stack.Screen name="qrHome" component={QrScanner} options={{headerShown:false}} />
