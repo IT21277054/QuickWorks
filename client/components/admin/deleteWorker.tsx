@@ -1,6 +1,18 @@
-    import React, { useState } from 'react';
+   import React, { useEffect, useState } from 'react';
     import { View, Text, TextInput, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
     import { Button as PaperButton,IconButton  } from 'react-native-paper';
+    import axios from 'axios'; // Install axios using "npm install axios" or "yarn add axios"
+
+    interface WorkerRequest {
+      id:string;
+      name: string;
+      jobTitle: string;
+      contactNumber: number;
+      location: string;
+      email: string;
+      status:string;
+    }
+    
 
 
     export default function App() {
@@ -11,18 +23,54 @@
       const [email, setEmail] = useState('');
       const [status,setStatus]=useState('');
 
+      
+      const { workerId } = route.params;
+  const [workerData, setWorkerData] = useState(null);
+
+  useEffect(() => {
+    // Fetch worker data by ID when the component mounts
+    axios.get(`https://ls4445t2-8000.asse.devtunnels.ms/api/admin/worker/${id}`)
+      .then(response => {
+        setWorkerData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching worker data:', error);
+      });
+  }, [workerId]);
+
+
     
       const handleSubmit = () => {
         // Handle the form submission here
-        console.log({
-          name,
-          jobTitle,
-          contactNumber,
-          location,
-          email,
-          status
-        });
+  
       };
+
+      const handleReject = (request: WorkerRequest) => {
+        // Make an API request to update the status to "Rejected"
+        fetch(`https://ls4445t2-8000.asse.devtunnels.ms/api/admin/delete/${request._id}`, {
+          method: 'DELETE', // Use the appropriate HTTP method (e.g., POST)
+          headers: {
+            'Content-Type': 'application/json',
+            // Add any necessary headers, such as authentication headers
+          },
+          body: JSON.stringify({ requestId: request._id}),
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log('delete');
+            } else {
+              return response.text().then((errorMessage) => {
+                enqueueSnackbar(errorMessage, { variant: 'error' });
+              });
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            enqueueSnackbar(error.message, { variant: 'error' });
+          });
+      };
+    
+
 
       return (
         
@@ -39,6 +87,8 @@
           <View style={styles.profContainer}>
           
           <View style={styles.rectangle}>
+
+
 
       <Text style={styles.text}>Name</Text>
     
@@ -64,7 +114,7 @@
 
     </View>
     <Text>{'\n'}</Text>
-    <TouchableOpacity style={styles.delButton}>
+    <TouchableOpacity style={styles.delButton} onPress={() => handleReject(request)}>
             <Text style={styles.buttonText}>Delete</Text>
           </TouchableOpacity>
 
@@ -206,3 +256,7 @@
       },  
       
     });
+function enqueueSnackbar(errorMessage: string, arg1: { variant: string; }) {
+  throw new Error('Function not implemented.');
+}
+
