@@ -7,10 +7,10 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const IWorker_1 = require("./IWorker");
 const Schema = mongoose_1.default.Schema;
 const WorkerSchema = new Schema({
-    worker_id: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        require: true,
-    },
+    // worker_id: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   required: true,
+    // },
     name: {
         type: String,
         required: true,

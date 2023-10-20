@@ -5,5 +5,5 @@ var WorkerStatus;
 (function (WorkerStatus) {
     WorkerStatus["PENDING"] = "pending";
     WorkerStatus["ACTIVE"] = "active";
-    WorkerStatus["DECTIVE"] = "deactive";
+    WorkerStatus["DEACTIVE"] = "deactive";
 })(WorkerStatus || (exports.WorkerStatus = WorkerStatus = {}));

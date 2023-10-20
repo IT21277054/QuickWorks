@@ -1,7 +1,7 @@
 // services/adminServices.ts
 import { IWorker } from '../models/worker/IWorker';
 import WorkerModel from '../models/worker/worker.model';
-
+import nodemailer from 'nodemailer';
 
   async function getPendingWorkers(): Promise<any> {
     try {
@@ -82,4 +82,33 @@ import WorkerModel from '../models/worker/worker.model';
   }
   
 
-export default {getPendingWorkers,getWorkerById,addWorker,deleteWorker,updateWorker};
+  const sendWorkerByEmail = (password: string, email: string) => {
+    try {
+      console.log(process.env.EMAIL_PASS);
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.USER_EMAIL,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+  
+      let mailOptions = {
+        from: process.env.USER_EMAIL,
+        to: email,
+        subject: `Worker account created,`,
+        text: 'Your account hs been created. Password: ${password}',
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent : ', info.response);
+        }
+      });
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
+
+export default {getPendingWorkers,getWorkerById,addWorker,deleteWorker,updateWorker,sendWorkerByEmail};

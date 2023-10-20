@@ -5,10 +5,10 @@ const Schema = mongoose.Schema;
 
 const WorkerSchema = new Schema(
   {
-    worker_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      require: true,
-    },
+    // worker_id: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   required: true,
+    // },
     name: {
       type: String,
       required: true,

@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const worker_model_1 = __importDefault(require("../models/worker/worker.model"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 function getPendingWorkers() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -84,4 +85,33 @@ function deleteWorker(id) {
         }
     });
 }
-exports.default = { getPendingWorkers, getWorkerById, addWorker, deleteWorker, updateWorker };
+const sendWorkerByEmail = (password, email) => {
+    try {
+        console.log(process.env.EMAIL_PASS);
+        let transporter = nodemailer_1.default.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.USER_EMAIL,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+        let mailOptions = {
+            from: process.env.USER_EMAIL,
+            to: email,
+            subject: `Worker account created,`,
+            text: 'Your account hs been created. Password: ${password}',
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('Email sent : ', info.response);
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
+exports.default = { getPendingWorkers, getWorkerById, addWorker, deleteWorker, updateWorker, sendWorkerByEmail };

@@ -92,7 +92,18 @@ const deleteWorker = async (req: Request, res: Response) => {
   }
 };
 
+const sendPassword = (req: Request, res: Response) => {
+  try {
+    const { password, email } = req.body;
+
+    console.log(password, email);
+    WorkerService.sendWorkerByEmail(password, email);
+
+    res.status(401).send('Password Send via Email');
+  } catch (err: any) {
+    res.status(401).send({ err: err });
+  }
+};
 
 export default {
-  getAllWorkers,getWorkerById,addWorker,deleteWorker,updateWorker
-};
+  getAllWorkers,getWorkerById,addWorker,deleteWorker,updateWorker,sendPassword};

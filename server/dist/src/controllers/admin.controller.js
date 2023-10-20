@@ -103,6 +103,17 @@ const deleteWorker = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+const sendPassword = (req, res) => {
+    try {
+        const { password, email } = req.body;
+        console.log(password, email);
+        admin_service_1.default.sendWorkerByEmail(password, email);
+        res.status(401).send('Password Send via Email');
+    }
+    catch (err) {
+        res.status(401).send({ err: err });
+    }
+};
 exports.default = {
-    getAllWorkers, getWorkerById, addWorker, deleteWorker, updateWorker
+    getAllWorkers, getWorkerById, addWorker, deleteWorker, updateWorker, sendPassword
 };

@@ -1,6 +1,5 @@
 export interface IWorker {
-  status: string;
-    // worker_id:string;
+    // workerId: string; // Add workerId
     name: string;
     jobTitle: string;
     contactNumber: number;
@@ -11,11 +10,13 @@ export interface IWorker {
         experience: string;
         recommendation: string;
     }; 
+    status: WorkerStatus;
 
 }
+
 export enum WorkerStatus {
     PENDING = 'pending',
     ACTIVE = 'active',
-    DECTIVE = 'deactive',
+    DEACTIVE = 'deactive',
   }
   
