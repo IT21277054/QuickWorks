@@ -81,21 +81,25 @@ export default function FeedbackScreen() {
     });
   return (
     <View>
-        <ImageBackground source={bdImage} resizeMode= 'stretch' style={styles.bgImage}>
-      <View style={styles.imageView}>
-        <Image source={image1} style={styles.image} />
-      </View>
-      <View>
-        <Text
-          style={{
-            fontSize: 28,
-            color: "black",
-            textAlign: "center",
-            paddingBottom:40
-          }}
-        >
-          Kaveesha Karunasena
-        </Text>
+      <ImageBackground
+        source={bdImage}
+        resizeMode="stretch"
+        style={styles.bgImage}
+      >
+        <View style={styles.imageView}>
+          <Image source={image1} style={styles.image} />
+        </View>
+        <View>
+          <Text
+            style={{
+              fontSize: 28,
+              color: "black",
+              textAlign: "center",
+              paddingBottom: 40,
+            }}
+          >
+            Kaveesha Karunasena
+          </Text>
 
         <Rating
           style={{ paddingTop: 30 }}
@@ -138,9 +142,9 @@ export default function FeedbackScreen() {
 }
 
 const styles = StyleSheet.create({
-    root: {
-        marginVertical:30
-      },
+  root: {
+    marginVertical: 30,
+  },
   image: {
     width: 150,
     height: 150,
@@ -155,12 +159,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 110,
   },
   button: {
-    paddingTop:70,
+    paddingTop: 70,
     alignItems: "center",
   },
   bgImage: {
-    height: screenHeight, 
-    width: screenWidth, 
- 
+    height: screenHeight,
+    width: screenWidth,
   },
 });

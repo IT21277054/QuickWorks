@@ -14,24 +14,23 @@ import FeedbackScreen from "./components/customer/pages/FeedbackScreen";
 import Login from "./components/customer/pages/Login";
 import SignUp from "./components/customer/pages/SignUp";
 
+import ReviewHistory from "./components/customer/pages/reviewHistory";
+import { NativeBaseProvider } from "native-base";
 
 export default function App() {
   return (
+    
     <>
-    <View style={styles.status}>
-       <StatusBar />
-     </View>
-     {/* <SignUp/> */}
-     {/* <Login/> */}
-     {/* <FeedbackScreen/> */}
-     
-     
-    <Navigator/>
-    {/* <CardPayment/> */}
-    {/* <CashPayment/> */}
-    {/* <UserPayment/> */}
-    </>
+    {/* <Navigator/> */}
+    
 
+      <NativeBaseProvider>
+        <View style={styles.status}>
+          <StatusBar />
+        </View>
+        <ReviewHistory />
+      </NativeBaseProvider>
+      </>
   );
 }
 

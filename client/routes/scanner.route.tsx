@@ -9,6 +9,7 @@ import CompletedStatus from "../components/customer/pages/CompletedStatus";
 import SignUp from "../components/customer/pages/SignUp";
 import Login from "../components/customer/pages/Login";
 import FeedbackScreen from "../components/customer/pages/FeedbackScreen";
+import reviewHistory from "../components/customer/pages/reviewHistory";
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,7 @@ export default function CustomerStack() {
         <Stack.Screen name="payment" component={UserPayment} />
         <Stack.Screen name="reviewStatus" component={CompletedStatus} />
         <Stack.Screen name="feedback" component={FeedbackScreen} />
+        <Stack.Screen name="reviewHistory" component={reviewHistory} />
       </Stack.Navigator>
     </NavigationContainer>
   );
