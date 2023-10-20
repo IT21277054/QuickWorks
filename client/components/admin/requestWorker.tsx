@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-interface worker {
-  workerId:string;
+interface Iworker {
+  _id:string;
 name: string;
-    contactNumber: number;
-    location: string;
+email:string;
+   
 }
 
 export default function RequestWorkers() {
@@ -19,8 +19,9 @@ export default function RequestWorkers() {
     // Fetch data from the API
     fetch('https://ls4445t2-8000.asse.devtunnels.ms/api/admin/all')
       .then((response) => response.json())
-      .then((data) => setWorkerData(data))
+      .then((data) => setWorkerData(data.workers))
       .catch((error) => console.error('Error fetching data:', error));
+      console.log(workerData);
   }, []);
 
   return (
@@ -37,11 +38,14 @@ export default function RequestWorkers() {
           style={styles.profile}
         />
 
+
           <View style={styles.rectangle}>
-            <View>
-              <Text style={styles.text}>Name</Text>
-              <Text style={styles.TitleText}>Location</Text>
-              <Text style={styles.TitleText}>ContactNumber</Text>
+          <ScrollView contentContainerStyle={styles.container}>
+
+            {workerData.map((worker:Iworker) =>
+            <View style={styles.list} key = {worker._id}>
+              <Text style={styles.text}>{worker.name}</Text>
+              <Text style={styles.TitleText}>{worker.email}</Text>
 
               <TouchableOpacity style={styles.delButton}>
                 <Text style={styles.buttonText}>View</Text>
@@ -49,9 +53,13 @@ export default function RequestWorkers() {
 
               <View style={styles.rectangle24}></View>
             </View>
+            )}
 
             <Text>{'\n'}</Text>
+            </ScrollView>
+
           </View>
+
       </View>
     </View>
   );
@@ -63,6 +71,18 @@ const styles = StyleSheet.create({
     width: 410,
     height: 900,
     flex: 1,
+  },
+  container: {
+    padding: 20,
+    marginTop: -20,
+    marginBottom:50,
+  },
+  list: {
+    padding: 20,
+    marginTop: 15,
+left:-19,
+marginBottom: 55,
+
   },
   image: {
     width: '100%',
