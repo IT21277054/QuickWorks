@@ -13,6 +13,15 @@ export enum AuthRole {
   SUPPLIER = 'SUPPLIER',
 }
 
+export enum Status{
+  AVAILABLE = "AVAILABLE",
+  ACCEPTED = 'ACCEPTED',
+  APPROVED = 'APPROVED',
+  ONGOING = 'ONGOING',
+  PAYMENT = 'PAYMENT',
+  COMPLETED = 'COMPLETED'
+}
+
 export interface JWT_OPTIONS {
   algorithm: string;
   issuer: string;

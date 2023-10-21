@@ -3,11 +3,17 @@ import {
    getJobByIdController,
    createJobController,
    getJobsByStatusAndIdController,
-   getJobsByWorkerIdController,
    updateJobController,
    getJobsByStatusAndWorkerIdController,
-   countJobsByStatusController,
-   updateJobByStatusandJobId
+   getJobsforAcceptedScreen,
+  getJobsforApprovedScreen,
+  getJobsforCompletedScreen,
+  updateJobNegotation,
+  updateJobNegotationFailed,
+   getJobsforAvalibleScreen,
+   updateJobByToAccepted,
+  updateJobByToOngoing,
+  updateJobByToComplete,
 } from '../controllers/job.controller'
 
 export const jobRouter = express.Router();
@@ -28,7 +34,30 @@ jobRouter.put('/:jobId', updateJobController);
 // Get jobs by status and worker ID
 jobRouter.get('/workers/:workerId/:status', getJobsByStatusAndWorkerIdController);
 
-jobRouter.put('/jobUpdate/:jobId/:jobStatus',updateJobByStatusandJobId);
+
+jobRouter.get('/getJobsAvaliable/:jobType/:location', getJobsforAvalibleScreen);
+
+jobRouter.get('/accepted/:workerId', getJobsforAcceptedScreen);
+
+// Get jobs for approved screen
+jobRouter.get('/approved/:workerId', getJobsforApprovedScreen);
+
+// Get jobs for completed screen
+jobRouter.get('/completed/:workerId', getJobsforCompletedScreen);
+
+// Update job negotiation
+jobRouter.put('/updateNegotation/:jobId', updateJobNegotation);
+
+// Update job negotiation failed
+jobRouter.put('/updateNegotationFailed/:jobId', updateJobNegotationFailed);
+
+jobRouter.put('/updateToAccepted/:jobId', updateJobByToAccepted);
+
+// Update job to "Ongoing"
+jobRouter.put('/updateToOngoing/:jobId', updateJobByToOngoing);
+
+// Update job to "Complete"
+jobRouter.put('/updateToComplete/:jobId', updateJobByToComplete);
 
 // Count jobs by status
 // jobRouter.get('/count/:status', countJobsByStatusController);

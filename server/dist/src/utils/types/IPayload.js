@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthRole = void 0;
+exports.Status = exports.AuthRole = void 0;
 var AuthRole;
 (function (AuthRole) {
     AuthRole["OPEN"] = "OPEN";
@@ -10,3 +10,12 @@ var AuthRole;
     AuthRole["SUPERVISOR"] = "SUPERVISOR";
     AuthRole["SUPPLIER"] = "SUPPLIER";
 })(AuthRole || (exports.AuthRole = AuthRole = {}));
+var Status;
+(function (Status) {
+    Status["AVAILABLE"] = "AVAILABLE";
+    Status["ACCEPTED"] = "ACCEPTED";
+    Status["APPROVED"] = "APPROVED";
+    Status["ONGOING"] = "ONGOING";
+    Status["PAYMENT"] = "PAYMENT";
+    Status["COMPLETED"] = "COMPLETED";
+})(Status || (exports.Status = Status = {}));
