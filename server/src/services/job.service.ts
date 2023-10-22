@@ -88,7 +88,7 @@ async function getJobsByStatusAndIdAndWorkerid(workerId: number, status: string)
     }
   }
 
-  async function updateJobByToAccepted(jobId: string): Promise<any> {
+  async function updateJobByToAccepted(jobId: string,workerId:string): Promise<any> {
     try {
       // Get the jobModel by id
       const jobModel = await getJobById(jobId);
@@ -99,6 +99,7 @@ async function getJobsByStatusAndIdAndWorkerid(workerId: number, status: string)
     
       // Update the jobStatus field
       jobModel.jobStatus = Status.ACCEPTED;
+      jobModel.workerId = workerId;
       
       // Use the 'await' keyword to ensure the update is complete
       const updatedJob = await JobModel.findByIdAndUpdate(jobId, jobModel, {
@@ -169,10 +170,16 @@ async function getJobsByStatusAndIdAndWorkerid(workerId: number, status: string)
       throw err;
     }
   }
-
+  async function getJobsforOngoingScreen(workerId: string): Promise<any[]> {
+    try {
+      return await JobModel.find({ workerId: workerId,jobStatus: Status.ONGOING});
+    } catch (err) {
+      throw err;
+    }
+  }
   async function getJobsforCompletedScreen(workerId: string): Promise<any[]> {
     try {
-      return await JobModel.find({ workerId: workerId,jobStatus: Status.COMPLETED});
+      return await JobModel.find({ workerId: workerId,jobStatus: "COMPLETED"});
     } catch (err) {
       throw err;
     }
@@ -192,6 +199,7 @@ async function getJobsByStatusAndIdAndWorkerid(workerId: number, status: string)
       jobModel.timeOfArrival = timeOfArrival;
       jobModel.bringGood = bringGood;
       jobModel.paymentAmount = paymentAmount;
+      jobModel.jobStatus = Status.TOBEAPPROVED
     
       
       // Use the 'await' keyword to ensure the update is complete
@@ -245,5 +253,6 @@ export default {
   getJobsforAcceptedScreen,
   getJobsforCompletedScreen,
   updateJobNegotation,
-  updateJobNegotationFailed
+  updateJobNegotationFailed,
+  getJobsforOngoingScreen
 };

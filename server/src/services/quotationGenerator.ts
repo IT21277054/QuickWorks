@@ -1,6 +1,7 @@
 import * as puppeteer from 'puppeteer';
 import * as nodemailer from 'nodemailer';
 import { Request, Response } from 'express';
+import { check, validationResult } from 'express-validator';
 
 export class QuotationGenerator {
   async generateAndSendQuotationEmail(quotationData: QuotationData, recipientEmail: string): Promise<void> {
@@ -9,22 +10,23 @@ export class QuotationGenerator {
     
     // Email details
     const transporter = nodemailer.createTransport({
-      service: 'Gmail', // e.g., 'Gmail', 'Outlook', etc.
+      service: 'Yahoo', // e.g., 'Gmail', 'Outlook', etc.
       auth: {
-        user: 'bottachatta@gmail.com',
-        pass: 'Chatta@0307',
+        user: 'Dev QuickWorks',
+        pass: '%m7Vf_nLydXS49^',
       },
     });
    console.log(1)
     const mailOptions = {
-      from: 'bottachatta@gmail.com',
-      to: recipientEmail,
+      from: 'cgpt2532@gmail.com',
+      to:  recipientEmail,
       subject: 'Your Quotation',
       text: 'Please find your quotation attached.',
       attachments: [{ filename: 'quotation.pdf', content: pdfBuffer }],
     };
     console.log(mailOptions)
     try {
+      console.log(transporter.sendMail(mailOptions))
       const info = await transporter.sendMail(mailOptions);
       console.log(3)
       console.log(`Email sent: ${info.response}`);

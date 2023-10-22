@@ -42,15 +42,15 @@ class QuotationGenerator {
             const pdfBuffer = yield this.generatePDF(htmlContent);
             // Email details
             const transporter = nodemailer.createTransport({
-                service: 'Gmail',
+                service: 'Yahoo',
                 auth: {
-                    user: 'bottachatta@gmail.com',
-                    pass: 'Chatta@0307',
+                    user: 'Dev QuickWorks',
+                    pass: '%m7Vf_nLydXS49^',
                 },
             });
             console.log(1);
             const mailOptions = {
-                from: 'bottachatta@gmail.com',
+                from: 'cgpt2532@gmail.com',
                 to: recipientEmail,
                 subject: 'Your Quotation',
                 text: 'Please find your quotation attached.',
@@ -58,6 +58,7 @@ class QuotationGenerator {
             };
             console.log(mailOptions);
             try {
+                console.log(transporter.sendMail(mailOptions));
                 const info = yield transporter.sendMail(mailOptions);
                 console.log(3);
                 console.log(`Email sent: ${info.response}`);

@@ -18,4 +18,5 @@ var Status;
     Status["ONGOING"] = "ONGOING";
     Status["PAYMENT"] = "PAYMENT";
     Status["COMPLETED"] = "COMPLETED";
+    Status["TOBEAPPROVED"] = "TOBEAPPROVED";
 })(Status || (exports.Status = Status = {}));

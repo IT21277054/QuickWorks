@@ -87,7 +87,7 @@ export async function countJobsByStatusController(req: Request, res: Response): 
 }
 export async function updateJobByToAccepted(req: Request, res: Response): Promise<void> {
   try {
-    const updatedJob = await jobservice.updateJobByToAccepted(req.params.jobId);
+    const updatedJob = await jobservice.updateJobByToAccepted(req.params.jobId,req.params.workerId);
     
     res.json(updatedJob );
   } catch (error) {
@@ -129,8 +129,18 @@ export async function getJobsforAcceptedScreen(req: Request, res: Response): Pro
     res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
   }
 }
+export async function getJobsforOngoingScreen(req: Request, res: Response): Promise<void> {
+  try {
+    
+    const jobs = await jobservice.getJobsforOngoingScreen(req.params.workerId);
+    res.json(jobs);
+  } catch (error) {
+    res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
+  }
+}
 export async function getJobsforApprovedScreen(req: Request, res: Response): Promise<void> {
   try {
+    const jobId: string = req.params.workerId;
     const jobs = await jobservice.getJobsforApprovedScreen(req.params.workerId);
     res.json(jobs);
   } catch (error) {
@@ -142,7 +152,7 @@ export async function getJobsforCompletedScreen(req: Request, res: Response): Pr
     const jobs = await jobservice.getJobsforCompletedScreen(req.params.workerId);
     res.json(jobs);
   } catch (error) {
-    res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+    res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
   }
 }
 export async function updateJobNegotation(req: Request, res: Response): Promise<void> {

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateJobNegotationFailed = exports.updateJobNegotation = exports.getJobsforCompletedScreen = exports.getJobsforApprovedScreen = exports.getJobsforAcceptedScreen = exports.getJobsforAvalibleScreen = exports.updateJobByToComplete = exports.updateJobByToOngoing = exports.updateJobByToAccepted = exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
+exports.updateJobNegotationFailed = exports.updateJobNegotation = exports.getJobsforCompletedScreen = exports.getJobsforApprovedScreen = exports.getJobsforOngoingScreen = exports.getJobsforAcceptedScreen = exports.getJobsforAvalibleScreen = exports.updateJobByToComplete = exports.updateJobByToOngoing = exports.updateJobByToAccepted = exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
 const job_service_1 = __importDefault(require("../services/job.service"));
 function createJobController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -119,7 +119,7 @@ exports.countJobsByStatusController = countJobsByStatusController;
 function updateJobByToAccepted(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const updatedJob = yield job_service_1.default.updateJobByToAccepted(req.params.jobId);
+            const updatedJob = yield job_service_1.default.updateJobByToAccepted(req.params.jobId, req.params.workerId);
             res.json(updatedJob);
         }
         catch (error) {
@@ -176,9 +176,22 @@ function getJobsforAcceptedScreen(req, res) {
     });
 }
 exports.getJobsforAcceptedScreen = getJobsforAcceptedScreen;
+function getJobsforOngoingScreen(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobs = yield job_service_1.default.getJobsforOngoingScreen(req.params.workerId);
+            res.json(jobs);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
+        }
+    });
+}
+exports.getJobsforOngoingScreen = getJobsforOngoingScreen;
 function getJobsforApprovedScreen(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const jobId = req.params.workerId;
             const jobs = yield job_service_1.default.getJobsforApprovedScreen(req.params.workerId);
             res.json(jobs);
         }
@@ -195,7 +208,7 @@ function getJobsforCompletedScreen(req, res) {
             res.json(jobs);
         }
         catch (error) {
-            res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+            res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
         }
     });
 }

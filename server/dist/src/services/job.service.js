@@ -112,7 +112,7 @@ function countJobsByStatus(status) {
         }
     });
 }
-function updateJobByToAccepted(jobId) {
+function updateJobByToAccepted(jobId, workerId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // Get the jobModel by id
@@ -122,6 +122,7 @@ function updateJobByToAccepted(jobId) {
             }
             // Update the jobStatus field
             jobModel.jobStatus = IPayload_1.Status.ACCEPTED;
+            jobModel.workerId = workerId;
             // Use the 'await' keyword to ensure the update is complete
             const updatedJob = yield job_1.JobModel.findByIdAndUpdate(jobId, jobModel, {
                 new: true,
@@ -195,10 +196,20 @@ function getJobsforAcceptedScreen(workerId) {
         }
     });
 }
+function getJobsforOngoingScreen(workerId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            return yield job_1.JobModel.find({ workerId: workerId, jobStatus: IPayload_1.Status.ONGOING });
+        }
+        catch (err) {
+            throw err;
+        }
+    });
+}
 function getJobsforCompletedScreen(workerId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return yield job_1.JobModel.find({ workerId: workerId, jobStatus: IPayload_1.Status.COMPLETED });
+            return yield job_1.JobModel.find({ workerId: workerId, jobStatus: "COMPLETED" });
         }
         catch (err) {
             throw err;
@@ -218,6 +229,7 @@ function updateJobNegotation(jobId, dateOfCompletion, timeOfArrival, bringGood, 
             jobModel.timeOfArrival = timeOfArrival;
             jobModel.bringGood = bringGood;
             jobModel.paymentAmount = paymentAmount;
+            jobModel.jobStatus = IPayload_1.Status.TOBEAPPROVED;
             // Use the 'await' keyword to ensure the update is complete
             const updatedJob = yield job_1.JobModel.findByIdAndUpdate(jobId, jobModel, {
                 new: true,
@@ -271,5 +283,6 @@ exports.default = {
     getJobsforAcceptedScreen,
     getJobsforCompletedScreen,
     updateJobNegotation,
-    updateJobNegotationFailed
+    updateJobNegotationFailed,
+    getJobsforOngoingScreen
 };
