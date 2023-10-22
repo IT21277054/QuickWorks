@@ -3,9 +3,9 @@ import { quotationGenerator, QuotationData } from '../services/quotationGenerato
 
 export const sendQuotationController = async (req: Request, res: Response) => {
   try {
-    const quotationData: QuotationData = req.body;
+    const quotationData: QuotationData = req.body.quotationData;
     const recipientEmail: string = req.body.recipientEmail;
-
+    
     await quotationGenerator.generateAndSendQuotationEmail(quotationData, recipientEmail);
 
     res.status(200).send('Quotation sent successfully');

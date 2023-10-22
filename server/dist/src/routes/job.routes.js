@@ -17,6 +17,22 @@ exports.jobRouter.get('/:workerId/:status', job_controller_1.getJobsByStatusAndI
 exports.jobRouter.put('/:jobId', job_controller_1.updateJobController);
 // Get jobs by status and worker ID
 exports.jobRouter.get('/workers/:workerId/:status', job_controller_1.getJobsByStatusAndWorkerIdController);
+exports.jobRouter.get('/getJobsAvaliable/:jobType/:location', job_controller_1.getJobsforAvalibleScreen);
+exports.jobRouter.get('/screen/accepted/:workerId', job_controller_1.getJobsforAcceptedScreen);
+// Get jobs for approved screen
+exports.jobRouter.get('/screen/approved/:workerId', job_controller_1.getJobsforApprovedScreen);
+// Get jobs for completed screen
+exports.jobRouter.get('/screen/completed/:workerId', job_controller_1.getJobsforCompletedScreen);
+exports.jobRouter.get('/screen/ongoing/:workerId', job_controller_1.getJobsforOngoingScreen);
+// Update job negotiation
+exports.jobRouter.put('/updateNegotation/:jobId', job_controller_1.updateJobNegotation);
+// Update job negotiation failed
+exports.jobRouter.put('/updateNegotationFailed/:jobId', job_controller_1.updateJobNegotationFailed);
+exports.jobRouter.put('/updateToAccepted/:jobId/:workerId', job_controller_1.updateJobByToAccepted);
+// Update job to "Ongoing"
+exports.jobRouter.put('/updateToOngoing/:jobId', job_controller_1.updateJobByToOngoing);
+// Update job to "Complete"
+exports.jobRouter.put('/updateToComplete/:jobId', job_controller_1.updateJobByToComplete);
 // Count jobs by status
 // jobRouter.get('/count/:status', countJobsByStatusController);
 exports.default = exports.jobRouter;
