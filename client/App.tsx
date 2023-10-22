@@ -13,6 +13,7 @@ import PaymentStatus from "./components/customer/pages/PaymentStatus";
 import FeedbackScreen from "./components/customer/pages/FeedbackScreen";
 import ReviewHistory from "./components/customer/pages/reviewHistory";
 import { NativeBaseProvider } from "native-base";
+import HomePage from "./components/customer/pages/homePage";
 
 export default function App() {
   return (
@@ -21,7 +22,7 @@ export default function App() {
         <View style={styles.status}>
           <StatusBar />
         </View>
-        <ReviewHistory />
+        <HomePage />
       </NativeBaseProvider>
 
       {/* <Navigator/> */}

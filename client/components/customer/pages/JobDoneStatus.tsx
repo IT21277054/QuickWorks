@@ -1,16 +1,15 @@
-import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
-import doneImage from "../../../assets/doneImage.png";
+import { Center, Image } from "native-base";
 
-export default function JobDoneStatus() {
+function HomePage() {
   return (
-    <View style={styles.img} >
-      <Image source={doneImage} />
-    </View>
+    <Center>
+      <Image
+        source={require("../../../assets/page_header_1.png")}
+        alt="Alternate Text"
+        size="xl"
+      />
+    </Center>
   );
 }
 
-const styles = StyleSheet.create({
-  img: {
-    paddingBottom:115,
-  },
-});
+export default HomePage;
