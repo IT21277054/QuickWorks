@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, ImageBackground, Dimensions, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import React from "react";
-import { AirbnbRating, Rating } from "react-native-ratings";
+import {  Rating } from "react-native-ratings";
 import image1 from "../../../assets/userProfile.jpg";
 import ButtonWithBackground from "../customerStatus/ButtonWithBackground";
 import bdImage from "../../../assets/bg.png";
