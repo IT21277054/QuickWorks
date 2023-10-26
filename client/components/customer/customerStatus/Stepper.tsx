@@ -88,6 +88,10 @@ export default function Stepper() {
     setCurrentPage(position);
   };
 
+  React.useEffect(()=>{
+
+  },[])
+
   const renderViewPagerPage = (data: any) => {
     return (
       <View key={data} style={styles.page}>

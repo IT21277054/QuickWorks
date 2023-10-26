@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Text,
@@ -18,6 +18,8 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { AuthContext } from "../../../auth/AuthContext";
+import jwtDecode from "jwt-decode";
 
 const PaymentSchema = Yup.object().shape({
   accountName: Yup.string().required("Required"),
@@ -29,24 +31,39 @@ const PaymentSchema = Yup.object().shape({
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
 
-export default function CardPayment() {
+export default function CardPayment({route}) {
+ const {data} = route.params
+  const {userToken} = useContext(AuthContext)
+  const decodedUser = jwtDecode(userToken)
+  console.log(decodedUser)
   const navigation = useNavigation();
+  const [paymentDtails, setPaymentDetails] = React.useState({
+    worker_id: "",
+    workerName: "",
+    bankName: "",
+    accountNo: 0,
+    jobId: "",
+  });
+  let myArray = data.split(" ");
+
 
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
+
+  
     useFormik({
       validationSchema: PaymentSchema,
       initialValues: {
-        accountName: "",
-        accountNo: "",
-        bank: "",
-        amount: "",
+        accountName: '',
+        accountNo:  '',
+        bank:'',
+        amount: 0,
       },
       onSubmit: async (values) => {
         try {
           console.log("here");
           const dto = {
             holder_id: "5657585759789",
-            user_id: "",
+            user_id: decodedUser.id,
             job_id: "",
             account_name: values.accountName,
             account_number: values.accountNo,
@@ -67,7 +84,7 @@ export default function CardPayment() {
                   "https://bw10fhxj-8000.asse.devtunnels.ms/api/job/updateJobStatus",
                   {statsu:'paid',jobId:''}
                 )
-                .then(navigation.navigate("stepper"));
+                // .then(navigation.navigate("stepper"));
               }
               
             });
@@ -95,6 +112,8 @@ export default function CardPayment() {
         }
       },
     });
+
+   
   return (
     <ScrollView>
       <ImageBackground
@@ -116,6 +135,7 @@ export default function CardPayment() {
           >
             <TextInput
               icon="user"
+               value={myArray[1]}
               placeholder="Enter Account Holder Name"
               autoCapitalize="none"
               keyboardAppearance="dark"
@@ -125,6 +145,7 @@ export default function CardPayment() {
               onBlur={handleBlur("accountName")}
               error={errors.accountName}
               touched={touched.accountName}
+              disabled = {true}
             />
           </View>
           <View
@@ -132,6 +153,7 @@ export default function CardPayment() {
           >
             <TextInput
               icon="credit-card"
+              value={myArray[3]}
               placeholder="Enter Account Number"
               autoCapitalize="none"
               keyboardAppearance="dark"
@@ -141,6 +163,7 @@ export default function CardPayment() {
               onBlur={handleBlur("accountNo")}
               error={errors.accountNo}
               touched={touched.accountNo}
+              disabled = {true}
             />
           </View>
           <View
@@ -148,6 +171,7 @@ export default function CardPayment() {
           >
             <TextInput
               icon="home"
+              value={myArray[2]}
               placeholder="Enter Bank Name"
               autoCapitalize="none"
               keyboardAppearance="dark"
@@ -157,6 +181,7 @@ export default function CardPayment() {
               onBlur={handleBlur("bank")}
               error={errors.bank}
               touched={touched.bank}
+              disabled = {true}
             />
           </View>
           <View

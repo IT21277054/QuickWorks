@@ -73,9 +73,34 @@ export default function SignUp() {
           const response = await axios.post(
             "https://bw10fhxj-8000.asse.devtunnels.ms/api/account/createAccount",
             dto
-          ).then(
-            navigation.navigate('signin' )
+          ).then( async res =>{
+            await axios.post(
+              "https://bw10fhxj-8000.asse.devtunnels.ms/api/account/sendOTP",
+             {email: values.email}
+            )
+            navigation.navigate('otp',{email:values.email} )
+          }
           )
+          .catch(err=>{
+            Alert.alert(
+              "error",
+              'This email account has an Account',
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => Alert.alert("Cancel Pressed"),
+                  style: "cancel",
+                },
+              ],
+              {
+                cancelable: true,
+                onDismiss: () =>
+                  Alert.alert(
+                    "This alert was dismissed by tapping outside of the alert dialog."
+                  ),
+              }
+            );
+      })
 
         } catch (err: any) {
           const error = err.response.data.err;

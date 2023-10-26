@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Text, View, Image, ScrollView, StyleSheet, ImageBackground, Dimensions, Alert } from 'react-native';
 import TextInput from '../customerItems/TextInput';
 import ButtonWithBackground from '../customerStatus/ButtonWithBackground';
@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 import * as Yup from "yup";
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { AuthContext } from '../../../auth/AuthContext';
+import jwtDecode from 'jwt-decode';
 
 const PaymentSchema = Yup.object().shape({
   eaccountNamemail: Yup.string().email("Invalid email").required("Required"),
@@ -19,8 +21,11 @@ const PaymentSchema = Yup.object().shape({
 const screenHeight = Dimensions.get('window').height; 
 const screenWidth = Dimensions.get('window').width; 
 
-export default function CashPayment() {
+export default function CashPayment({route}) {
     const navigation = useNavigation();
+    const {data} = route.params
+  const {userToken} = useContext(AuthContext)
+  const decodedUser = jwtDecode(userToken)
 
     const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
@@ -35,10 +40,10 @@ export default function CashPayment() {
         try {
           const dto = {
             holder_id: '',
-            user_id:'',
+            user_id:decodedUser.id,
             job_id:'',
               account_name: '',
-              account_number: '',
+              account_number: 'Cash Payment',
               bankName: '',
               amount: values.amount,
           };
@@ -55,7 +60,7 @@ export default function CashPayment() {
                 "https://bw10fhxj-8000.asse.devtunnels.ms/api/job/updateJobStatus",
                 {statsu:'paid',jobId:''}
               )
-              .then(navigation.navigate("stepper"));
+              // .then(navigation.navigate("stepper"));
             }
         })
 
@@ -109,7 +114,6 @@ export default function CashPayment() {
       <ButtonWithBackground
           title="Pay Now"
           color="#FFC436"
-          onPress={() => navigation.navigate('reviewStatus' )}
         />
     </View>
     </ImageBackground>

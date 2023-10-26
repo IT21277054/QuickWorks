@@ -37,6 +37,7 @@ const getReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { review_id, comment, star_review } = req.body;
+        console.log(review_id);
         const reviews = yield user_service_1.default.updateReview(review_id, comment, star_review);
         res.status(200).json({ msg: 'Updated', reviews });
     }

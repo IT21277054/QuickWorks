@@ -1,17 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import React, { useEffect } from 'react';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Button } from "react-native";
+import React, { useEffect } from "react";
+import { BarCodeScanner } from "expo-barcode-scanner";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Scanner() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
   const [hasPermission, setHasPermission] = React.useState(false);
   const [scanData, setScanData] = React.useState();
+ 
 
   useEffect(() => {
-    (async() => {
-      const {status} = await BarCodeScanner.requestPermissionsAsync();
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
     })();
   }, []);
@@ -24,23 +25,26 @@ export default function Scanner() {
     );
   }
 
-  const handleBarCodeScanned = ({type, data}) => {
+  const handleBarCodeScanned = ({ type, data }) => {
     setScanData(data);
 
-    if(data != null){
-        navigation.navigate("payment")
+    
+    if (data != null) {
+      navigation.navigate("payment",{data:data});
     }
-    console.log(`Data: ${data}`);
+    
     console.log(`Type: ${type}`);
   };
 
   return (
     <View style={styles.container}>
-      <BarCodeScanner 
+      <BarCodeScanner
         style={StyleSheet.absoluteFillObject}
         onBarCodeScanned={scanData ? undefined : handleBarCodeScanned}
-        />
-      {scanData && <Button title='Scan Again?' onPress={() => setScanData(undefined)} />}
+      />
+      {scanData && (
+        <Button title="Scan Again?" onPress={() => setScanData(undefined)} />
+      )}
       <StatusBar style="auto" />
     </View>
   );
@@ -49,8 +53,8 @@ export default function Scanner() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

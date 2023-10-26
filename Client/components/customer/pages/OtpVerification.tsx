@@ -12,24 +12,54 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from "../../../auth/AuthContext";
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string()
-    .required("Required"),
+    otp: Yup.number().required("Required")
+  
 });
 
 const screenHeight = Dimensions.get('window').height; 
 const screenWidth = Dimensions.get('window').width; 
 
-export default function Login() {
-  const {login} = useContext(AuthContext)
-    const navigation = useNavigation();
+export default function OtpVerification({ route }) {
+    const { email } = route.params;
+    console.log(email)
+const navigation = useNavigation();
   const password = useRef(null);
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
       validationSchema: LoginSchema,
-      initialValues: { email: "", password: "" },
+      initialValues: { otp: ""},
       onSubmit: async(values) =>{
-        login(values.email,values.password)
+       try{
+            await axios.post(
+            "https://bw10fhxj-8000.asse.devtunnels.ms/api/account/verifyOTP",
+            {email:email,otp:values.otp}
+          ).then(async res=>{
+            await axios.put(
+                `https://bw10fhxj-8000.asse.devtunnels.ms/api/account/changeToActive/${email}`,
+            )
+
+            navigation.navigate('signin')
+          })
+       }catch(err:any){
+        Alert.alert(
+            "error",
+            'OTP is  Invalid',
+            [
+              {
+                text: "Cancel",
+                onPress: () => Alert.alert("Cancel Pressed"),
+                style: "cancel",
+              },
+            ],
+            {
+              cancelable: true,
+              onDismiss: () =>
+                Alert.alert(
+                  "This alert was dismissed by tapping outside of the alert dialog."
+                ),
+            }
+          );
+       }
     }
     });
 
@@ -44,52 +74,36 @@ export default function Login() {
       }}
     >
     <View>
-      <FontAwesome name="users"  color='#FFC436' size={100}/>
+      <FontAwesome name="envelope"  color='#FFC436' size={100}/>
       </View>
       <Text style={{ color: "#223e4b", fontSize: 30, paddingBottom: 60, paddingTop: 10 , fontWeight:'bold', fontStyle:'italic'}}>
-        WELCOME BACK
+        Enter Your OTP
       </Text>
-      <View style={{ paddingHorizontal: 32, marginBottom: 16, width: "100%" , paddingTop:50}}>
-        <TextInput
-          icon="mail"
-          placeholder="Enter your email"
-          autoCapitalize="none"
-          autoCompleteType="email"
-          keyboardType="email-address"
-          keyboardAppearance="dark"
-          returnKeyType="next"
-          returnKeyLabel="next"
-          onChangeText={handleChange("email")}
-          onBlur={handleBlur("email")}
-          error={errors.email}
-          touched={touched.email}
-          onSubmitEditing={() => password.current?.focus()}
-        />
+      <View>
+        
       </View>
-      <View style={{ paddingHorizontal: 32, marginBottom: 16, width: "100%" }}>
+      <View style={{ paddingHorizontal: 32, marginBottom: 16, width: "100%",paddingTop:70 }}>
         <TextInput
           icon="key"
-          placeholder="Enter your password"
-          secureTextEntry
-          autoCompleteType="password"
+          placeholder="Enter the OTP"
+          autoCompleteType="otp"
           autoCapitalize="none"
           keyboardAppearance="dark"
           returnKeyType="go"
           returnKeyLabel="go"
-          onChangeText={handleChange("password")}
-          onBlur={handleBlur("password")}
-          error={errors.password}
-          touched={touched.password}
-          ref={password}
+          onChangeText={handleChange("otp")}
+          onBlur={handleBlur("otp")}
+          error={errors.otp}
+          touched={touched.otp}
           onSubmitEditing={() => handleSubmit()}
         />
       </View>
+      <Text style = {{fontSize:13,fontStyle:'italic'}}>
+        Enter the otp that have been sent to this {email}
+      </Text>
       <View style={styles.button}>
-      <ButtonWithBackground title="Login"  color="#FFC436" onPress={handleSubmit} />
+      <ButtonWithBackground title="Submit"  color="#FFC436" onPress={handleSubmit} />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('signup')}>
-          <Text style={{fontStyle:'italic'}}>Don't have an account?SignUp</Text>
-          </TouchableOpacity>
     </View>
     </ImageBackground>
     </View>

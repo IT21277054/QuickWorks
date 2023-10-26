@@ -18,12 +18,14 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  Image
 } from "react-native";
 import { Rating } from "react-native-ratings";
 import TextInput from "../customerItems/TextInput";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ButtonWithBackground from "../customerStatus/ButtonWithBackground";
+import image1 from "../../../assets/userProfile.jpg";
 
 interface reviewData {
   _id: string;
@@ -43,6 +45,12 @@ function reviewHistory() {
   const [reviewData, setReviews] = useState<reviewData[]>([]);
   const [state, setState] = useState({ isVisible: false });
   const [star, setStar] = useState(0);
+  const[editData, setEditData] = useState({
+    userComment:'',
+    userStar:0,
+    workerId:'',
+    review_id:''
+  })
 const snapPoints = ["50%"]
   const displayModal = (show: any) => {
     setState({ isVisible: show });
@@ -96,10 +104,45 @@ const snapPoints = ["50%"]
       validationSchema: FeedbackSchema,
       initialValues: {
         star_review: 0,
-        comment: "",
+        comment: editData.userComment,
       },
-      onSubmit: async (values) => {},
+      onSubmit: async (values) => {
+       try{
+       await  axios.put("https://bw10fhxj-8000.asse.devtunnels.ms/api/user/updateReview",{review_id:editData.review_id, comment: values.comment, star_review:star})
+        displayModal(!state.isVisible)
+       }catch(err:any){
+        console.log("ERROR",err);
+        Alert.alert(
+          "error",
+          err,
+          [
+            {
+              text: "Cancel",
+              onPress: () => Alert.alert("Cancel Pressed"),
+              style: "cancel",
+            },
+          ],
+          {
+            cancelable: true,
+            onDismiss: () =>
+              Alert.alert(
+                "This alert was dismissed by tapping outside of the alert dialog."
+              ),
+          }
+        );
+       }
+       
+      },
     });
+  
+  const handleEdit = (comment:string, star:number,id:string,_id:string) =>{
+    displayModal(true)
+    setEditData({userComment:comment,
+    userStar:star,
+    workerId:id,
+    review_id:_id})
+
+  }
 
   return (
     <ScrollView>
@@ -151,7 +194,7 @@ const snapPoints = ["50%"]
                 <Button
                   size="sm"
                   width="30%"
-                  onPress={() => displayModal(true)}
+                  onPress={() => handleEdit(review.comment,review.star_review,review.worker_id,review._id)}
                 >
                   Edit
                 </Button>
@@ -178,6 +221,20 @@ const snapPoints = ["50%"]
         }}
       >
         <View style={styles.container}>
+        <View style={styles.imageView}>
+          <Image source={image1} style={styles.pfimage} />
+        </View>
+          <Text
+            style={{
+              fontSize: 28,
+              color: "black",
+              textAlign: "center",
+              paddingBottom: 40,
+              paddingTop:10
+            }}
+          >
+            Kaveesha Karunasena
+          </Text>
           <Rating
             style={{ paddingTop: 30 }}
             type="star" // heart, star, bell, rocket
@@ -189,7 +246,7 @@ const snapPoints = ["50%"]
             // showReadOnlyText={false}
             fractions={1} // 0-20
             jumpValue={0.5}
-            startingValue={5}
+            startingValue={editData.userStar}
             onStartRating={(rating) => console.log(`Inital: ${rating}`)}
             onFinishRating={(rating) => setStar(rating)}
             onSwipeRating={(rating) => console.log(`Swiping: ${rating}`)}
@@ -202,6 +259,7 @@ const snapPoints = ["50%"]
               accessible={false}
             >
               <TextInput
+              
                 placeholder="Enter your Comment"
                 autoCapitalize="none"
                 keyboardAppearance="dark"
@@ -219,11 +277,18 @@ const snapPoints = ["50%"]
         <ButtonWithBackground
           title="Update"
           color="#FFC436"
-          onPress={() => {
-            displayModal(!state.isVisible);
-          }}
+          onPress={ 
+            handleSubmit
+          }
         />
       </View>
+      <ButtonWithBackground
+        title="Cancel"
+        color="red"
+        onPress={ 
+          () => displayModal(!state.isVisible)
+        }
+      />
         </View>
 
        
@@ -244,6 +309,7 @@ paddingTop:50
   button: {
     paddingTop: 40,
     alignItems: "center",
+    paddingBottom:10
   },
   closeButton: {
     display: "flex",
@@ -269,6 +335,20 @@ paddingTop:50
     marginBottom: 10,
     width: "100%",
     height: 350,
+  },
+  pfimage: {
+    width: 150,
+    height: 150,
+    borderRadius: 150 / 2,
+    overflow: "hidden",
+    borderWidth: 3,
+    borderColor: "#3330E4",
+
+  },
+  imageView: {
+    alignitems: "center",
+    paddingTop: 80,
+    marginHorizontal: 110,
   },
   text: {
     fontSize: 24,

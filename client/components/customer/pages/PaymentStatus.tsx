@@ -19,7 +19,7 @@ export default function PaymentStatus() {
         <ButtonWithBackground
           title="Pay"
           color="#FFC436"
-          onPress={() => navigation.navigate("reviewHistory")}
+          onPress={() => navigation.navigate("scanner")}
         />
       </View>
     </View>

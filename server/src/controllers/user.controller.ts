@@ -25,6 +25,8 @@ const getReview = async (req: Request, res: Response) => {
 const updateReview = async (req: Request, res: Response) => {
   try {
     const { review_id, comment, star_review } = req.body;
+
+    console.log(review_id)
     const reviews = await userService.updateReview(
       review_id,
       comment,

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { AccountStatus } from './IAccount';
 
 const Schema = mongoose.Schema;
 
@@ -26,6 +27,10 @@ const AccountSchema = new Schema(
     },
     role: {
       type: String,
+    },
+    status: {
+      type: String,
+      default:AccountStatus.PENDING
     }
   },
   { timestamps: true },
