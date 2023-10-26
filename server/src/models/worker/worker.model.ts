@@ -52,10 +52,7 @@ const WorkerSchema = new Schema(
     },
     accNo: {
       type: String,
-    },
-    jobId: {
-      type: String,
-    },
+    }
   },
   { timestamps: false },
 );
