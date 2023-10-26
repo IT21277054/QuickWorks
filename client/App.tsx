@@ -17,6 +17,8 @@ import AdminAdd from "./components/admin/adminAdd";
 import AllWorkers from "./components/admin/allWorkers";
 
 
+import ReviewHistory from "./components/customer/pages/reviewHistory";
+import { NativeBaseProvider } from "native-base";
 
 export default function App() {
   return (
@@ -45,15 +47,25 @@ export default function App() {
     {/* <CardPayment/> */}
     {/* <CashPayment/> */}
     {/* <UserPayment/> */}
+      {/* <NativeBaseProvider>
+        <View style={styles.status}>
+          <StatusBar />
+        </View>
+        <ReviewHistory />
+      </NativeBaseProvider> */}
+
+      {/* <Navigator/> */}
+      {/* <CardPayment/> */}
+      {/* <CashPayment/> */}
+      {/* <UserPayment/> */}
     </>
-    
-   
+
     // <View >
     //   <StatusBar style="auto" />
     //   <Stepper/>
     // </View>
     // <SafeAreaProvider>
-    //   
+    //
     // <UserPayment/>
     // </SafeAreaProvider>
     // <View>
