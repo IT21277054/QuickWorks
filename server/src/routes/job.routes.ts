@@ -14,7 +14,8 @@ import {
    updateJobByToAccepted,
   updateJobByToOngoing,
   updateJobByToComplete,
-  getJobsforOngoingScreen
+  getJobsforOngoingScreen,
+  updateJobByToApproved
 } from '../controllers/job.controller'
 
 export const jobRouter = express.Router();
@@ -61,6 +62,8 @@ jobRouter.put('/updateToOngoing/:jobId', updateJobByToOngoing);
 
 // Update job to "Complete"
 jobRouter.put('/updateToComplete/:jobId', updateJobByToComplete);
+
+jobRouter.put('/updateToApproved/:jobId', updateJobByToApproved);
 
 // Count jobs by status
 // jobRouter.get('/count/:status', countJobsByStatusController);
