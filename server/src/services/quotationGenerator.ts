@@ -13,8 +13,8 @@ export class QuotationGenerator {
     const transporter = nodemailer.createTransport({
       service: 'Gmail', // e.g., 'Gmail', 'Outlook', etc.
       auth: {
-        user: '_______',
-        pass: '_______',
+        user: 'codextext.dev@gmail.com',
+        pass: 'gwha abji tkmn rjcd',
       },
     });
    console.log(1)
