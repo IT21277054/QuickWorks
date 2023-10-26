@@ -189,4 +189,16 @@ export async function updateJobNegotationFailed(req: Request, res: Response): Pr
     res.status(500).json({ error: 'Update failed' });
   }
 }
- 
+export async function updateJobByToApproved(req: Request, res: Response): Promise<void> {
+  try {
+    const jobId: string = req.params.jobId;
+    
+    const updatedJob = await jobservice.updateJobByToApproved(
+      jobId
+    );
+
+    res.json(updatedJob);
+  } catch (error) {
+    res.status(500).json({ error: 'Update failed' });
+  }
+}

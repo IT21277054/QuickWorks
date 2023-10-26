@@ -236,6 +236,28 @@ async function getJobsByStatusAndIdAndWorkerid(workerId: number, status: string)
       throw err;
     }
   }
+
+  async function updateJobByToApproved(jobId: string): Promise<any> {
+    try {
+      // Get the jobModel by id
+      const jobModel = await getJobById(jobId);
+    
+      if (!jobModel) {
+        throw new Error('Job not found');
+      }
+    
+      // Update the jobStatus field
+      jobModel.jobStatus = Status.APPROVED;
+      
+      // Use the 'await' keyword to ensure the update is complete
+      const updatedJob = await JobModel.findByIdAndUpdate(jobId, jobModel, {
+        new: true,
+      });
+      return updatedJob;
+    } catch (err) {
+      throw err;
+    }
+  }
 export default {
   createJob,
   getJobById,
@@ -254,5 +276,6 @@ export default {
   getJobsforCompletedScreen,
   updateJobNegotation,
   updateJobNegotationFailed,
-  getJobsforOngoingScreen
+  getJobsforOngoingScreen,
+  updateJobByToApproved
 };
