@@ -14,3 +14,4 @@ exports.adminRoute.post('/add', admin_controller_1.default.addWorker);
 exports.adminRoute.put('/update', admin_controller_1.default.updateWorker);
 exports.adminRoute.delete('/delete/:id', admin_controller_1.default.deleteWorker);
 exports.adminRoute.post('/sendpass', admin_controller_1.default.sendPassword);
+exports.adminRoute.get('/allActive', admin_controller_1.default.getAllNonPendingWorkers);

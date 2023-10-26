@@ -4,6 +4,6 @@ exports.WorkerStatus = void 0;
 var WorkerStatus;
 (function (WorkerStatus) {
     WorkerStatus["PENDING"] = "pending";
-    WorkerStatus["ACTIVE"] = "active";
-    WorkerStatus["DEACTIVE"] = "deactive";
+    WorkerStatus["ACTIVE"] = "activate";
+    WorkerStatus["DEACTIVE"] = "deactivate";
 })(WorkerStatus || (exports.WorkerStatus = WorkerStatus = {}));

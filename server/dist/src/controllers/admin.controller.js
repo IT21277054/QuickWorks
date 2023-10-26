@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const worker_model_1 = __importDefault(require("../models/worker/worker.model"));
 const admin_service_1 = __importDefault(require("../services/admin.service"));
+//Get pending workers.
 const getAllWorkers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const workers = yield admin_service_1.default.getPendingWorkers(); // Exclude the 'password' field
@@ -34,6 +35,21 @@ const getAllWorkers = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         else {
             res.status(404).json({ message: 'No budget requests found' });
+        }
+    }
+    catch (err) {
+        res.status(400).json({ err: err.message });
+    }
+});
+//get active and dectivate workers
+const getAllNonPendingWorkers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const nonPendingWorkers = yield admin_service_1.default.getNonPendingWorkers(); // Exclude the 'password' field
+        if (nonPendingWorkers && nonPendingWorkers.length > 0) {
+            res.status(200).json({ workers: nonPendingWorkers });
+        }
+        else {
+            res.status(404).json({ message: 'No workers with active or deactive status found' });
         }
     }
     catch (err) {
@@ -115,5 +131,5 @@ const sendPassword = (req, res) => {
     }
 };
 exports.default = {
-    getAllWorkers, getWorkerById, addWorker, deleteWorker, updateWorker, sendPassword
+    getAllWorkers, getAllNonPendingWorkers, getWorkerById, addWorker, deleteWorker, updateWorker, sendPassword
 };

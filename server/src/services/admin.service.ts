@@ -3,6 +3,8 @@ import { IWorker } from '../models/worker/IWorker';
 import WorkerModel from '../models/worker/worker.model';
 import nodemailer from 'nodemailer';
 
+
+//get pending worker
   async function getPendingWorkers(): Promise<any> {
     try {
       // Use the find method with a filter condition to get workers with status 'pending'
@@ -13,8 +15,23 @@ import nodemailer from 'nodemailer';
       throw error;
     }
   }
+
+  //get activated and deactivated workers
+  async function getNonPendingWorkers(): Promise<any> {
+    try {
+      // Use the find method with a filter condition to get workers with a status other than 'pending'
+      const nonPendingWorkers = await WorkerModel.find({ status: { $ne: 'pending' } }).select('-password');
+      return nonPendingWorkers;
+    } catch (error) {
+      // Handle errors here, e.g., log the error and return a custom error message.
+      throw error;
+    }
+  }
   
   
+  
+  
+  //get  workerby Id
     const getWorkerById = async (id:string) =>{
     try {
       const worker = await WorkerModel.findById(id);
@@ -53,7 +70,7 @@ import nodemailer from 'nodemailer';
     }
   }
   
-
+//change worker status
    const updateWorker=async(id: string, status: IWorker)=>{
     try {
       const worker = await WorkerModel.updateOne(
@@ -67,6 +84,7 @@ import nodemailer from 'nodemailer';
     }
   };
 
+  //delete worker
   async function deleteWorker(id: string): Promise<boolean> {
     try {
       const result = await WorkerModel.findByIdAndDelete(id);
@@ -111,4 +129,4 @@ import nodemailer from 'nodemailer';
     }
   };
 
-export default {getPendingWorkers,getWorkerById,addWorker,deleteWorker,updateWorker,sendWorkerByEmail};
+export default {getPendingWorkers,getNonPendingWorkers,getWorkerById,addWorker,deleteWorker,updateWorker,sendWorkerByEmail};

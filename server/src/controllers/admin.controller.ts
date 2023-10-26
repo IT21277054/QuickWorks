@@ -4,7 +4,7 @@ import { IWorker } from '../models/worker/IWorker';
 import workerModel from "../models/worker/worker.model";
 import WorkerService from '../services/admin.service';
 
-
+//Get pending workers.
 const getAllWorkers = async (req: Request, res: Response) => {
   try {
     const workers = await WorkerService.getPendingWorkers(); // Exclude the 'password' field
@@ -13,6 +13,20 @@ const getAllWorkers = async (req: Request, res: Response) => {
       res.status(200).json({ workers });
     } else {
       res.status(404).json({ message: 'No budget requests found' });
+    }
+  } catch (err: any) {
+    res.status(400).json({ err: err.message });
+  }
+};
+
+//get active and dectivate workers
+const getAllNonPendingWorkers = async (req: Request, res: Response) => {
+  try {
+    const nonPendingWorkers = await WorkerService.getNonPendingWorkers(); // Exclude the 'password' field
+    if (nonPendingWorkers && nonPendingWorkers.length > 0) {
+      res.status(200).json({ workers: nonPendingWorkers });
+    } else {
+      res.status(404).json({ message: 'No workers with active or deactive status found' });
     }
   } catch (err: any) {
     res.status(400).json({ err: err.message });
@@ -106,4 +120,4 @@ const sendPassword = (req: Request, res: Response) => {
 };
 
 export default {
-  getAllWorkers,getWorkerById,addWorker,deleteWorker,updateWorker,sendPassword};
+  getAllWorkers,getAllNonPendingWorkers,getWorkerById,addWorker,deleteWorker,updateWorker,sendPassword};

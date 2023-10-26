@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const worker_model_1 = __importDefault(require("../models/worker/worker.model"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
+//get pending worker
 function getPendingWorkers() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -27,6 +28,21 @@ function getPendingWorkers() {
         }
     });
 }
+//get activated and deactivated workers
+function getNonPendingWorkers() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // Use the find method with a filter condition to get workers with a status other than 'pending'
+            const nonPendingWorkers = yield worker_model_1.default.find({ status: { $ne: 'pending' } }).select('-password');
+            return nonPendingWorkers;
+        }
+        catch (error) {
+            // Handle errors here, e.g., log the error and return a custom error message.
+            throw error;
+        }
+    });
+}
+//get  workerby Id
 const getWorkerById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const worker = yield worker_model_1.default.findById(id);
@@ -62,6 +78,7 @@ function addWorker(worker) {
         }
     });
 }
+//change worker status
 const updateWorker = (id, status) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const worker = yield worker_model_1.default.updateOne({ _id: id }, { status: status });
@@ -71,6 +88,7 @@ const updateWorker = (id, status) => __awaiter(void 0, void 0, void 0, function*
         throw err;
     }
 });
+//delete worker
 function deleteWorker(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -114,4 +132,4 @@ const sendWorkerByEmail = (password, email) => {
         console.log(err);
     }
 };
-exports.default = { getPendingWorkers, getWorkerById, addWorker, deleteWorker, updateWorker, sendWorkerByEmail };
+exports.default = { getPendingWorkers, getNonPendingWorkers, getWorkerById, addWorker, deleteWorker, updateWorker, sendWorkerByEmail };

@@ -5,10 +5,9 @@ const Schema = mongoose.Schema;
 
 const WorkerSchema = new Schema(
   {
-    // worker_id: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   required: true,
-    // },
+    workerId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
     name: {
       type: String,
       required: true,
@@ -48,7 +47,15 @@ const WorkerSchema = new Schema(
       type: String,
       default: WorkerStatus.PENDING,
     },
-
+    bank: {
+      type: String,
+    },
+    accNo: {
+      type: String,
+    },
+    jobId: {
+      type: String,
+    },
   },
   { timestamps: false },
 );
