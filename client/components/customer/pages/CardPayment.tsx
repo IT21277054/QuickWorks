@@ -22,9 +22,9 @@ import { AuthContext } from "../../../auth/AuthContext";
 import jwtDecode from "jwt-decode";
 
 const PaymentSchema = Yup.object().shape({
-  accountName: Yup.string().required("Required"),
-  accountNo: Yup.string().required("Required"),
-  bank: Yup.string().required("Required"),
+  accountName: Yup.string(),
+  accountNo: Yup.number().required("Required"),
+  bank: Yup.string(),
   amount: Yup.number().required("Required"),
 });
 
@@ -53,10 +53,10 @@ export default function CardPayment({route}) {
     useFormik({
       validationSchema: PaymentSchema,
       initialValues: {
-        accountName: '',
-        accountNo:  '',
+        accountName:'',
+        accountNo:0,
         bank:'',
-        amount: 0,
+        amount:0,
       },
       onSubmit: async (values) => {
         try {
@@ -65,9 +65,9 @@ export default function CardPayment({route}) {
             holder_id: "5657585759789",
             user_id: decodedUser.id,
             job_id: "",
-            account_name: values.accountName,
-            account_number: values.accountNo,
-            bankName: values.bank,
+            account_name: myArray[1],
+            account_number: myArray[3],
+            bankName: myArray[2],
             amount: values.amount,
           };
 
@@ -77,14 +77,14 @@ export default function CardPayment({route}) {
               dto
             )
             .then(async (response) => {
-
+              const jobId = '653ab56e20e414cd87e75e22'
               if(response.status == 200){
                 await axios
-                .post(
-                  "https://bw10fhxj-8000.asse.devtunnels.ms/api/job/updateJobStatus",
-                  {statsu:'paid',jobId:''}
+                .put(
+                  `https://bw10fhxj-8000.asse.devtunnels.ms/api/job/updateJobStatus/${jobId}`,
+                  {jobStatus:'Paid'}
                 )
-                // .then(navigation.navigate("stepper"));
+                .then(navigation.navigate("stepper"));
               }
               
             });
@@ -141,11 +141,10 @@ export default function CardPayment({route}) {
               keyboardAppearance="dark"
               returnKeyType="next"
               returnKeyLabel="next"
-              onChangeText={handleChange("accountName")}
               onBlur={handleBlur("accountName")}
               error={errors.accountName}
               touched={touched.accountName}
-              disabled = {true}
+              editable={false}
             />
           </View>
           <View
@@ -159,11 +158,10 @@ export default function CardPayment({route}) {
               keyboardAppearance="dark"
               returnKeyType="next"
               returnKeyLabel="next"
-              onChangeText={handleChange("accountNo")}
               onBlur={handleBlur("accountNo")}
               error={errors.accountNo}
               touched={touched.accountNo}
-              disabled = {true}
+              editable={false}
             />
           </View>
           <View
@@ -177,11 +175,10 @@ export default function CardPayment({route}) {
               keyboardAppearance="dark"
               returnKeyType="next"
               returnKeyLabel="next"
-              onChangeText={handleChange("bank")}
               onBlur={handleBlur("bank")}
               error={errors.bank}
               touched={touched.bank}
-              disabled = {true}
+              editable={false}
             />
           </View>
           <View

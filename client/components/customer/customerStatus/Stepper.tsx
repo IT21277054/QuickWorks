@@ -1,18 +1,29 @@
 import React from "react";
-import { StyleSheet, View, Text, ImageBackground, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  Dimensions,
+} from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { MaterialIcons } from "@expo/vector-icons";
-import Swiper from 'react-native-swiper';
+import Swiper from "react-native-swiper";
 import bdImage from "../../../assets/bg.png";
 import AcceptedStatus from "../pages/AcceptedStatus";
 import OnGoingStatus from "../pages/OngoingStatus";
 import JobDoneStatus from "../pages/JobDoneStatus";
 import PaymentStatus from "../pages/PaymentStatus";
 import CompletedStatus from "../pages/CompletedStatus";
+import { useIsFocused } from "@react-navigation/native";
 
-
-
-const PAGES = [<AcceptedStatus/>, <OnGoingStatus/>, <JobDoneStatus/>, <PaymentStatus/>, <CompletedStatus/>];
+const PAGES = [
+  <AcceptedStatus />,
+  <OnGoingStatus />,
+  <JobDoneStatus />,
+  <PaymentStatus />,
+  <CompletedStatus />,
+];
 const secondIndicatorStyles = {
   stepIndicatorSize: 43,
   currentStepIndicatorSize: 53,
@@ -78,27 +89,52 @@ const getStepIndicatorIconConfig = ({
   return iconConfig;
 };
 
-const screenHeight = Dimensions.get('window').height; 
-const screenWidth = Dimensions.get('window').width; 
+const screenHeight = Dimensions.get("window").height;
+const screenWidth = Dimensions.get("window").width;
 
 export default function Stepper() {
   const [currentPage, setCurrentPage] = React.useState(0);
-  const onStepPress = (position: any) => {
-    console.log(position)
-    setCurrentPage(position);
-  };
+  const [jobStatus, setJobStatus] = React.useState(null);
+  const isFocused = useIsFocused();
+  React.useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const jobId = "653ab56e20e414cd87e75e22";
+        const response = await fetch(
+          `https://bw10fhxj-8000.asse.devtunnels.ms/api/job/${jobId}`
+        );
+        const status = await response.json();
+        console.log(status.jobStatus);
+        if (response.ok) {
+          setJobStatus(status.jobStatus);
+        }
+        if (jobStatus == "Accpeted") {
+          setCurrentPage(0);
+        } else if (jobStatus == "onGoing") {
+          setCurrentPage(1);
+        } else if (jobStatus == "Done") {
+          setCurrentPage(2);
+        } else if (jobStatus == "ReadyToPay") {
+          setCurrentPage(3);
+        } else if (jobStatus == "Paid") {
+          setCurrentPage(4);
+        }
+      } catch (err) {
+        // const error = err.response.data.err;
+        console.log(err);
+      }
+    };
 
-  React.useEffect(()=>{
+    fetchDetails();
+  }, [jobStatus,isFocused]);
 
-  },[])
-
-  const renderViewPagerPage = (data: any) => {
-    return (
-      <View key={data} style={styles.page}>
-        <View>{data}</View>
-      </View>
-    );
-  };
+  // const renderViewPagerPage = (data: any) => {
+  //   return (
+  //     <View key={data} style={styles.page}>
+  //       <View>{data}</View>
+  //     </View>
+  //   );
+  // };
 
   const renderStepIndicator = (params: any) => (
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
@@ -106,21 +142,24 @@ export default function Stepper() {
 
   return (
     <View>
-        <ImageBackground source={bdImage} resizeMode= 'stretch' style={styles.image}>
-      <View style={styles.stepIndicator}>
-        <StepIndicator
-          customStyles={secondIndicatorStyles}
-          currentPosition={currentPage}
-          onPress={onStepPress}
-          renderStepIndicator={renderStepIndicator}
-          labels={["Accepted", "OnGoing", "Done", "Payment", "Completed"]}
-        />
-        <View  style={styles.page}>
-        <View>{PAGES[currentPage]}</View>
-      </View>
-         
-      </View>
-      {/* <Swiper
+      <ImageBackground
+        source={bdImage}
+        resizeMode="stretch"
+        style={styles.image}
+      >
+        <View style={styles.stepIndicator}>
+          <StepIndicator
+            customStyles={secondIndicatorStyles}
+            currentPosition={currentPage}
+            // onPress={onStepPress}
+            renderStepIndicator={renderStepIndicator}
+            labels={["Accepted", "OnGoing", "Done", "Payment", "Completed"]}
+          />
+          <View style={styles.page}>
+            <View>{PAGES[currentPage]}</View>
+          </View>
+        </View>
+        {/* <Swiper
       >
         {PAGES.map((page) => renderViewPagerPage(page))}
       </Swiper> */}
@@ -136,7 +175,7 @@ const styles = StyleSheet.create({
     marginVertical: 45,
   },
   page: {
-    paddingTop:60,
+    paddingTop: 60,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -153,8 +192,7 @@ const styles = StyleSheet.create({
     color: "#4aae4f",
   },
   image: {
-    height: screenHeight, 
-    width: screenWidth, 
- 
+    height: screenHeight,
+    width: screenWidth,
   },
 });

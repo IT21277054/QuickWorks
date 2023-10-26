@@ -13,7 +13,7 @@ exports.sendQuotationController = void 0;
 const quotationGenerator_1 = require("../services/quotationGenerator"); // Import the quotationGenerator and QuotationData
 const sendQuotationController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const quotationData = req.body;
+        const quotationData = req.body.quotationData;
         const recipientEmail = req.body.recipientEmail;
         yield quotationGenerator_1.quotationGenerator.generateAndSendQuotationEmail(quotationData, recipientEmail);
         res.status(200).send('Quotation sent successfully');

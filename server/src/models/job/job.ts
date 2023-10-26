@@ -1,22 +1,24 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+
 interface JobDocument extends Document {
-  customerId: number;
+  customerId: mongoose.Schema.Types.ObjectId;
   location: string;
   jobType: string;
+  JobHeading:string;
   jobDescription: string;
   jobStatus: string;
   dateOfCompletion: Date | null;
   timeOfArrival: string | null;
-  workerId: number | null;
+  workerId: mongoose.Schema.Types.ObjectId | null;
   bringGood: boolean | null;
   paymentAmount: number;
-  items: [] | null;
+  items:[] | null;
 }
 
 const JobSchema = new Schema<JobDocument>(
   {
-    customerId: { type: Number, required: true },
+    customerId: { type: mongoose.Schema.Types.ObjectId, required: true },
     location: { type: String, required: true },
     jobType: { type: String, required: true },
     jobDescription: { type: String, required: true },
@@ -25,7 +27,7 @@ const JobSchema = new Schema<JobDocument>(
     timeOfArrival: { type: String, default: null },
     workerId: { type: Number, default: null },
     bringGood: { type: Boolean, default: null },
-    // Use ItemModel.schema to reference the Item schema
+     // Use ItemModel.schema to reference the Item schema
   },
   { timestamps: true },
 );

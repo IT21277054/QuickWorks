@@ -12,9 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeJobStatus = exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
+exports.updateJobByToApproved = exports.updateJobNegotationFailed = exports.updateJobNegotation = exports.getJobsforCompletedScreen = exports.getJobsforApprovedScreen = exports.getJobsforOngoingScreen = exports.getJobsforAcceptedScreen = exports.getJobsforAvalibleScreen = exports.updateJobByToComplete = exports.updateJobByToOngoing = exports.updateJobByToAccepted = exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
 const job_service_1 = __importDefault(require("../services/job.service"));
-const job_service_2 = __importDefault(require("../services/job.service"));
 function createJobController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -121,18 +120,154 @@ function countJobsByStatusController(req, res) {
     });
 }
 exports.countJobsByStatusController = countJobsByStatusController;
-function changeJobStatus(req, res) {
+// export async function changeJobStatus(req: Request, res: Response) {
+//   try {
+//     const { status, jobId } = req.body;
+//     const jobStatus = await jobService.updateStatus(status, jobId);
+//     if (jobStatus != null) {
+//       res.status(200).json({ res: 'Updated' });
+//     }
+//   } catch (err: any) {
+//     res.status(400).json({ error: err });
+//   }
+// }
+function updateJobByToAccepted(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { status, jobId } = req.body;
-            const jobStatus = yield job_service_2.default.updateStatus(status, jobId);
-            if (jobStatus != null) {
-                res.status(200).json({ res: 'Updated' });
-            }
+            const updatedJob = yield job_service_1.default.updateJobByToAccepted(req.params.jobId, req.params.workerId);
+            res.json(updatedJob);
         }
-        catch (err) {
-            res.status(400).json({ error: err });
+        catch (error) {
+            res.status(500).json({ error: 'Count failed' });
         }
     });
 }
-exports.changeJobStatus = changeJobStatus;
+exports.updateJobByToAccepted = updateJobByToAccepted;
+function updateJobByToOngoing(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const updatedJob = yield job_service_1.default.updateJobByToOngoing(req.params.jobId);
+            res.json(updatedJob);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Count failed' });
+        }
+    });
+}
+exports.updateJobByToOngoing = updateJobByToOngoing;
+function updateJobByToComplete(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const updatedJob = yield job_service_1.default.updateJobByToComplete(req.params.jobId);
+            res.json(updatedJob);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Count failed' });
+        }
+    });
+}
+exports.updateJobByToComplete = updateJobByToComplete;
+function getJobsforAvalibleScreen(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobs = yield job_service_1.default.getJobsforAvalibleScreen(req.params.jobType, req.params.location);
+            res.json(jobs);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+        }
+    });
+}
+exports.getJobsforAvalibleScreen = getJobsforAvalibleScreen;
+function getJobsforAcceptedScreen(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobs = yield job_service_1.default.getJobsforAcceptedScreen(req.params.workerId);
+            res.json(jobs);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+        }
+    });
+}
+exports.getJobsforAcceptedScreen = getJobsforAcceptedScreen;
+function getJobsforOngoingScreen(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobs = yield job_service_1.default.getJobsforOngoingScreen(req.params.workerId);
+            res.json(jobs);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
+        }
+    });
+}
+exports.getJobsforOngoingScreen = getJobsforOngoingScreen;
+function getJobsforApprovedScreen(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobId = req.params.workerId;
+            const jobs = yield job_service_1.default.getJobsforApprovedScreen(req.params.workerId);
+            res.json(jobs);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+        }
+    });
+}
+exports.getJobsforApprovedScreen = getJobsforApprovedScreen;
+function getJobsforCompletedScreen(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobs = yield job_service_1.default.getJobsforCompletedScreen(req.params.workerId);
+            res.json(jobs);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
+        }
+    });
+}
+exports.getJobsforCompletedScreen = getJobsforCompletedScreen;
+function updateJobNegotation(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobId = req.params.jobId;
+            const dateOfCompletion = new Date(req.body.dateOfCompletion); // Assuming it's sent in the request body
+            const timeOfArrival = req.body.timeOfArrival; // Assuming it's sent in the request body
+            const bringGood = req.body.bringGood; // Assuming it's sent in the request body
+            const paymentAmount = parseFloat(req.body.paymentAmount); // Assuming it's sent in the request body as a string
+            const updatedJob = yield job_service_1.default.updateJobNegotation(jobId, dateOfCompletion, timeOfArrival, bringGood, paymentAmount);
+            res.json(updatedJob);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Update failed' });
+        }
+    });
+}
+exports.updateJobNegotation = updateJobNegotation;
+function updateJobNegotationFailed(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobId = req.params.jobId;
+            const updatedJob = yield job_service_1.default.updateJobNegotationFailed(jobId);
+            res.json(updatedJob);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Update failed' });
+        }
+    });
+}
+exports.updateJobNegotationFailed = updateJobNegotationFailed;
+function updateJobByToApproved(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobId = req.params.jobId;
+            const updatedJob = yield job_service_1.default.updateJobByToApproved(jobId);
+            res.json(updatedJob);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Update failed' });
+        }
+    });
+}
+exports.updateJobByToApproved = updateJobByToApproved;
