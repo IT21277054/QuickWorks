@@ -14,6 +14,7 @@ import DeleteWorker from "./components/admin/deleteWorker";
 import FeedbackScreen from "./components/customer/pages/FeedbackScreen";
 import RequestWorker from "./components/admin/requestWorker";
 import AdminAdd from "./components/admin/adminAdd";
+import AllWorkers from "./components/admin/allWorkers";
 
 
 
@@ -23,7 +24,14 @@ export default function App() {
     <View style={styles.status}>
        <StatusBar />
      </View>
-     <RequestWorker />
+     {/* <RequestWorker /> */}
+     <AllWorkers />
+     {/* <DeleteWorker /> */}
+
+
+
+
+
      {/* <AdminAdd /> */}
 
 

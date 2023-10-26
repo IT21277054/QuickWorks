@@ -1,17 +1,18 @@
-//1page
+//2nd page
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 
 interface Iworker {
-  _id:string;
+workerId:string;
 name: string;
 email:string;
+status:string;
    
 }
 
-export default function RequestWorkers() {
+export default function AllWorkers() {
   const [name, setName] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [contactNumber, setContactNumber] = useState('');
@@ -22,38 +23,41 @@ export default function RequestWorkers() {
 
   useEffect(() => {
     // Fetch data from the API
-    fetch('https://ls4445t2-8000.asse.devtunnels.ms/api/admin/all')
+    fetch('https://ls4445t2-8000.asse.devtunnels.ms/api/admin/allActive')
       .then((response) => response.json())
       .then((data) => setWorkerData(data.workers))
       .catch((error) => console.error('Error fetching data:', error));
       console.log(workerData);
-  }, []);
+  }, []); 
 
-  return (
+    return (
     <View style={styles.imageContainer}>
       <Image
         source={require('../../assets/bg.png')}
         style={styles.image}
       />
-      <Text style={styles.headingText}>WORKER{'\n'}REQUESTS</Text>
+      <Text style={styles.headingText}>ALL{'\n'}WORKERS</Text>
 
       <View style={styles.profContainer}>
         <Image
           source={require('../../assets/acceptedImage.png')}
-          style={styles.profile}/>
+          style={styles.profile}
+        />
+
+
           <View style={styles.rectangle}>
-            <View style = {styles.rec}>
           <ScrollView contentContainerStyle={styles.container}>
 
             {workerData.map((worker:Iworker) =>
-            <View style={styles.list} key = {worker._id}>
+            <View style={styles.list} key = {worker.workerId}>
               <Text style={styles.text}>{worker.name}</Text>
               <Text style={styles.TitleText}>{worker.email}</Text>
+              <Text style={styles.TitleText}>{worker.status}</Text>
 
-              <TouchableOpacity style={styles.delButton}  
-              // onPress={() => navigation.navigate("delete")} 
-              >
-              <Text style={styles.buttonText}>Send mail</Text>
+
+              <TouchableOpacity style={styles.allWorkers}  
+              onPress={() => navigation.navigate("deleteWorker", {workerId : workerId})}>
+                <Text style={styles.buttonText}>View</Text>
               </TouchableOpacity>
 
               <View style={styles.rectangle24}></View>
@@ -61,11 +65,6 @@ export default function RequestWorkers() {
             )}
             </ScrollView>
             </View>
-            <TouchableOpacity style={styles.viewButton}  
-              onPress={() => navigation.navigate("allWorkers")}>
-                <Text style={styles.buttonText}>View Workers</Text>
-              </TouchableOpacity>
-          </View>
       </View>
     </View>
   );
@@ -82,11 +81,6 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: -20,
     marginBottom:50,
-  },
-  rec:{
-    marginTop: 15,
-    marginBottom: 74,
-
   },
   list: {
     padding: 20,
@@ -138,12 +132,12 @@ marginBottom: 55,
     fontWeight: '400',
     fontSize: 20,
     lineHeight: 31,
-    left: 25,
-    top: 58,
+    left: 6,
+    top: 40,
     textAlign: 'left',
     color: '#FFFFFF',
   },
-  delButton: {
+  allWorkers: {
     position: 'absolute',
     width: 120,
     height: 40,

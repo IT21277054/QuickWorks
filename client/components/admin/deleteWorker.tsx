@@ -1,10 +1,11 @@
+   //3rd page
    import React, { useEffect, useState } from 'react';
     import { View, Text, TextInput, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
     import { Button as PaperButton,IconButton  } from 'react-native-paper';
     import axios from 'axios'; // Install axios using "npm install axios" or "yarn add axios"
 
-    interface WorkerRequest {
-      id:string;
+    interface Iworker {
+      workerId:string;
       name: string;
       jobTitle: string;
       contactNumber: number;
@@ -15,7 +16,7 @@
     
 
 
-    export default function App() {
+    export default function deleteWorker() {
       const [name, setName] = useState('');
       const [jobTitle, setJobTitle] = useState('');
       const [contactNumber, setContactNumber] = useState('');
@@ -23,53 +24,51 @@
       const [email, setEmail] = useState('');
       const [status,setStatus]=useState('');
 
+      const [workerData, setWorkerData] = useState([]);
+
+      useEffect(() => {
+        // Fetch data from the API for a specific worker
+        fetch(`https://ls4445t2-8000.asse.devtunnels.ms/api/admin/worker/${workerId}`)
+          .then((response) =>  response.json())
+          .then((data) => setWorkerData(data))
+          .catch((error) => console.error('Error fetching data:', error));
+          console.log(workerData);
+
+      }, []);
       
-      const { workerId } = route.params;
-  const [workerData, setWorkerData] = useState(null);
-
-  useEffect(() => {
-    // Fetch worker data by ID when the component mounts
-    axios.get(`https://ls4445t2-8000.asse.devtunnels.ms/api/admin/worker/${id}`)
-      .then(response => {
-        setWorkerData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching worker data:', error);
-      });
-  }, [workerId]);
-
 
     
-      const handleSubmit = () => {
-        // Handle the form submission here
-  
-      };
-
-      const handleReject = (request: WorkerRequest) => {
-        // Make an API request to update the status to "Rejected"
-        fetch(`https://ls4445t2-8000.asse.devtunnels.ms/api/admin/delete/${request._id}`, {
-          method: 'DELETE', // Use the appropriate HTTP method (e.g., POST)
-          headers: {
-            'Content-Type': 'application/json',
-            // Add any necessary headers, such as authentication headers
-          },
-          body: JSON.stringify({ requestId: request._id}),
+      const handleUpdate = (request: Iworker) => {
+          fetch(`http://localhost:8000/api/admin/update/${request.workerId}`, {
         })
           .then((response) => {
-            if (response.ok) {
-              console.log('delete');
-            } else {
-              return response.text().then((errorMessage) => {
-                enqueueSnackbar(errorMessage, { variant: 'error' });
-              });
+            if (response.status === 204) {
+              console.log('Worker updated successfully');
+              // You can perform any further actions after successful update here.
+            } else if (!response.ok) {
+              console.error(`Failed to update worker. Status: ${response.status}`);
             }
           })
-          .catch((error) => {
-            console.error(error);
-            enqueueSnackbar(error.message, { variant: 'error' });
-          });
+          .catch((error) => console.error('Error updating worker:', error));
       };
-    
+      
+
+      const handleReject = (request: Iworker) => {
+        
+          // Send a DELETE request to the API to delete the worker
+          fetch(`https://ls4445t2-8000.asse.devtunnels.ms/api/admin/delete/${request.workerId}`, {
+            method: 'DELETE',
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              console.log('Worker deleted successfully');
+              // You can perform any further actions after successful deletion here.
+            })
+            .catch((error) => console.error('Error deleting worker:', error));
+        };
+        
 
 
       return (
@@ -88,37 +87,41 @@
           
           <View style={styles.rectangle}>
 
+          {workerData.map((worker:Iworker) =>
+          
+          <View key = {worker.workerId}>
 
+      <Text style={styles.text }>{worker.name}</Text><View style={styles.Title}>
+              <Text style={styles.TitleText}>Job Title</Text>
+              <Text style={styles.bodyText}>{worker.jobTitle}</Text>
+              <Text>{'\n'}</Text>
 
-      <Text style={styles.text}>Name</Text>
-    
-    <View style={styles.Title}>
-        <Text style = {styles.TitleText}>Job Title</Text>
-        <Text style = {styles.bodyText}>Job Title</Text>
+              <Text style={styles.TitleText}>Contact Number</Text>
+              <Text style={styles.bodyText}>{worker.contactNumber}</Text>
+              <Text>{'\n'}</Text>
+
+              <Text style={styles.TitleText}>Location</Text>
+              <Text style={styles.bodyText}>{worker.location}</Text>
+              <Text>{'\n'}</Text>
+
+              <Text style={styles.TitleText}>Email</Text>
+              <Text style={styles.bodyText}>{worker.email}</Text>
+              <Text>{'\n'}</Text>
+
+              <Text style={styles.TitleText}>Status</Text>
+              <Text style={styles.bodyText}>{worker.status}</Text>
+
+            </View>
+            </View>
+                )}
+
     <Text>{'\n'}</Text>
 
-      <Text style = {styles.TitleText}>Contact Number</Text>
-            <Text style = {styles.bodyText}>Job Title</Text>
-    <Text>{'\n'}</Text>
-    
-      <Text style = {styles.TitleText}>Location</Text>
-            <Text style = {styles.bodyText}>Job Title</Text>
-      <Text>{'\n'}</Text>
-
-      <Text style = {styles.TitleText}>Email</Text>
-            <Text style = {styles.bodyText}>Job Title</Text>
-        <Text>{'\n'}</Text>
-
-      <Text style = {styles.TitleText}>Status</Text>
-            <Text style = {styles.bodyText}>Job Title</Text>
-
-    </View>
-    <Text>{'\n'}</Text>
-    <TouchableOpacity style={styles.delButton} onPress={() => handleReject(request)}>
+    <TouchableOpacity style={styles.delButton} onPress={() => {handleReject}}>
             <Text style={styles.buttonText}>Delete</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.chButton}>
+          <TouchableOpacity style={styles.chButton} onPress={() => {handleReject}}>
             <Text style={styles.buttonText}>Change Status</Text>
           </TouchableOpacity>
 
