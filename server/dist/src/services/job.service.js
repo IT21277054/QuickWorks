@@ -92,6 +92,17 @@ function getJobsByStatusAndIdAndWorkerid(workerId, status) {
         }
     });
 }
+function getJobsByStatus(status) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('lol', status);
+        try {
+            return yield job_1.JobModel.find({ jobStatus: status });
+        }
+        catch (err) {
+            throw err;
+        }
+    });
+}
 function countJobsByStatus(status) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -110,5 +121,6 @@ exports.default = {
     updateJob,
     deleteJob,
     countJobsByStatus,
-    getJobsByStatusAndIdAndWorkerid
+    getJobsByStatusAndIdAndWorkerid,
+    getJobsByStatus,
 };

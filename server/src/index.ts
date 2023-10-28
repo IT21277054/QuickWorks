@@ -6,9 +6,13 @@ import logger from '../log/logger';
 import { accountRoute } from './routes/account.route';
 import { paymentRoute } from './routes/payment.route';
 import { userRoute } from './routes/user.route';
-import {jobRouter } from './routes/job.routes';
+import { jobRouter } from './routes/job.routes';
 import { sendQuotationController } from './controllers/send.Quatation.controller';
+import { userModel } from './models/user/user.model';
 require('dotenv').config();
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 const app: Express = express();
 const port = process.env.PORT;
@@ -20,11 +24,14 @@ app.use(
     extended: true,
   }),
 );
+app.use(passport.initialize());
+const jwt = require('jsonwebtoken');
 
 app.use('/api/account', accountRoute);
 app.use('/api/payment', paymentRoute);
 app.use('/api/user', userRoute);
-app.use('/api/job',jobRouter);
+app.use('/api/job', jobRouter);
+
 app.post('/send-quotation', sendQuotationController);
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   logger.info('MongoDB connected');

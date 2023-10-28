@@ -14,37 +14,14 @@ import FeedbackScreen from "./components/customer/pages/FeedbackScreen";
 import ReviewHistory from "./components/customer/pages/reviewHistory";
 import { NativeBaseProvider } from "native-base";
 import HomePage from "./components/customer/pages/homePage";
+import CustomerStack from "./routes/scanner.route";
+import React from "react";
 
 export default function App() {
   return (
-    <>
-      <NativeBaseProvider>
-        <View style={styles.status}>
-          <StatusBar />
-        </View>
-        <HomePage />
-      </NativeBaseProvider>
-
-      {/* <Navigator/> */}
-      {/* <CardPayment/> */}
-      {/* <CashPayment/> */}
-      {/* <UserPayment/> */}
-    </>
-
-    // <View >
-    //   <StatusBar style="auto" />
-    //   <Stepper/>
-    // </View>
-    // <SafeAreaProvider>
-    //
-    // <UserPayment/>
-    // </SafeAreaProvider>
-    // <View>
-    // <View style={styles.status}>
-    //   <StatusBar />
-    //    </View>
-    // <QrScanner/>
-    // </View>
+    <NativeBaseProvider>
+      <CustomerStack />
+    </NativeBaseProvider>
   );
 }
 

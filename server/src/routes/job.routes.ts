@@ -1,16 +1,16 @@
 import express from 'express';
 import {
-   getJobByIdController,
-   createJobController,
-   getJobsByStatusAndIdController,
-   getJobsByWorkerIdController,
-   updateJobController,
-   getJobsByStatusAndWorkerIdController,
-   countJobsByStatusController
-} from '../controllers/job.controller'
+  getJobByIdController,
+  createJobController,
+  getJobsByStatusAndIdController,
+  getJobsByWorkerIdController,
+  updateJobController,
+  getJobsByStatusAndWorkerIdController,
+  countJobsByStatusController,
+  getJobsByStatus,
+} from '../controllers/job.controller';
 
 export const jobRouter = express.Router();
-
 
 // Create a new job
 jobRouter.post('/create', createJobController);
@@ -25,10 +25,15 @@ jobRouter.get('/:workerId/:status', getJobsByStatusAndIdController);
 jobRouter.put('/:jobId', updateJobController);
 
 // Get jobs by status and worker ID
-jobRouter.get('/workers/:workerId/:status', getJobsByStatusAndWorkerIdController);
+jobRouter.get(
+  '/workers/:workerId/:status',
+  getJobsByStatusAndWorkerIdController,
+);
+
+// Get jobs by status
+jobRouter.get('/status', getJobsByStatus);
 
 // Count jobs by status
 // jobRouter.get('/count/:status', countJobsByStatusController);
-
 
 export default jobRouter;

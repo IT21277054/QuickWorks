@@ -17,7 +17,10 @@ async function getJobById(jobId: string): Promise<any> {
   }
 }
 
-async function getJobsByStatusAndId(workerId: string, status: string): Promise<any[]> {
+async function getJobsByStatusAndId(
+  workerId: string,
+  status: string,
+): Promise<any[]> {
   try {
     return await JobModel.find({ workerId: workerId, jobStatus: status });
   } catch (err) {
@@ -27,7 +30,6 @@ async function getJobsByStatusAndId(workerId: string, status: string): Promise<a
 
 async function getJobsByWorkerId(workerId: number): Promise<any[]> {
   try {
-   
     return await JobModel.find({ workerId: workerId });
   } catch (err) {
     throw err;
@@ -37,7 +39,7 @@ async function getJobsByWorkerId(workerId: number): Promise<any[]> {
 async function updateJob(jobId: string, updatedData: any): Promise<any> {
   try {
     //getByid(updata by id)
-    
+
     const updatedJob = await JobModel.findByIdAndUpdate(jobId, updatedData, {
       new: true,
     });
@@ -64,21 +66,33 @@ async function deleteJob(jobId: string): Promise<boolean> {
     throw err;
   }
 }
-async function getJobsByStatusAndIdAndWorkerid(workerId: number, status: string): Promise<any[]> {
-    try {
-      return await JobModel.find({ workerId: workerId, jobStatus: status });
-    } catch (err) {
-      throw err;
-    }
+async function getJobsByStatusAndIdAndWorkerid(
+  workerId: number,
+  status: string,
+): Promise<any[]> {
+  try {
+    return await JobModel.find({ workerId: workerId, jobStatus: status });
+  } catch (err) {
+    throw err;
   }
-  
-  async function countJobsByStatus(status: string): Promise<number> {
-    try {
-      return await JobModel.countDocuments({ jobStatus: status });
-    } catch (err) {
-      throw err;
-    }
+}
+
+async function getJobsByStatus(status: string): Promise<any[]> {
+  console.log('lol', status);
+  try {
+    return await JobModel.find({ jobStatus: status });
+  } catch (err) {
+    throw err;
   }
+}
+
+async function countJobsByStatus(status: string): Promise<number> {
+  try {
+    return await JobModel.countDocuments({ jobStatus: status });
+  } catch (err) {
+    throw err;
+  }
+}
 export default {
   createJob,
   getJobById,
@@ -87,5 +101,6 @@ export default {
   updateJob,
   deleteJob,
   countJobsByStatus,
-  getJobsByStatusAndIdAndWorkerid
+  getJobsByStatusAndIdAndWorkerid,
+  getJobsByStatus,
 };
