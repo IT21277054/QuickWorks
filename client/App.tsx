@@ -28,10 +28,6 @@ export default function App() {
     <>
     <AuthProvider>
       <NativeBaseProvider>
-        {/* <View style={styles.status}>
-          <StatusBar />
-          <AppNav/>
-        </View> */}
         <AppNav/>
       </NativeBaseProvider>
  </AuthProvider>
