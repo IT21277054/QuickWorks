@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { AccountStatus } from './IAccount';
+import { AccountStatus, AuthRole } from './IAccount';
 
 const Schema = mongoose.Schema;
 
@@ -27,6 +27,7 @@ const AccountSchema = new Schema(
     },
     role: {
       type: String,
+      default:AuthRole.USER
     },
     status: {
       type: String,

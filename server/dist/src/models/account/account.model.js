@@ -29,6 +29,7 @@ const AccountSchema = new Schema({
     },
     role: {
         type: String,
+        default: IAccount_1.AuthRole.USER
     },
     status: {
         type: String,
