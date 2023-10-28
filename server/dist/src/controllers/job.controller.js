@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateJobNegotationFailed = exports.updateJobNegotation = exports.getJobsforCompletedScreen = exports.getJobsforApprovedScreen = exports.getJobsforOngoingScreen = exports.getJobsforAcceptedScreen = exports.getJobsforAvalibleScreen = exports.updateJobByToComplete = exports.updateJobByToOngoing = exports.updateJobByToAccepted = exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
+exports.updateJobByToApproved = exports.updateJobNegotationFailed = exports.updateJobNegotation = exports.getJobsforCompletedScreen = exports.getJobsforApprovedScreen = exports.getJobsforOngoingScreen = exports.getJobsforAcceptedScreen = exports.getJobsforAvalibleScreen = exports.updateJobByToComplete = exports.updateJobByToOngoing = exports.updateJobByToAccepted = exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
 const job_service_1 = __importDefault(require("../services/job.service"));
 function createJobController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -243,3 +243,16 @@ function updateJobNegotationFailed(req, res) {
     });
 }
 exports.updateJobNegotationFailed = updateJobNegotationFailed;
+function updateJobByToApproved(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const jobId = req.params.jobId;
+            const updatedJob = yield job_service_1.default.updateJobByToApproved(jobId);
+            res.json(updatedJob);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Update failed' });
+        }
+    });
+}
+exports.updateJobByToApproved = updateJobByToApproved;

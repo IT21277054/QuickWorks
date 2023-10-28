@@ -44,14 +44,14 @@ class QuotationGenerator {
             const transporter = nodemailer.createTransport({
                 service: 'Gmail',
                 auth: {
-                    user: 'kinghercules28@gmail.com',
-                    pass: 'reyxejrgyrpqjind',
+                    user: 'codextext.dev@gmail.com',
+                    pass: 'gwha abji tkmn rjcd',
                 },
             });
             console.log(1);
             const mailOptions = {
                 from: 'cgpt2532@gmail.com',
-                to: recipientEmail,
+                to: 'shamryshiraz@gmail.com',
                 subject: 'Your Quotation',
                 text: 'Please find your quotation attached.',
                 attachments: [{ filename: 'quotation.pdf', content: pdfBuffer }],

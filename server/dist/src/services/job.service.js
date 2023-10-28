@@ -176,6 +176,27 @@ function updateJobByToComplete(jobId) {
         }
     });
 }
+function updateJobByToApproved(jobId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // Get the jobModel by id
+            const jobModel = yield getJobById(jobId);
+            if (!jobModel) {
+                throw new Error('Job not found');
+            }
+            // Update the jobStatus field
+            jobModel.jobStatus = IPayload_1.Status.APPROVED;
+            // Use the 'await' keyword to ensure the update is complete
+            const updatedJob = yield job_1.JobModel.findByIdAndUpdate(jobId, jobModel, {
+                new: true,
+            });
+            return updatedJob;
+        }
+        catch (err) {
+            throw err;
+        }
+    });
+}
 function getJobsforApprovedScreen(workerId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -284,5 +305,6 @@ exports.default = {
     getJobsforCompletedScreen,
     updateJobNegotation,
     updateJobNegotationFailed,
-    getJobsforOngoingScreen
+    getJobsforOngoingScreen,
+    updateJobByToApproved
 };

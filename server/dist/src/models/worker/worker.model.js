@@ -54,10 +54,7 @@ const WorkerSchema = new Schema({
     },
     accNo: {
         type: String,
-    },
-    jobId: {
-        type: String,
-    },
+    }
 }, { timestamps: false });
 const Worker = mongoose_1.default.model('Worker', WorkerSchema);
 exports.default = Worker;

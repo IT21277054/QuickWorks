@@ -3,6 +3,8 @@ import * as nodemailer from 'nodemailer';
 import { Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 
+
+import updateJobNegotation from './job.service';
 export class QuotationGenerator {
   async generateAndSendQuotationEmail(quotationData: QuotationData, recipientEmail: string): Promise<void> { 
     
@@ -20,7 +22,7 @@ export class QuotationGenerator {
    console.log(1)
     const mailOptions = {
       from: 'cgpt2532@gmail.com',
-      to:  recipientEmail,
+      to:  'shamryshiraz@gmail.com',
       subject: 'Your Quotation',
       text: 'Please find your quotation attached.',
       attachments: [{ filename: 'quotation.pdf', content: pdfBuffer }],
