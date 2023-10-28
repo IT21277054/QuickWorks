@@ -1,12 +1,12 @@
 import React from "react";
 import { Center, Image, Box, Text, Button, HStack } from "native-base";
 
-function HomePage() {
+function MyJobs() {
   return (
     <Box flex={1} position="relative">
       <Center>
         <Image
-          source={require("../../../assets/page_header_1.png")}
+          source={require("../../../assets/header_image_4.png")}
           size="97%"
           resizeMode="contain"
           top="-27%"
@@ -40,4 +40,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default MyJobs;

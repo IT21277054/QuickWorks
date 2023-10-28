@@ -92,10 +92,25 @@ function getJobsByStatusAndIdAndWorkerid(workerId, status) {
         }
     });
 }
+function getJobsByStatus(status) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('lol', status);
+        try {
+            return yield job_1.JobModel.find({ jobStatus: status });
+        }
+        catch (err) {
+            throw err;
+        }
+    });
+}
 function getJobsforAvalibleScreen(jobType, location) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return yield job_1.JobModel.find({ jobType: jobType, jobStatus: "Available", location: location });
+            return yield job_1.JobModel.find({
+                jobType: jobType,
+                jobStatus: 'Available',
+                location: location,
+            });
         }
         catch (err) {
             throw err;
@@ -176,31 +191,31 @@ function updateJobByToComplete(jobId) {
         }
     });
 }
-function updateJobByToApproved(jobId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            // Get the jobModel by id
-            const jobModel = yield getJobById(jobId);
-            if (!jobModel) {
-                throw new Error('Job not found');
-            }
-            // Update the jobStatus field
-            jobModel.jobStatus = IPayload_1.Status.APPROVED;
-            // Use the 'await' keyword to ensure the update is complete
-            const updatedJob = yield job_1.JobModel.findByIdAndUpdate(jobId, jobModel, {
-                new: true,
-            });
-            return updatedJob;
-        }
-        catch (err) {
-            throw err;
-        }
-    });
-}
+// async function updateJobByToApproved(jobId: string): Promise<any> {
+//   try {
+//     // Get the jobModel by id
+//     const jobModel = await getJobById(jobId);
+//     if (!jobModel) {
+//       throw new Error('Job not found');
+//     }
+//     // Update the jobStatus field
+//     jobModel.jobStatus = Status.APPROVED;
+//     // Use the 'await' keyword to ensure the update is complete
+//     const updatedJob = await JobModel.findByIdAndUpdate(jobId, jobModel, {
+//       new: true,
+//     });
+//     return updatedJob;
+//   } catch (err) {
+//     throw err;
+//   }
+// }
 function getJobsforApprovedScreen(workerId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return yield job_1.JobModel.find({ workerId: workerId, jobStatus: IPayload_1.Status.APPROVED });
+            return yield job_1.JobModel.find({
+                workerId: workerId,
+                jobStatus: IPayload_1.Status.APPROVED,
+            });
         }
         catch (err) {
             throw err;
@@ -210,7 +225,10 @@ function getJobsforApprovedScreen(workerId) {
 function getJobsforAcceptedScreen(workerId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return yield job_1.JobModel.find({ workerId: workerId, jobStatus: IPayload_1.Status.ACCEPTED });
+            return yield job_1.JobModel.find({
+                workerId: workerId,
+                jobStatus: IPayload_1.Status.ACCEPTED,
+            });
         }
         catch (err) {
             throw err;
@@ -220,7 +238,10 @@ function getJobsforAcceptedScreen(workerId) {
 function getJobsforOngoingScreen(workerId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return yield job_1.JobModel.find({ workerId: workerId, jobStatus: IPayload_1.Status.ONGOING });
+            return yield job_1.JobModel.find({
+                workerId: workerId,
+                jobStatus: IPayload_1.Status.ONGOING,
+            });
         }
         catch (err) {
             throw err;
@@ -230,7 +251,7 @@ function getJobsforOngoingScreen(workerId) {
 function getJobsforCompletedScreen(workerId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return yield job_1.JobModel.find({ workerId: workerId, jobStatus: "COMPLETED" });
+            return yield job_1.JobModel.find({ workerId: workerId, jobStatus: 'COMPLETED' });
         }
         catch (err) {
             throw err;
@@ -274,7 +295,7 @@ function updateJobNegotationFailed(jobId) {
             jobModel.dateOfCompletion = null;
             jobModel.timeOfArrival = null;
             jobModel.bringGood = null;
-            jobModel.paymentAmount = 0.00;
+            jobModel.paymentAmount = 0.0;
             jobModel.jobStatus = IPayload_1.Status.AVAILABLE;
             // Use the 'await' keyword to ensure the update is complete
             const updatedJob = yield job_1.JobModel.findByIdAndUpdate(jobId, jobModel, {
@@ -317,6 +338,7 @@ exports.default = {
     deleteJob,
     countJobsByStatus,
     getJobsByStatusAndIdAndWorkerid,
+    getJobsByStatus,
     updateJobByToAccepted,
     getJobsforAvalibleScreen,
     updateJobByToOngoing,
@@ -327,5 +349,5 @@ exports.default = {
     updateJobNegotation,
     updateJobNegotationFailed,
     getJobsforOngoingScreen,
-    updateJobByToApproved
+    updateJobByToApproved,
 };

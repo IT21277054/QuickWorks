@@ -4,7 +4,7 @@ interface JobDocument extends Document {
   customerId: mongoose.Schema.Types.ObjectId;
   location: string;
   jobType: string;
-  JobHeading:string;
+  JobHeading: string;
   jobDescription: string;
   jobStatus: string;
   dateOfCompletion: Date | null;
@@ -28,7 +28,7 @@ const JobSchema = new Schema<JobDocument>(
     bringGood: { type: Boolean, default: null }, // Default to null
     paymentAmount: { type: Number, default: 0.0 }, // Default to 0.0
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const JobModel = mongoose.model<JobDocument>('Job', JobSchema);

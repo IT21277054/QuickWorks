@@ -17,6 +17,8 @@ exports.jobRouter.get('/:workerId/:status', job_controller_1.getJobsByStatusAndI
 exports.jobRouter.put('/:jobId', job_controller_1.updateJobController);
 // Get jobs by status and worker ID
 exports.jobRouter.get('/workers/:workerId/:status', job_controller_1.getJobsByStatusAndWorkerIdController);
+// Get jobs by status
+exports.jobRouter.get('/status', job_controller_1.getJobsByStatus);
 exports.jobRouter.get('/getJobsAvaliable/:jobType/:location', job_controller_1.getJobsforAvalibleScreen);
 exports.jobRouter.get('/screen/accepted/:workerId', job_controller_1.getJobsforAcceptedScreen);
 // Get jobs for approved screen
