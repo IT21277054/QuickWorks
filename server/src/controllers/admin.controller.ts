@@ -5,19 +5,19 @@ import workerModel from "../models/worker/worker.model";
 import WorkerService from '../services/admin.service';
 
 //Get pending workers.
-const getAllWorkers = async (req: Request, res: Response) => {
-  try {
-    const workers = await WorkerService.getPendingWorkers(); // Exclude the 'password' field
-    if (workers && workers.length > 0) {
+// const getAllWorkers = async (req: Request, res: Response) => {
+//   try {
+//     const workers = await WorkerService.getPendingWorkers(); // Exclude the 'password' field
+//     if (workers && workers.length > 0) {
 
-      res.status(200).json({ workers });
-    } else {
-      res.status(404).json({ message: 'No budget requests found' });
-    }
-  } catch (err: any) {
-    res.status(400).json({ err: err.message });
-  }
-};
+//       res.status(200).json({ workers });
+//     } else {
+//       res.status(404).json({ message: 'No budget requests found' });
+//     }
+//   } catch (err: any) {
+//     res.status(400).json({ err: err.message });
+//   }
+// };
 
 //get active and dectivate workers
 const getAllNonPendingWorkers = async (req: Request, res: Response) => {
@@ -37,6 +37,7 @@ const getAllNonPendingWorkers = async (req: Request, res: Response) => {
 const getWorkerById = async (req: Request, res: Response) => {
   try {
     const { workerId } = req.params;
+    console.log(workerId)
 
     const user = await WorkerService.getWorkerById(workerId);
 
@@ -48,17 +49,18 @@ const getWorkerById = async (req: Request, res: Response) => {
   
  
 
-// const addWorker = async (req: Request, res: Response) => {
-//   try {
-//     const workerData = req.body;
-//     const newWorker = await workerModel.create(workerData);
-//     res.status(201).json(newWorker);
-//   } catch (err: any) {
-//     res.status(400).json({ error: err.message });
-//   }
-// };
-
 const addWorker = async (req: Request, res: Response) => {
+  try {
+    const workerData = req.body;
+    console.log(workerData)
+    const newWorker = await workerModel.create(workerData);
+    res.status(200).json(newWorker);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+const add = async (req: Request, res: Response) => {
   try {
     const { education, experience, recommendation, ...restOfData } = req.body;
     const workerData = {
@@ -80,8 +82,8 @@ const addWorker = async (req: Request, res: Response) => {
 
 const updateWorker = async (req: Request, res: Response) => {
   try {
-    const {id, status} = req.body;
-    const updatedWorker = await WorkerService.updateWorker(id, status);
+    const {workerId} = req.params;
+    const updatedWorker = await WorkerService.updateWorker(workerId);
     res.status(200).json(updatedWorker);
   } catch (err: any) {
     res.status(401).send({ err: err });
@@ -106,18 +108,18 @@ const deleteWorker = async (req: Request, res: Response) => {
   }
 };
 
-const sendPassword = (req: Request, res: Response) => {
-  try {
-    const { password, email } = req.body;
+// const sendPassword = (req: Request, res: Response) => {
+//   try {
+//     const { password, email } = req.body;
 
-    console.log(password, email);
-    WorkerService.sendWorkerByEmail(password, email);
+//     console.log(password, email);
+//     WorkerService.sendWorkerByEmail(password, email);
 
-    res.status(401).send('Password Send via Email');
-  } catch (err: any) {
-    res.status(401).send({ err: err });
-  }
-};
+//     res.status(401).send('Password Send via Email');
+//   } catch (err: any) {
+//     res.status(401).send({ err: err });
+//   }
+// };
 
 export default {
-  getAllWorkers,getAllNonPendingWorkers,getWorkerById,addWorker,deleteWorker,updateWorker,sendPassword};
+  getAllNonPendingWorkers,getWorkerById,addWorker,deleteWorker,updateWorker};

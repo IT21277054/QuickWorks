@@ -15,13 +15,13 @@ import FeedbackScreen from "./components/customer/pages/FeedbackScreen";
 import RequestWorker from "./components/admin/requestWorker";
 import AdminAdd from "./components/admin/adminAdd";
 import AllWorkers from "./components/admin/allWorkers";
-
-
 import ReviewHistory from "./components/customer/pages/reviewHistory";
 import { NativeBaseProvider } from "native-base";
 import ThankYou from "./components/customer/pages/ThankYou";
 import AppNav from "./routes/AppNav";
 import { AuthProvider } from "./auth/AuthContext";
+import AdminStack from "./routes/admin.route";
+// import { NativeBaseProvider } from "native-base";
 
 export default function App() {
   return (
@@ -34,42 +34,7 @@ export default function App() {
         </View> */}
         <AppNav/>
       </NativeBaseProvider>
-      </AuthProvider>
-    {/* <View style={styles.status}>
-       <StatusBar />
-     </View> */}
-     {/* <RequestWorker /> */}
-     {/* <AllWorkers /> */}
-     {/* <DeleteWorker /> */}
-
-
-
-
-
-     {/* <AdminAdd /> */}
-
-
-     {/* <DeleteWorker/> */}
-
-
-     {/* <FeedbackScreen/> */}
-     
-     
-    {/* <Navigator/> */}
-    {/* <CardPayment/> */}
-    {/* <CashPayment/> */}
-    {/* <UserPayment/> */}
-      {/* <NativeBaseProvider>
-        <View style={styles.status}>
-          <StatusBar />
-        </View>
-        <ReviewHistory />
-      </NativeBaseProvider> */}
-
-      {/* <Navigator/> */}
-      {/* <CardPayment/> */}
-      {/* <CashPayment/> */}
-      {/* <UserPayment/> */}
+ </AuthProvider>
     </>
   );
 }

@@ -5,21 +5,22 @@ import { useNavigation } from '@react-navigation/native';
 
 
 interface Iworker {
-workerId:string;
+_id:string;
 name: string;
 email:string;
 status:string;
    
 }
 
-export default function AllWorkers() {
+export default function AllWorkers({route}) {
+
   const [name, setName] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [contactNumber, setContactNumber] = useState('');
 
   const [workerData, setWorkerData] = useState([]);
   const navigation = useNavigation();
-
+// const{workerId}=route.params;
 
   useEffect(() => {
     // Fetch data from the API
@@ -27,8 +28,13 @@ export default function AllWorkers() {
       .then((response) => response.json())
       .then((data) => setWorkerData(data.workers))
       .catch((error) => console.error('Error fetching data:', error));
+      // const workerCopy = [...workerData];
+      // const filteredworker = workerCopy.filter(
+      //   (item: any) => item._id !== workerId,
+      // );
+      // setWorkerData(filteredworker);
       console.log(workerData);
-  }, []); 
+  }, [workerData]); 
 
     return (
     <View style={styles.imageContainer}>
@@ -46,17 +52,18 @@ export default function AllWorkers() {
 
 
           <View style={styles.rectangle}>
+            <View style = {styles.new}>
           <ScrollView contentContainerStyle={styles.container}>
 
             {workerData.map((worker:Iworker) =>
-            <View style={styles.list} key = {worker.workerId}>
+            <View style={styles.list} key = {worker._id}>
               <Text style={styles.text}>{worker.name}</Text>
               <Text style={styles.TitleText}>{worker.email}</Text>
               <Text style={styles.TitleText}>{worker.status}</Text>
 
 
               <TouchableOpacity style={styles.allWorkers}  
-              onPress={() => navigation.navigate("deleteWorker", {workerId : workerId})}>
+              onPress={() => navigation.navigate("deleteWorker", {workerId : worker._id})}>
                 <Text style={styles.buttonText}>View</Text>
               </TouchableOpacity>
 
@@ -65,6 +72,11 @@ export default function AllWorkers() {
             )}
             </ScrollView>
             </View>
+            </View>
+            <TouchableOpacity style={styles.viewButton}  
+              onPress={() => navigation.navigate("adminAdd")}>
+                <Text style={styles.buttonText}>Add Worker</Text>
+              </TouchableOpacity>
       </View>
     </View>
   );
@@ -81,6 +93,10 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: -20,
     marginBottom:50,
+  },
+  new:{
+    marginTop: 10,
+    marginBottom:100,
   },
   list: {
     padding: 20,
@@ -153,8 +169,8 @@ marginBottom: 55,
     position: 'absolute',
     width: 140,
     height: 50,
-    left: 140,
-    top: 540,
+    left: 20,
+    top: 645,
     zIndex: 1,
     backgroundColor: '#FFC436',
     borderRadius: 20,
