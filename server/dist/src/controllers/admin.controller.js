@@ -27,20 +27,18 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const worker_model_1 = __importDefault(require("../models/worker/worker.model"));
 const admin_service_1 = __importDefault(require("../services/admin.service"));
 //Get pending workers.
-const getAllWorkers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const workers = yield admin_service_1.default.getPendingWorkers(); // Exclude the 'password' field
-        if (workers && workers.length > 0) {
-            res.status(200).json({ workers });
-        }
-        else {
-            res.status(404).json({ message: 'No budget requests found' });
-        }
-    }
-    catch (err) {
-        res.status(400).json({ err: err.message });
-    }
-});
+// const getAllWorkers = async (req: Request, res: Response) => {
+//   try {
+//     const workers = await WorkerService.getPendingWorkers(); // Exclude the 'password' field
+//     if (workers && workers.length > 0) {
+//       res.status(200).json({ workers });
+//     } else {
+//       res.status(404).json({ message: 'No budget requests found' });
+//     }
+//   } catch (err: any) {
+//     res.status(400).json({ err: err.message });
+//   }
+// };
 //get active and dectivate workers
 const getAllNonPendingWorkers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -59,6 +57,7 @@ const getAllNonPendingWorkers = (req, res) => __awaiter(void 0, void 0, void 0, 
 const getWorkerById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { workerId } = req.params;
+        console.log(workerId);
         const user = yield admin_service_1.default.getWorkerById(workerId);
         res.status(200).json(user);
     }
@@ -66,16 +65,18 @@ const getWorkerById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(400).json({ err: err.message });
     }
 });
-// const addWorker = async (req: Request, res: Response) => {
-//   try {
-//     const workerData = req.body;
-//     const newWorker = await workerModel.create(workerData);
-//     res.status(201).json(newWorker);
-//   } catch (err: any) {
-//     res.status(400).json({ error: err.message });
-//   }
-// };
 const addWorker = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const workerData = req.body;
+        console.log(workerData);
+        const newWorker = yield worker_model_1.default.create(workerData);
+        res.status(200).json(newWorker);
+    }
+    catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+const add = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const _a = req.body, { education, experience, recommendation } = _a, restOfData = __rest(_a, ["education", "experience", "recommendation"]);
         const workerData = Object.assign(Object.assign({}, restOfData), { qualifications: {
@@ -92,8 +93,8 @@ const addWorker = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const updateWorker = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id, status } = req.body;
-        const updatedWorker = yield admin_service_1.default.updateWorker(id, status);
+        const { workerId } = req.params;
+        const updatedWorker = yield admin_service_1.default.updateWorker(workerId);
         res.status(200).json(updatedWorker);
     }
     catch (err) {
@@ -119,17 +120,16 @@ const deleteWorker = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-const sendPassword = (req, res) => {
-    try {
-        const { password, email } = req.body;
-        console.log(password, email);
-        admin_service_1.default.sendWorkerByEmail(password, email);
-        res.status(401).send('Password Send via Email');
-    }
-    catch (err) {
-        res.status(401).send({ err: err });
-    }
-};
+// const sendPassword = (req: Request, res: Response) => {
+//   try {
+//     const { password, email } = req.body;
+//     console.log(password, email);
+//     WorkerService.sendWorkerByEmail(password, email);
+//     res.status(401).send('Password Send via Email');
+//   } catch (err: any) {
+//     res.status(401).send({ err: err });
+//   }
+// };
 exports.default = {
-    getAllWorkers, getAllNonPendingWorkers, getWorkerById, addWorker, deleteWorker, updateWorker, sendPassword
+    getAllNonPendingWorkers, getWorkerById, addWorker, deleteWorker, updateWorker
 };

@@ -13,21 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const worker_model_1 = __importDefault(require("../models/worker/worker.model"));
-const nodemailer_1 = __importDefault(require("nodemailer"));
 //get pending worker
-function getPendingWorkers() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            // Use the find method with a filter condition to get workers with status 'pending'
-            const pendingWorkers = yield worker_model_1.default.find({ status: 'pending' }).select('-password');
-            return pendingWorkers;
-        }
-        catch (error) {
-            // Handle errors here, e.g., log the error and return a custom error message.
-            throw error;
-        }
-    });
-}
+// async function getPendingWorkers(): Promise<any> {
+//   try {
+//     // Use the find method with a filter condition to get workers with status 'pending'
+//     const pendingWorkers = await WorkerModel.find({ status: 'pending' }).select('-password');
+//     return pendingWorkers;
+//   } catch (error) {
+//     // Handle errors here, e.g., log the error and return a custom error message.
+//     throw error;
+//   }
+// }
 //get activated and deactivated workers
 function getNonPendingWorkers() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -52,24 +48,30 @@ const getWorkerById = (id) => __awaiter(void 0, void 0, void 0, function* () {
         throw err;
     }
 });
-// async function addWorker(worker: IWorker): Promise<any> {
-//   try {
-//     const newWorker = await WorkerModel.create(worker);
-//     return newWorker;
-//   } catch (error) {
-//     console.error('Error in addWorker:', error);
-//     throw new Error('Failed to add worker');
-//   }
-// }
 function addWorker(worker) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const newWorker = yield worker_model_1.default.create(worker);
+            return newWorker;
+        }
+        catch (error) {
+            console.error('Error in addWorker:', error);
+            throw new Error('Failed to add worker');
+        }
+    });
+}
+function add(worker) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
             // Create a new worker document with qualifications subdocument
-            const newWorker = yield worker_model_1.default.create(Object.assign(Object.assign({}, worker), { qualifications: {
+            const newWorker = yield worker_model_1.default.create({
+                worker,
+                qualifications: {
                     education: worker.qualifications.education,
                     experience: worker.qualifications.experience,
                     recommendation: worker.qualifications.recommendation,
-                } }));
+                },
+            });
             return newWorker;
         }
         catch (error) {
@@ -79,9 +81,17 @@ function addWorker(worker) {
     });
 }
 //change worker status
-const updateWorker = (id, status) => __awaiter(void 0, void 0, void 0, function* () {
+const updateWorker = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(id);
     try {
-        const worker = yield worker_model_1.default.updateOne({ _id: id }, { status: status });
+        const worker = yield worker_model_1.default.findById(id);
+        console.log(worker);
+        if ((worker === null || worker === void 0 ? void 0 : worker.status) == 'activate') {
+            yield worker_model_1.default.findByIdAndUpdate(id, { status: 'deactivate' });
+        }
+        else {
+            yield worker_model_1.default.findByIdAndUpdate(id, { status: 'activate' });
+        }
         return { res: 'Updated' };
     }
     catch (err) {
@@ -103,33 +113,31 @@ function deleteWorker(id) {
         }
     });
 }
-const sendWorkerByEmail = (password, email) => {
-    try {
-        console.log(process.env.EMAIL_PASS);
-        let transporter = nodemailer_1.default.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.USER_EMAIL,
-                pass: process.env.EMAIL_PASS,
-            },
-        });
-        let mailOptions = {
-            from: process.env.USER_EMAIL,
-            to: email,
-            subject: `Worker account created,`,
-            text: 'Your account hs been created. Password: ${password}',
-        };
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error);
-            }
-            else {
-                console.log('Email sent : ', info.response);
-            }
-        });
-    }
-    catch (err) {
-        console.log(err);
-    }
-};
-exports.default = { getPendingWorkers, getNonPendingWorkers, getWorkerById, addWorker, deleteWorker, updateWorker, sendWorkerByEmail };
+// const sendWorkerByEmail = (password: string, email: string) => {
+//   try {
+//     console.log(process.env.EMAIL_PASS);
+//     let transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//         user: process.env.USER_EMAIL,
+//         pass: process.env.EMAIL_PASS,
+//       },
+//     });
+//     let mailOptions = {
+//       from: process.env.USER_EMAIL,
+//       to: email,
+//       subject: `Worker account created,`,
+//       text: 'Your account hs been created. Password: ${password}',
+//     };
+//     transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         console.log('Email sent : ', info.response);
+//       }
+//     });
+//   } catch (err: any) {
+//     console.log(err);
+//   }
+// };
+exports.default = { getNonPendingWorkers, getWorkerById, addWorker, deleteWorker, updateWorker, add };
