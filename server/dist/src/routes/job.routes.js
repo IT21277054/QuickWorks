@@ -33,6 +33,7 @@ exports.jobRouter.put('/updateToAccepted/:jobId/:workerId', job_controller_1.upd
 exports.jobRouter.put('/updateToOngoing/:jobId', job_controller_1.updateJobByToOngoing);
 // Update job to "Complete"
 exports.jobRouter.put('/updateToComplete/:jobId', job_controller_1.updateJobByToComplete);
+exports.jobRouter.put('/updateToApproved/:jobId', job_controller_1.updateJobByToApproved);
 // Count jobs by status
 // jobRouter.get('/count/:status', countJobsByStatusController);
 exports.default = exports.jobRouter;

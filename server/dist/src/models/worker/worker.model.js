@@ -7,7 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const IWorker_1 = require("./IWorker");
 const Schema = mongoose_1.default.Schema;
 const WorkerSchema = new Schema({
-    workerId: {
+    workerAccountId: {
         type: mongoose_1.default.Schema.Types.ObjectId,
     },
     name: {
@@ -54,10 +54,7 @@ const WorkerSchema = new Schema({
     },
     accNo: {
         type: String,
-    },
-    jobId: {
-        type: String,
-    },
+    }
 }, { timestamps: false });
 const Worker = mongoose_1.default.model('Worker', WorkerSchema);
 exports.default = Worker;

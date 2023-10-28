@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const WorkerSchema = new Schema(
   {
-    workerId: {
+    workerAccountId: {
       type: mongoose.Schema.Types.ObjectId,
     },
     name: {
