@@ -90,6 +90,9 @@ export default function Login() {
       <TouchableOpacity onPress={() => navigation.navigate('signup')}>
           <Text style={{fontStyle:'italic'}}>Don't have an account?SignUp</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('forgetPassword')}>
+          <Text style={{fontStyle:'italic'}}>Forget Password</Text>
+          </TouchableOpacity>
     </View>
     </ImageBackground>
     </View>

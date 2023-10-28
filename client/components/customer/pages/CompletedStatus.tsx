@@ -3,7 +3,8 @@ import completeImage from "../../../assets/completeImage.png";
 import ButtonWithBackground from "../customerStatus/ButtonWithBackground";
 import { useNavigation } from "@react-navigation/native";
 
-export default function CompletedStatus() {
+export default function CompletedStatus({jobId}) {
+  console.log(jobId)
   const navigation = useNavigation();
   return (
     <View>
@@ -12,7 +13,7 @@ export default function CompletedStatus() {
       <ButtonWithBackground
           title="Complete"
           color="#FFC436"
-          onPress={() => navigation.navigate("feedback")}
+          onPress={() => navigation.navigate("feedback",{jobId:jobId})}
         />
         </View>
     </View>

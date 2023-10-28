@@ -26,7 +26,7 @@ export default function CashPayment({route}) {
     const {data} = route.params
   const {userToken} = useContext(AuthContext)
   const decodedUser = jwtDecode(userToken)
-
+  let myArray = data.split(",");
     const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
       validationSchema: PaymentSchema,
@@ -39,9 +39,9 @@ export default function CashPayment({route}) {
       onSubmit: async (values) => {
         try {
           const dto = {
-            holder_id: '',
+            holder_id: myArray[0],
             user_id:decodedUser.id,
-            job_id:'',
+            job_id:myArray[4],
               account_name: '',
               account_number: 'Cash Payment',
               bankName: '',

@@ -28,8 +28,8 @@ const FeedbackSchema = Yup.object().shape({
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
 
-export default function FeedbackScreen() {
-
+export default function FeedbackScreen({route}) {
+const {jobId} = route.params
   const {userToken} = useContext(AuthContext)
   const navigation = useNavigation();
   const headers = {
@@ -37,6 +37,35 @@ export default function FeedbackScreen() {
       `Bearer ${userToken}`,
   };
   const [star, setStar] = React.useState(0);
+const [workerName, setWorkerName] = React.useState('')
+  React.useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        
+        const response = await fetch(
+          `https://bw10fhxj-8000.asse.devtunnels.ms/api/job/${jobId}`
+        ).then(async response=>{
+          const worker = await response.json();
+          console.log(worker.workerId);
+          const worketId = '65316dec8dff9ae3f07c70dd'
+          // ${worker.workerId}
+          await fetch(
+            `https://bw10fhxj-8000.asse.devtunnels.ms/api/admin/worker/${worketId}`
+          ).then(async res=>{
+            const workerItem = await res.json();
+            setWorkerName(workerItem.name)
+          })
+        })
+        
+      } catch (err) {
+        // const error = err.response.data.err;
+        console.log(err);
+      }
+    };
+
+    fetchDetails();
+  }, []);
+
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
       validationSchema: FeedbackSchema,
@@ -110,7 +139,7 @@ export default function FeedbackScreen() {
               paddingBottom: 40,
             }}
           >
-            Kaveesha Karunasena
+           {workerName}
           </Text>
 
           <Rating

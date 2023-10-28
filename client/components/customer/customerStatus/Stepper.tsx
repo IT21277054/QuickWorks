@@ -92,33 +92,45 @@ const getStepIndicatorIconConfig = ({
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
 
-export default function Stepper() {
+export default function Stepper({route}) {
+  // const {jobId} = route.params
+  const jobId = "653ab56e20e414cd87e75e22";
+  const PAGES = [
+    <AcceptedStatus />,
+    <OnGoingStatus />,
+    <JobDoneStatus />,
+    <PaymentStatus />,
+    <CompletedStatus jobId={jobId} />,
+  ];
   const [currentPage, setCurrentPage] = React.useState(0);
   const [jobStatus, setJobStatus] = React.useState(null);
   const isFocused = useIsFocused();
+ 
   React.useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const jobId = "653ab56e20e414cd87e75e22";
+        
         const response = await fetch(
           `https://bw10fhxj-8000.asse.devtunnels.ms/api/job/${jobId}`
-        );
-        const status = await response.json();
-        console.log(status.jobStatus);
-        if (response.ok) {
-          setJobStatus(status.jobStatus);
-        }
-        if (jobStatus == "Accpeted") {
-          setCurrentPage(0);
-        } else if (jobStatus == "onGoing") {
-          setCurrentPage(1);
-        } else if (jobStatus == "Done") {
-          setCurrentPage(2);
-        } else if (jobStatus == "ReadyToPay") {
-          setCurrentPage(3);
-        } else if (jobStatus == "Paid") {
-          setCurrentPage(4);
-        }
+        ).then(async response=>{
+          const status = await response.json();
+          console.log(status.jobStatus);
+          // if (response.ok) {
+          //   setJobStatus(status.jobStatus);
+          // }
+          if (jobStatus == "Accpeted") {
+            setCurrentPage(0);
+          } else if (status.jobStatus == "onGoing") {
+            setCurrentPage(1);
+          } else if (status.jobStatus == "Done") {
+            setCurrentPage(2);
+          } else if (status.jobStatus == "ReadyToPay") {
+            setCurrentPage(3);
+          } else if (status.jobStatus == "Paid") {
+            setCurrentPage(4);
+          }
+        })
+        
       } catch (err) {
         // const error = err.response.data.err;
         console.log(err);
@@ -128,13 +140,13 @@ export default function Stepper() {
     fetchDetails();
   }, [jobStatus,isFocused]);
 
-  // const renderViewPagerPage = (data: any) => {
-  //   return (
-  //     <View key={data} style={styles.page}>
-  //       <View>{data}</View>
-  //     </View>
-  //   );
-  // };
+  const renderViewPagerPage = (data: any) => {
+    return (
+      <View key={data} style={styles.page}>
+        <View>{data}</View>
+      </View>
+    );
+  };
 
   const renderStepIndicator = (params: any) => (
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />

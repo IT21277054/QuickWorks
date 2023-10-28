@@ -44,7 +44,7 @@ export default function CardPayment({route}) {
     accountNo: 0,
     jobId: "",
   });
-  let myArray = data.split(" ");
+  let myArray = data.split(",");
 
 
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
@@ -62,9 +62,9 @@ export default function CardPayment({route}) {
         try {
           console.log("here");
           const dto = {
-            holder_id: "5657585759789",
+            holder_id: myArray[0],
             user_id: decodedUser.id,
-            job_id: "",
+            job_id: myArray[4],
             account_name: myArray[1],
             account_number: myArray[3],
             bankName: myArray[2],
@@ -84,7 +84,7 @@ export default function CardPayment({route}) {
                   `https://bw10fhxj-8000.asse.devtunnels.ms/api/job/updateJobStatus/${jobId}`,
                   {jobStatus:'Paid'}
                 )
-                .then(navigation.navigate("stepper"));
+                .then(navigation.navigate("stepper",{jobId:jobId}));
               }
               
             });

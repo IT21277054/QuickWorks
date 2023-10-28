@@ -10,6 +10,8 @@ import Login from "../components/customer/pages/Login";
 import FeedbackScreen from "../components/customer/pages/FeedbackScreen";
 import reviewHistory from "../components/customer/pages/reviewHistory";
 import ThankYou from "../components/customer/pages/ThankYou";
+import PassowrdOtpVerification from "../components/customer/pages/PassowrdOtpVerification";
+import ForgetPassword from "../components/customer/pages/ForgetPassword";
 
 const Stack = createStackNavigator();
 
@@ -33,6 +35,7 @@ export default function CustomerStack() {
         <Stack.Screen name="feedback" component={FeedbackScreen} />
         <Stack.Screen name="reviewHistory" component={reviewHistory} />
         <Stack.Screen name="thankyou" component={ThankYou} />
+        
       </Stack.Navigator>
 
   );

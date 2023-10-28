@@ -131,11 +131,29 @@ const changeAccountStatus = (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(400).json({ err: err });
     }
 });
+const resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { password, email } = req.body;
+        console.log(password, email);
+        const customer = yield account_model_1.default.findOne({ email });
+        if (!customer) {
+            return res.status(404).send({ error: 'Customer not found' });
+        }
+        const hash = yield auth_service_1.default.createPasswordHash(password);
+        yield account_model_1.default.updateOne({ email: customer.email }, { password: hash });
+        return res.status(200).send({ msg: 'Record updated' });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).send({ error: 'Internal server error' });
+    }
+});
 exports.default = {
     signUp,
     login,
     getCurrentUser,
     sendOTP,
     verifyOTP,
-    changeAccountStatus
+    changeAccountStatus,
+    resetPassword
 };

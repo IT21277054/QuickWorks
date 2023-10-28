@@ -19,8 +19,8 @@ const LoginSchema = Yup.object().shape({
 const screenHeight = Dimensions.get('window').height; 
 const screenWidth = Dimensions.get('window').width; 
 
-export default function OtpVerification({ route }) {
-    const { email } = route.params;
+export default function PassowrdOtpVerification({ route }) {
+    const { email,password } = route.params;
     console.log(email)
 const navigation = useNavigation();
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
@@ -33,8 +33,10 @@ const navigation = useNavigation();
             "https://bw10fhxj-8000.asse.devtunnels.ms/api/account/verifyOTP",
             {email:email,otp:values.otp}
           ).then(async res=>{
+            //try catch ekk dnn one
             await axios.put(
-                `https://bw10fhxj-8000.asse.devtunnels.ms/api/account/changeToActive/${email}`,
+                `https://bw10fhxj-8000.asse.devtunnels.ms/api/account/recoverypassword`,
+                {email:email,password:password}
             )
 
             navigation.navigate('signin')

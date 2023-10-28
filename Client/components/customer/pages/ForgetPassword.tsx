@@ -12,37 +12,38 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from "../../../auth/AuthContext";
 
 const LoginSchema = Yup.object().shape({
-    otp: Yup.number().required("Required")
-  
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string()
+    .matches(/\w*[a-z]\w*/, "Password must have a small letter")
+    .matches(/\w*[A-Z]\w*/, "Password must have a capital letter")
+    .matches(/\d/, "Password must have a number")
+    .matches(
+      /[!@#$%^&*()\-_"=+{}; :,<.>]/,
+      "Password must have a special character"
+    )
 });
 
 const screenHeight = Dimensions.get('window').height; 
 const screenWidth = Dimensions.get('window').width; 
 
-export default function OtpVerification({ route }) {
-    const { email } = route.params;
-    console.log(email)
+export default function ForgetPassword() {
 const navigation = useNavigation();
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
       validationSchema: LoginSchema,
-      initialValues: { otp: ""},
+      initialValues: { email: "",password: ""},
       onSubmit: async(values) =>{
        try{
-            await axios.post(
-            "https://bw10fhxj-8000.asse.devtunnels.ms/api/account/verifyOTP",
-            {email:email,otp:values.otp}
-          ).then(async res=>{
-            await axios.put(
-                `https://bw10fhxj-8000.asse.devtunnels.ms/api/account/changeToActive/${email}`,
-            )
-
-            navigation.navigate('signin')
+        await axios.post(
+            "https://bw10fhxj-8000.asse.devtunnels.ms/api/account/sendOTP",
+           {email: values.email})
+           .then(async res=>{
+            navigation.navigate('passwordOtp',{email:values.email,password:values.password})
           })
        }catch(err:any){
         Alert.alert(
             "error",
-            'OTP is  Invalid',
+            'An Error Occures',
             [
               {
                 text: "Cancel",
@@ -76,30 +77,44 @@ const navigation = useNavigation();
       <FontAwesome name="envelope"  color='#FFC436' size={100}/>
       </View>
       <Text style={{ color: "#223e4b", fontSize: 30, paddingBottom: 60, paddingTop: 10 , fontWeight:'bold', fontStyle:'italic'}}>
-        Enter Your OTP
+       Reset Your Password 
       </Text>
       <View>
         
       </View>
       <View style={{ paddingHorizontal: 32, marginBottom: 16, width: "100%",paddingTop:70 }}>
         <TextInput
-          icon="key"
-          placeholder="Enter the OTP"
-          autoCompleteType="otp"
+          icon="mail"
+          placeholder="Enter the Email"
+          autoCompleteType="email"
           autoCapitalize="none"
           keyboardAppearance="dark"
           returnKeyType="go"
           returnKeyLabel="go"
-          onChangeText={handleChange("otp")}
-          onBlur={handleBlur("otp")}
-          error={errors.otp}
-          touched={touched.otp}
+          onChangeText={handleChange("email")}
+          onBlur={handleBlur("email")}
+          error={errors.email}
+          touched={touched.email}
           onSubmitEditing={() => handleSubmit()}
         />
       </View>
-      <Text style = {{fontSize:13,fontStyle:'italic'}}>
-        Enter the otp that have been sent to this {email}
-      </Text>
+      <View style={{ paddingHorizontal: 32, marginBottom: 16, width: "100%" }}>
+        <TextInput
+          icon="key"
+          placeholder="Enter your password"
+          secureTextEntry
+          autoCompleteType="password"
+          autoCapitalize="none"
+          keyboardAppearance="dark"
+          returnKeyType="go"
+          returnKeyLabel="go"
+          onChangeText={handleChange("password")}
+          onBlur={handleBlur("password")}
+          error={errors.password}
+          touched={touched.password}
+          onSubmitEditing={() => handleSubmit()}
+        />
+      </View>
       <View style={styles.button}>
       <ButtonWithBackground title="Submit"  color="#FFC436" onPress={handleSubmit} />
       </View>

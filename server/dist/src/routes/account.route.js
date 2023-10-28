@@ -14,3 +14,4 @@ exports.accountRoute.get('/currentUser', auth_guard_1.default, account_controlle
 exports.accountRoute.post('/sendOTP', account_controller_1.default.sendOTP);
 exports.accountRoute.post('/verifyOTP', account_controller_1.default.verifyOTP);
 exports.accountRoute.put('/changeToActive/:email', account_controller_1.default.changeAccountStatus);
+exports.accountRoute.put('/recoverypassword', account_controller_1.default.resetPassword);

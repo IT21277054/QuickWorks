@@ -125,7 +125,26 @@ try{
 }
 }
 
+const resetPassword = async (req:Request, res:Response) => {
+  try {
+    const {password,email} = req.body;
+    console.log(password,email)
 
+    const customer = await accountmodel.findOne({ email });
+    if (!customer) {
+      return res.status(404).send({ error: 'Customer not found' });
+    }
+
+    const hash = await authService.createPasswordHash(password)
+
+    await accountmodel.updateOne({ email: customer.email }, { password: hash });
+
+    return res.status(200).send({ msg: 'Record updated' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ error: 'Internal server error' });
+  }
+};
 
 export default {
   signUp,
@@ -133,5 +152,6 @@ export default {
   getCurrentUser,
   sendOTP,
   verifyOTP,
-  changeAccountStatus
+  changeAccountStatus,
+  resetPassword
 };
