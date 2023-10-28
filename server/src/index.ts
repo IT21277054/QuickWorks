@@ -6,6 +6,8 @@ import logger from '../log/logger';
 import { accountRoute } from './routes/account.route';
 import { paymentRoute } from './routes/payment.route';
 import { userRoute } from './routes/user.route';
+import { adminRoute } from './routes/admin.route';
+
 import { jobRouter } from './routes/job.routes';
 import { sendQuotationController } from './controllers/send.Quatation.controller';
 import { userModel } from './models/user/user.model';
@@ -30,8 +32,9 @@ const jwt = require('jsonwebtoken');
 app.use('/api/account', accountRoute);
 app.use('/api/payment', paymentRoute);
 app.use('/api/user', userRoute);
-app.use('/api/job', jobRouter);
+app.use('/api/admin', adminRoute);
 
+app.use('/api/job', jobRouter);
 app.post('/send-quotation', sendQuotationController);
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   logger.info('MongoDB connected');
