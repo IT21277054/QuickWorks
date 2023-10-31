@@ -24,7 +24,8 @@ function AppNav() {
     }
     return(
         <NavigationContainer>
-            {userToken !== null && userRole === 'USER' ? <CustomerStack/> : userToken !== null && userRole === 'ADMIN' ? <AdminStack/> : <AuthStack/>}
+            {userToken !== null ? <CustomerStack/> : <AuthStack/>}
+            {/* {userToken !== null && userRole === 'USER' ? <CustomerStack/> : userToken !== null && userRole === 'ADMIN' ? <AdminStack/> : <AuthStack/>} */}
         </NavigationContainer>
     )
 }
