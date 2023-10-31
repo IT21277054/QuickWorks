@@ -7,6 +7,7 @@ export async function createJobController(
   res: Response,
 ): Promise<void> {
   try {
+    console.log(req.body);
     const newJob = await jobservice.createJob(req.body);
     res.json(newJob);
   } catch (error) {
@@ -100,8 +101,20 @@ export async function getJobsByStatusAndWorkerIdController(
   }
 }
 
+export async function getJobsByStatus(req: Request, res: Response) {
+  console.log('here');
+  try {
+    const jobs = await jobservice.getJobsByStatus(req.params.status);
+    res.json(jobs);
+  } catch (error) {
+    res.status(500).json({ error: 'Job retrieval failed' });
+  }
+}
 
-export async function countJobsByStatusController(req: Request, res: Response): Promise<void> {
+export async function countJobsByStatusController(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     const count = await jobservice.countJobsByStatus(req.params.status);
     res.json({ count });
@@ -109,89 +122,121 @@ export async function countJobsByStatusController(req: Request, res: Response): 
     res.status(500).json({ error: 'Count failed' });
   }
 }
-
-// export async function changeJobStatus(req: Request, res: Response) {
-//   try {
-//     const { status, jobId } = req.body;
-//     const jobStatus = await jobService.updateStatus(status, jobId);
-//     if (jobStatus != null) {
-//       res.status(200).json({ res: 'Updated' });
-//     }
-//   } catch (err: any) {
-//     res.status(400).json({ error: err });
-//   }
-// }
-export async function updateJobByToAccepted(req: Request, res: Response): Promise<void> {
+export async function updateJobByToAccepted(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
-    const updatedJob = await jobservice.updateJobByToAccepted(req.params.jobId,req.params.workerId);
-    
-    res.json(updatedJob );
+    const updatedJob = await jobservice.updateJobByToAccepted(
+      req.params.jobId,
+      req.params.workerId,
+    );
+
+    res.json(updatedJob);
   } catch (error) {
     res.status(500).json({ error: 'Count failed' });
   }
 }
 
-export async function updateJobByToOngoing(req: Request, res: Response): Promise<void> {
+export async function updateJobByToOngoing(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     const updatedJob = await jobservice.updateJobByToOngoing(req.params.jobId);
-    
-    res.json(updatedJob );
+
+    res.json(updatedJob);
   } catch (error) {
     res.status(500).json({ error: 'Count failed' });
   }
 }
-export async function updateJobByToComplete(req: Request, res: Response): Promise<void> {
+export async function updateJobByToComplete(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     const updatedJob = await jobservice.updateJobByToComplete(req.params.jobId);
-    
-    res.json(updatedJob );
+
+    res.json(updatedJob);
   } catch (error) {
     res.status(500).json({ error: 'Count failed' });
   }
 }
-export async function getJobsforAvalibleScreen(req: Request, res: Response): Promise<void> {
+export async function getJobsforAvalibleScreen(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
-    const jobs = await jobservice.getJobsforAvalibleScreen(req.params.jobType,req.params.location);
+    const jobs = await jobservice.getJobsforAvalibleScreen(
+      req.params.jobType,
+      req.params.location,
+    );
     res.json(jobs);
   } catch (error) {
-    res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+    res
+      .status(500)
+      .json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
   }
 }
-export async function getJobsforAcceptedScreen(req: Request, res: Response): Promise<void> {
+export async function getJobsforAcceptedScreen(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     const jobs = await jobservice.getJobsforAcceptedScreen(req.params.workerId);
     res.json(jobs);
   } catch (error) {
-    res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+    res
+      .status(500)
+      .json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
   }
 }
-export async function getJobsforOngoingScreen(req: Request, res: Response): Promise<void> {
+export async function getJobsforOngoingScreen(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
-    
     const jobs = await jobservice.getJobsforOngoingScreen(req.params.workerId);
     res.json(jobs);
   } catch (error) {
-    res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
+    res
+      .status(500)
+      .json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
   }
 }
-export async function getJobsforApprovedScreen(req: Request, res: Response): Promise<void> {
+export async function getJobsforApprovedScreen(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     const jobId: string = req.params.workerId;
     const jobs = await jobservice.getJobsforApprovedScreen(req.params.workerId);
     res.json(jobs);
   } catch (error) {
-    res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+    res
+      .status(500)
+      .json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
   }
 }
-export async function getJobsforCompletedScreen(req: Request, res: Response): Promise<void> {
+export async function getJobsforCompletedScreen(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
-    const jobs = await jobservice.getJobsforCompletedScreen(req.params.workerId);
+    const jobs = await jobservice.getJobsforCompletedScreen(
+      req.params.workerId,
+    );
     res.json(jobs);
   } catch (error) {
-    res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
+    res
+      .status(500)
+      .json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
   }
 }
-export async function updateJobNegotation(req: Request, res: Response): Promise<void> {
+export async function updateJobNegotation(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     const jobId: string = req.params.jobId;
     const dateOfCompletion: Date = new Date(req.body.dateOfCompletion); // Assuming it's sent in the request body
@@ -204,7 +249,7 @@ export async function updateJobNegotation(req: Request, res: Response): Promise<
       dateOfCompletion,
       timeOfArrival,
       bringGood,
-      paymentAmount
+      paymentAmount,
     );
 
     res.json(updatedJob);
@@ -212,26 +257,28 @@ export async function updateJobNegotation(req: Request, res: Response): Promise<
     res.status(500).json({ error: 'Update failed' });
   }
 }
-export async function updateJobNegotationFailed(req: Request, res: Response): Promise<void> {
+export async function updateJobNegotationFailed(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     const jobId: string = req.params.jobId;
-    
-    const updatedJob = await jobservice.updateJobNegotationFailed(
-      jobId
-    );
+
+    const updatedJob = await jobservice.updateJobNegotationFailed(jobId);
 
     res.json(updatedJob);
   } catch (error) {
     res.status(500).json({ error: 'Update failed' });
   }
 }
-export async function updateJobByToApproved(req: Request, res: Response): Promise<void> {
+export async function updateJobByToApproved(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     const jobId: string = req.params.jobId;
-    
-    const updatedJob = await jobservice.updateJobByToApproved(
-      jobId
-    );
+
+    const updatedJob = await jobservice.updateJobByToApproved(jobId);
 
     res.json(updatedJob);
   } catch (error) {

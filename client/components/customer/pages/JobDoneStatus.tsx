@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
 import doneImage from "../../../assets/doneImage.png";
+import React from "react";
 
 export default function JobDoneStatus() {
   return (

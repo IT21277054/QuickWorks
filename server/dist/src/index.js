@@ -15,6 +15,8 @@ const admin_route_1 = require("./routes/admin.route");
 const job_routes_1 = require("./routes/job.routes");
 const send_Quatation_controller_1 = require("./controllers/send.Quatation.controller");
 require('dotenv').config();
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use((0, cors_1.default)());
@@ -22,6 +24,8 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({
     extended: true,
 }));
+app.use(passport.initialize());
+const jwt = require('jsonwebtoken');
 app.use('/api/account', account_route_1.accountRoute);
 app.use('/api/payment', payment_route_1.paymentRoute);
 app.use('/api/user', user_route_1.userRoute);

@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateJobByToApproved = exports.updateJobNegotationFailed = exports.updateJobNegotation = exports.getJobsforCompletedScreen = exports.getJobsforApprovedScreen = exports.getJobsforOngoingScreen = exports.getJobsforAcceptedScreen = exports.getJobsforAvalibleScreen = exports.updateJobByToComplete = exports.updateJobByToOngoing = exports.updateJobByToAccepted = exports.countJobsByStatusController = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
+exports.updateJobByToApproved = exports.updateJobNegotationFailed = exports.updateJobNegotation = exports.getJobsforCompletedScreen = exports.getJobsforApprovedScreen = exports.getJobsforOngoingScreen = exports.getJobsforAcceptedScreen = exports.getJobsforAvalibleScreen = exports.updateJobByToComplete = exports.updateJobByToOngoing = exports.updateJobByToAccepted = exports.countJobsByStatusController = exports.getJobsByStatus = exports.getJobsByStatusAndWorkerIdController = exports.updateJobController = exports.getJobsByWorkerIdController = exports.getJobsByStatusAndIdController = exports.getJobByIdController = exports.createJobController = void 0;
 const job_service_1 = __importDefault(require("../services/job.service"));
 function createJobController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            console.log(req.body);
             const newJob = yield job_service_1.default.createJob(req.body);
             res.json(newJob);
         }
@@ -108,6 +109,19 @@ function getJobsByStatusAndWorkerIdController(req, res) {
     });
 }
 exports.getJobsByStatusAndWorkerIdController = getJobsByStatusAndWorkerIdController;
+function getJobsByStatus(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('here');
+        try {
+            const jobs = yield job_service_1.default.getJobsByStatus(req.params.status);
+            res.json(jobs);
+        }
+        catch (error) {
+            res.status(500).json({ error: 'Job retrieval failed' });
+        }
+    });
+}
+exports.getJobsByStatus = getJobsByStatus;
 function countJobsByStatusController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -174,7 +188,9 @@ function getJobsforAvalibleScreen(req, res) {
             res.json(jobs);
         }
         catch (error) {
-            res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+            res
+                .status(500)
+                .json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
         }
     });
 }
@@ -186,7 +202,9 @@ function getJobsforAcceptedScreen(req, res) {
             res.json(jobs);
         }
         catch (error) {
-            res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+            res
+                .status(500)
+                .json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
         }
     });
 }
@@ -198,7 +216,9 @@ function getJobsforOngoingScreen(req, res) {
             res.json(jobs);
         }
         catch (error) {
-            res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
+            res
+                .status(500)
+                .json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
         }
     });
 }
@@ -211,7 +231,9 @@ function getJobsforApprovedScreen(req, res) {
             res.json(jobs);
         }
         catch (error) {
-            res.status(500).json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
+            res
+                .status(500)
+                .json({ error: 'Job retrieval failed ' + req.params.jobId + '' });
         }
     });
 }
@@ -223,7 +245,9 @@ function getJobsforCompletedScreen(req, res) {
             res.json(jobs);
         }
         catch (error) {
-            res.status(500).json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
+            res
+                .status(500)
+                .json({ error: 'Job retrieval failed ' + req.params.workerId + '' });
         }
     });
 }

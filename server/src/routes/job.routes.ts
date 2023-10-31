@@ -1,25 +1,25 @@
 import express from 'express';
 import {
-   getJobByIdController,
-   createJobController,
-   getJobsByStatusAndIdController,
-   updateJobController,
-   getJobsByStatusAndWorkerIdController,
-   getJobsforAcceptedScreen,
+  getJobByIdController,
+  createJobController,
+  getJobsByStatusAndIdController,
+  updateJobController,
+  getJobsByStatusAndWorkerIdController,
+  getJobsforAcceptedScreen,
   getJobsforApprovedScreen,
   getJobsforCompletedScreen,
   updateJobNegotation,
   updateJobNegotationFailed,
-   getJobsforAvalibleScreen,
-   updateJobByToAccepted,
+  getJobsforAvalibleScreen,
+  updateJobByToAccepted,
   updateJobByToOngoing,
   updateJobByToComplete,
   getJobsforOngoingScreen,
-  updateJobByToApproved
-} from '../controllers/job.controller'
+  updateJobByToApproved,
+  getJobsByStatus,
+} from '../controllers/job.controller';
 
 export const jobRouter = express.Router();
-
 
 // Create a new job
 jobRouter.post('/create', createJobController);
@@ -34,8 +34,13 @@ jobRouter.get('/:workerId/:status', getJobsByStatusAndIdController);
 jobRouter.put('/:jobId', updateJobController);
 
 // Get jobs by status and worker ID
-jobRouter.get('/workers/:workerId/:status', getJobsByStatusAndWorkerIdController);
+jobRouter.get(
+  '/workers/:workerId/:status',
+  getJobsByStatusAndWorkerIdController,
+);
 
+// Get jobs by status
+jobRouter.get('/status', getJobsByStatus);
 
 jobRouter.get('/getJobsAvaliable/:jobType/:location', getJobsforAvalibleScreen);
 
@@ -67,8 +72,5 @@ jobRouter.put('/updateToApproved/:jobId', updateJobByToApproved);
 
 // Count jobs by status
 // jobRouter.get('/count/:status', countJobsByStatusController);
-
-jobRouter.put('/updateJobStatus/:jobId', updateJobController);
-
 
 export default jobRouter;

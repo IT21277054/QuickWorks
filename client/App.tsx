@@ -21,6 +21,7 @@ import ThankYou from "./components/customer/pages/ThankYou";
 import AppNav from "./routes/AppNav";
 import { AuthProvider } from "./auth/AuthContext";
 import AdminStack from "./routes/admin.route";
+import React from "react";
 // import { NativeBaseProvider } from "native-base";
 
 export default function App() {

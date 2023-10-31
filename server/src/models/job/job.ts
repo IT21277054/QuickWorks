@@ -5,7 +5,7 @@ interface JobDocument extends Document {
   customerId: mongoose.Schema.Types.ObjectId;
   location: string;
   jobType: string;
-  JobHeading:string;
+  JobHeading: string;
   jobDescription: string;
   jobStatus: string;
   dateOfCompletion: Date | null;
