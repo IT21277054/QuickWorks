@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import jobservice from '../services/job.service';
+import jobService from '../services/job.service';
 
 export async function createJobController(
   req: Request,

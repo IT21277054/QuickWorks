@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { AccountStatus, AuthRole } from './IAccount';
 
 const Schema = mongoose.Schema;
 
@@ -26,11 +27,12 @@ const AccountSchema = new Schema(
     },
     role: {
       type: String,
-      require: true,
+      default:AuthRole.USER
     },
-    profileImage: {
-      type: String, // Store the path to the image file on your server
-    },
+    status: {
+      type: String,
+      default:AccountStatus.PENDING
+    }
   },
   { timestamps: true },
 );

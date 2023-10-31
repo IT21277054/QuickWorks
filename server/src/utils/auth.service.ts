@@ -13,10 +13,9 @@ async function validatePassword(password: string, hash: string) {
 }
 
 async function getToken(password: string, hash: string, payload: IPayload) {
-  console.log(payload);
   const isValidPassword = await validatePassword(password, hash);
   if (!isValidPassword) {
-    throw new Error('Invalid Password');
+    throw 'Invalid Password'
   }
 
   try {

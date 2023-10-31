@@ -55,6 +55,7 @@ function updateJob(jobId, updatedData) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             //getByid(updata by id)
+            console.log(updatedData);
             const updatedJob = yield job_1.JobModel.findByIdAndUpdate(jobId, updatedData, {
                 new: true,
             });
@@ -308,27 +309,24 @@ function updateJobNegotationFailed(jobId) {
         }
     });
 }
-function updateJobByToApproved(jobId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            // Get the jobModel by id
-            const jobModel = yield getJobById(jobId);
-            if (!jobModel) {
-                throw new Error('Job not found');
-            }
-            // Update the jobStatus field
-            jobModel.jobStatus = IPayload_1.Status.APPROVED;
-            // Use the 'await' keyword to ensure the update is complete
-            const updatedJob = yield job_1.JobModel.findByIdAndUpdate(jobId, jobModel, {
-                new: true,
-            });
-            return updatedJob;
-        }
-        catch (err) {
-            throw err;
-        }
-    });
-}
+// async function updateJobByToApproved(jobId: string): Promise<any> {
+//   try {
+//     // Get the jobModel by id
+//     const jobModel = await getJobById(jobId);
+//     if (!jobModel) {
+//       throw new Error('Job not found');
+//     }
+//     // Update the jobStatus field
+//     jobModel.jobStatus = Status.APPROVED;
+//     // Use the 'await' keyword to ensure the update is complete
+//     const updatedJob = await JobModel.findByIdAndUpdate(jobId, jobModel, {
+//       new: true,
+//     });
+//     return updatedJob;
+//   } catch (err) {
+//     throw err;
+//   }
+// }
 exports.default = {
     createJob,
     getJobById,

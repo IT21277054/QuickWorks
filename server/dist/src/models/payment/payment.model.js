@@ -8,23 +8,31 @@ const Schema = mongoose_1.default.Schema;
 const PaymentSchema = new Schema({
     holder_id: {
         type: String,
-        require: true,
+        //   require: true,
+    },
+    user_id: {
+        type: String,
+        //   require: true,
+    },
+    job_id: {
+        type: String,
+        //   require: true,
     },
     account_name: {
         type: String,
-        require: true,
+        //   require: true,
     },
     account_number: {
         type: Number,
-        require: true,
+        //   require: true,
     },
     bankName: {
         type: String,
-        require: true,
+        //   require: true,
     },
     amount: {
         type: Number,
-        require: true,
+        //   require: true,
     },
 }, { timestamps: true });
 const Payment = mongoose_1.default.model('Payment', PaymentSchema);

@@ -38,4 +38,5 @@ exports.jobRouter.put('/updateToComplete/:jobId', job_controller_1.updateJobByTo
 exports.jobRouter.put('/updateToApproved/:jobId', job_controller_1.updateJobByToApproved);
 // Count jobs by status
 // jobRouter.get('/count/:status', countJobsByStatusController);
+exports.jobRouter.put('/updateJobStatus/:jobId', job_controller_1.updateJobController);
 exports.default = exports.jobRouter;

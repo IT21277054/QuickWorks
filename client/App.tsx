@@ -5,8 +5,8 @@ import UserPayment from "./components/customer/pages/UserPayment";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import QrScanner from "./components/customer/pages/QrScanner";
 import { createStackNavigator } from "@react-navigation/stack";
-// import Scanner from "./components/customer/pages/scanner";
-import Navigator from "./routes/scanner.route";
+import Scanner from "./components/customer/pages/Scanner";
+import Navigator from "./routes/CustomerStack";
 import CardPayment from "./components/customer/pages/CardPayment";
 import CashPayment from "./components/customer/pages/CashPayment";
 import PaymentStatus from "./components/customer/pages/PaymentStatus";
@@ -15,56 +15,24 @@ import FeedbackScreen from "./components/customer/pages/FeedbackScreen";
 import RequestWorker from "./components/admin/requestWorker";
 import AdminAdd from "./components/admin/adminAdd";
 import AllWorkers from "./components/admin/allWorkers";
-
 import ReviewHistory from "./components/customer/pages/reviewHistory";
+import { NativeBaseProvider } from "native-base";
+import ThankYou from "./components/customer/pages/ThankYou";
+import AppNav from "./routes/AppNav";
+import { AuthProvider } from "./auth/AuthContext";
 import AdminStack from "./routes/admin.route";
+import React from "react";
 // import { NativeBaseProvider } from "native-base";
 
 export default function App() {
   return (
     <>
-      <View style={styles.status}>
-        <StatusBar />
-      </View>
-      <AdminStack />
-
-      {/* <AdminAdd /> */}
-
-      {/* <DeleteWorker/> */}
-
-      {/* <FeedbackScreen/> */}
-
-      {/* <Navigator/> */}
-      {/* <CardPayment/> */}
-      {/* <CashPayment/> */}
-      {/* <UserPayment/> */}
-      {/* <NativeBaseProvider>
-        <View style={styles.status}>
-          <StatusBar />
-        </View>
-        <ReviewHistory />
-      </NativeBaseProvider> */}
-
-      {/* <Navigator/> */}
-      {/* <CardPayment/> */}
-      {/* <CashPayment/> */}
-      {/* <UserPayment/> */}
+    <AuthProvider>
+      <NativeBaseProvider>
+        <AppNav/>
+      </NativeBaseProvider>
+ </AuthProvider>
     </>
-
-    // <View >
-    //   <StatusBar style="auto" />
-    //   <Stepper/>
-    // </View>
-    // <SafeAreaProvider>
-    //
-    // <UserPayment/>
-    // </SafeAreaProvider>
-    // <View>
-    // <View style={styles.status}>
-    //   <StatusBar />
-    //    </View>
-    // <QrScanner/>
-    // </View>
   );
 }
 

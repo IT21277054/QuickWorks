@@ -39,7 +39,6 @@ async function getJobsByWorkerId(workerId: number): Promise<any[]> {
 async function updateJob(jobId: string, updatedData: any): Promise<any> {
   try {
     //getByid(updata by id)
-
     const updatedJob = await JobModel.findByIdAndUpdate(jobId, updatedData, {
       new: true,
     });

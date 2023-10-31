@@ -4,6 +4,7 @@ import userService from '../services/user.service';
 const createReview = async (req: Request, res: Response) => {
   try {
     const dto = req.body;
+    console.log(dto)
     const reviewItem = await userService.createReview(dto);
     res.status(200).json(reviewItem);
   } catch (err: any) {
@@ -24,6 +25,8 @@ const getReview = async (req: Request, res: Response) => {
 const updateReview = async (req: Request, res: Response) => {
   try {
     const { review_id, comment, star_review } = req.body;
+
+    console.log(review_id)
     const reviews = await userService.updateReview(
       review_id,
       comment,

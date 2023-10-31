@@ -4,7 +4,7 @@ declare global {
         APP_SECRET: string;
         PORT?: string;
         APP_ACCESS_TOKEN_EXP_SECS: any;
-        MONGODB_URI:any
+        MONGO_URL:any
       }
     }
   }

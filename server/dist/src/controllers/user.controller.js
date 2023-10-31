@@ -16,6 +16,7 @@ const user_service_1 = __importDefault(require("../services/user.service"));
 const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const dto = req.body;
+        console.log(dto);
         const reviewItem = yield user_service_1.default.createReview(dto);
         res.status(200).json(reviewItem);
     }
@@ -36,6 +37,7 @@ const getReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { review_id, comment, star_review } = req.body;
+        console.log(review_id);
         const reviews = yield user_service_1.default.updateReview(review_id, comment, star_review);
         res.status(200).json({ msg: 'Updated', reviews });
     }

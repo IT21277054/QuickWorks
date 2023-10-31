@@ -18,7 +18,9 @@ const CustomTabLabel = ({ image }: any) => {
   );
 };
 
-export default function UserPayment() {
+export default function UserPayment({route}) {
+  const { data } = route.params;
+  console.log(`Data in: ${data}`);
   return (
     <>
         <Tab.Navigator
@@ -43,11 +45,13 @@ export default function UserPayment() {
             name="card"
             options={{ tabBarLabel: () => <CustomTabLabel image={image1} /> }}
             component={CardPayment}
+            initialParams={{ data: data }}
           />
           <Tab.Screen
             name="cash"
             options={{ tabBarLabel: () => <CustomTabLabel image={image2} /> }}
             component={CashPayment}
+            initialParams={{ data: data }}
           />
         </Tab.Navigator>
     </>

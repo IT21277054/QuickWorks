@@ -134,6 +134,17 @@ function countJobsByStatusController(req, res) {
     });
 }
 exports.countJobsByStatusController = countJobsByStatusController;
+// export async function changeJobStatus(req: Request, res: Response) {
+//   try {
+//     const { status, jobId } = req.body;
+//     const jobStatus = await jobService.updateStatus(status, jobId);
+//     if (jobStatus != null) {
+//       res.status(200).json({ res: 'Updated' });
+//     }
+//   } catch (err: any) {
+//     res.status(400).json({ error: err });
+//   }
+// }
 function updateJobByToAccepted(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

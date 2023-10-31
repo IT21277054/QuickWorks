@@ -11,6 +11,6 @@ export default function AcceptedStatus() {
 
 const styles = StyleSheet.create({
     img: {
-      paddingBottom:100,
+      paddingTop:45,
     },
   });

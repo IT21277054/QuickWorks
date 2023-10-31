@@ -12,10 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const IAccount_1 = require("../models/account/IAccount");
+const account_model_1 = __importDefault(require("../models/account/account.model"));
 const auth_service_1 = __importDefault(require("../utils/auth.service"));
+const OTP_model_1 = __importDefault(require("../models/OTP.model"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const dto = req.body;
+        console.log(dto);
         const newAcc = yield auth_service_1.default.register(dto);
         res.status(200).json(newAcc);
     }
@@ -26,6 +31,7 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
+        console.log("login ");
         const response = yield auth_service_1.default.login(email, password);
         res.status(200).json(response);
     }
@@ -33,7 +39,121 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(400).json({ err: err });
     }
 });
+const getCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.currentUser.id;
+        const user = yield account_model_1.default.findById(userId);
+        return res.status(200).json({ user: user });
+    }
+    catch (err) {
+        res.status(400).json({ err: err });
+    }
+});
+const sendOTP = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('here');
+    const email = req.body.email;
+    console.log(email);
+    let generatedOTP = Math.floor(Math.random() * 10000);
+    let transporter = nodemailer_1.default.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.USER_EMAIL,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
+    const otp = generatedOTP;
+    let mailOptions = {
+        from: process.env.USER_EMAIL,
+        to: email,
+        subject: 'OTP',
+        text: 'here is your otp',
+        html: `<b>${otp}</b>`,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+        const createdAt = Date.now();
+        const expiredAt = Date.now() + 300000;
+        const newOTP = new OTP_model_1.default({
+            email,
+            otp,
+            createdAt,
+            expiredAt,
+        });
+        newOTP
+            .save()
+            .then(() => {
+            res.json('OTP Added');
+        })
+            .catch((err) => {
+            console.log(err);
+        });
+    });
+});
+const verifyOTP = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('here in verify');
+    const email = req.body.email;
+    const receivedOTP = req.body.otp;
+    OTP_model_1.default
+        .findOne({ email: email, otp: receivedOTP })
+        .then((otp) => {
+        if (otp) {
+            if (otp.expiredAt > Date.now()) {
+                OTP_model_1.default.deleteMany({ email: email }).catch((error) => {
+                    console.log(error);
+                });
+                res.json('verified');
+            }
+            else {
+                OTP_model_1.default.deleteMany({ email: email }).catch((error) => {
+                    console.log(error);
+                });
+                res.json('expired');
+            }
+        }
+        else {
+            res.json('invalid');
+        }
+    })
+        .catch((err) => {
+        console.log(err);
+    });
+});
+const changeAccountStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email } = req.params;
+        const status = yield account_model_1.default.findOneAndUpdate({ email: email }, { status: IAccount_1.AccountStatus.ACTIVE });
+        return res.status(200).json({ status: 'Active' });
+    }
+    catch (err) {
+        res.status(400).json({ err: err });
+    }
+});
+const resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { password, email } = req.body;
+        console.log(password, email);
+        const customer = yield account_model_1.default.findOne({ email });
+        if (!customer) {
+            return res.status(404).send({ error: 'Customer not found' });
+        }
+        const hash = yield auth_service_1.default.createPasswordHash(password);
+        yield account_model_1.default.updateOne({ email: customer.email }, { password: hash });
+        return res.status(200).send({ msg: 'Record updated' });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).send({ error: 'Internal server error' });
+    }
+});
 exports.default = {
     signUp,
     login,
+    getCurrentUser,
+    sendOTP,
+    verifyOTP,
+    changeAccountStatus,
+    resetPassword
 };
